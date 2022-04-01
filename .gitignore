@@ -1,0 +1,8 @@
+# Log file
+*.log
+
+# Clion
+.idea/
+
+# cmake
+cmake-build-debug/
