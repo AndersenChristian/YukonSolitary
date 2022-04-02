@@ -24,16 +24,13 @@ bool winCondition(){
 }
 
 void shuffle() {
-    Card * ptr[DECK_SIZE];
+    Card * ptr = getDeck();
     int rannum1, rannum2;
-    for (int i = 0; i < 52; ++i) {
-        ptr[i] = getDeck();
-    }
     srand(time(NULL));
     for (int i = 0; i < 100000; ++i) {
-        rannum1 = rand()%52;
-        rannum2 = rand()%52;
-        swap((Card *) &ptr[rannum1], (Card *) &ptr[rannum2]);
+        rannum1 = (rand()%52) + 1;
+        rannum2 = (rand()%52) + 1;
+        swap( ptr+rannum1, ptr+rannum2);
     }
 }
 
