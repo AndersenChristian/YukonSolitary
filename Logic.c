@@ -4,11 +4,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "Header.h"
 
 void setupGame() {
     createDeck();
     setupCards();
+    shuffle();
 }
 
 extern void playGame() {
@@ -21,15 +23,22 @@ bool winCondition(){
     //todo test for win condition
 }
 
-void shuffle(int *array, size_t n){
-    if (n>1){
-        size_t i;
-        for (i = 0; i < n - 1; i++)
-        {
-            size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
-            int t = array[j];
-            array[j] = array[i];
-            array[i] = t;
-        }
+void shuffle() {
+    Card * ptr[DECK_SIZE];
+    int rannum1, rannum2;
+    for (int i = 0; i < 52; ++i) {
+        ptr[i] = getDeck();
     }
+    srand(time(NULL));
+    for (int i = 0; i < 100000; ++i) {
+        rannum1 = rand()%52;
+        rannum2 = rand()%52;
+        swap((Card *) &ptr[rannum1], (Card *) &ptr[rannum2]);
+    }
+}
+
+void swap(Card *a, Card *b){
+    Card temp = *a;
+    *a = *b;
+    *b = temp;
 }

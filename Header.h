@@ -6,10 +6,10 @@
 #ifndef YUKON_HEADER_H
 #define YUKON_HEADER_H
 
- struct Card{
+ typedef struct{
     char name[2];
     unsigned int faceUp; //0 = faceDown, 1 = faceUp
-};
+} Card;
 
 //global variables
 #define DECK_SIZE 52
@@ -18,13 +18,16 @@
 //Methods
 //Data
 void createDeck();
-struct Card * getCard(int position);
+Card * getCard(int position);
 void setCardName(char ptr[2], int cardNumber);
 
 //Logic
 void setupGame();
 void playGame();
 bool winCondition();
+void shuffle();
+Card * getDeck ();
+void swap(Card*, Card*);
 
 
 //Interface
