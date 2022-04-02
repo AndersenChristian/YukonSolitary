@@ -3,6 +3,8 @@
 //
 #include "Header.h"
 
+#include <stdio.h>
+
 struct linkedList_note {
     struct Card data;
     struct linkedList_note* next;
@@ -14,11 +16,16 @@ void createDeck(){
     struct linkedList_note* boardSlots[7];
 
     for (int i = 0; i < DECK_SIZE; ++i) {
-        deck[i].name[0] = 'a';
-        deck[i].name[1] = 'b';
+        deck[i].faceUp = 1;
     }
 }
 
-struct Card getCard(int position){
-    return deck[position];
+struct Card * getCard(int position){
+    return &deck[position];
+}
+
+void setCardName(char * ptr, int cardNumber){
+    printf("%c%c\n",*ptr,*(ptr+1));
+    deck[cardNumber].name[0] = *ptr;
+    deck[cardNumber].name[1] = *(ptr+1);
 }

@@ -13,7 +13,10 @@ void updateDisplay(){
         if(i%7 == 0) {
             printf("\n");
         }
-        printf("%s\t",getCard(i).name);
+        if(getCard(i)->faceUp==1)
+            printf("%c%c\t",*(getCard(i)->name),*((getCard(i)->name)+1));
+        else
+            printf("[]\t");
         i++;
     }
 }
