@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include "Header.h"
 
 int main() {
-    printf("Hello, World!\n");
+    setupGame();
+    playGame();
     return 0;
 }
