@@ -30,6 +30,6 @@ void setCardName(char * ptr, int cardNumber){
     deck[cardNumber].name[1] = *(ptr+1);
 }
 
-Card * getDeck (int i){
-    return &deck[i];
+Card * getDeck (){
+    return (Card *) &deck;
 }

@@ -28,8 +28,8 @@ void shuffle() {
     int rannum1, rannum2;
     srand(time(NULL));
     for (int i = 0; i < 100000; ++i) {
-        rannum1 = (rand()%52) + 1;
-        rannum2 = (rand()%52) + 1;
+        rannum1 = (rand()%52);
+        rannum2 = (rand()%52);
         swap( ptr+rannum1, ptr+rannum2);
     }
 }

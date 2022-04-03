@@ -20,13 +20,13 @@
 void createDeck();
 Card * getCard(int position);
 void setCardName(char ptr[2], int cardNumber);
+Card * getDeck ();
 
 //Logic
 void setupGame();
 void playGame();
 bool winCondition();
 void shuffle();
-Card * getDeck ();
 void swap(Card*, Card*);
 
 
