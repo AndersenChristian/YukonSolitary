@@ -5,31 +5,24 @@
 
 #include <stdio.h>
 
-struct linkedList_note {
-    Card data;
-    struct linkedList_note* next;
-};
-
 Card deck[DECK_SIZE];
-
-void createDeck(){
-    struct linkedList_note* boardSlots[7];
-
-    for (int i = 0; i < DECK_SIZE; ++i) {
-        deck[i].faceUp = 1;
-    }
-}
+struct Card* boardSlots[11];
 
 Card * getCard(int position){
     return &deck[position];
 }
 
 void setCardName(char * ptr, int cardNumber){
-    printf("%c%c\n",*ptr,*(ptr+1));
     deck[cardNumber].name[0] = *ptr;
     deck[cardNumber].name[1] = *(ptr+1);
+    deck[cardNumber].name[2] = '\0';
+    deck[cardNumber].faceUp = 1; //TODO: delete (only for testing)
 }
 
 Card * getDeck (){
     return (Card *) &deck;
+}
+
+Card ** getBoard(){
+    return (Card**) &boardSlots;
 }

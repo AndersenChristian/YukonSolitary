@@ -6,20 +6,23 @@
 #include "Header.h"
 #include <string.h>
 
-char buffer[3];
+char buffer[5];
 FILE *cardFile;
 
 void setupCards(){
-    //FILE *cardFile;
-    //char buffer[2];
 
     cardFile = fopen("..\\Cards.txt","r");
 
     for (int i = 0; i < 52; ++i) {
-        if (fgets(buffer, 4, cardFile)){
-            buffer[strlen(buffer) - 1] = '\0';
+        if (fgets(buffer, 10, cardFile)){
             setCardName((char *) buffer, i);
         }
+    }
+    //creates the dummy cards for the linked list
+    buffer[0] = '0';
+    buffer[1] = '0';
+    for (int i = 0; i < 11; ++i) {
+        setCardName((char*) buffer, i+52);
     }
     fclose(cardFile);
 }
