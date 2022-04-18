@@ -6,23 +6,6 @@
 
 
 void updateDisplay(){
-
-    //pure test display for input variables
-    //printing using array of pointers.
-    int n = 0;
-    while (n < 52) {
-        if(n%7 == 0) {
-            printf("\n");
-        }
-        if(getCard(n)->faceUp==1)
-            printf("%s\t", getCard(n)->name);
-        else
-            printf("[]\t");
-        n++;
-    }
-
-    printf("\n\n\n");
-
     //printing using linked list
     int cardsToPrint = 0;
     int currentLine = 0;
