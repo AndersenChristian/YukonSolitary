@@ -56,12 +56,20 @@ void setupBoard(){
         currentSpot->next = &ptr[i];
     }
 
-    /*
-    for (int i = 0; i < 7; ++i) { //creates the dummy by the end.
+    //creates the dummy by the end.
+    for (int i = 0; i < 7; ++i) {
         Card * currentSpot = board[i];
         while(currentSpot->next != NULL) {
             currentSpot = currentSpot->next;
         }
-        //currentSpot->next = Card dummy;
-    } */
+        currentSpot->next = getCard(52+i);
+        getCard(52+i)->prev = currentSpot;
+    }
+
+    //insure that the dummy at the end is also alligned with the one in the beginning.
+    for (int i = 0; i < 7; ++i) {
+        Card * currentSpot = board[i];
+        currentSpot->prev = getCard(52+i);
+        getCard(52+i)->next = currentSpot;
+    }
 }

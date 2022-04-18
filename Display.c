@@ -29,7 +29,7 @@ void updateDisplay(){
             for (int i = 0; i < line-1; i++) {
                 currentSpot = currentSpot->next;
             }
-            if (currentSpot->next == NULL)
+            if (currentSpot->next->name[0] == '0')
                 finishedLines[currentLine] = 1;
             printf("%s\t",currentSpot->name);
             cardsToPrint++;
@@ -41,5 +41,21 @@ void updateDisplay(){
             currentLine++;
         else
             currentLine = 0;
+    }
+
+    //prep to print the 4 piles of suits.
+    printf("\n\n");
+    int i = 0;
+    while (i < 4) {
+        Card *pile = getBoard()[7+i];
+        if (pile == NULL) { //check if pile is empty
+            printf("[]\t");
+        } else{
+            while (pile->next->name[0] == '0') {
+                pile = pile->next;
+            }
+            printf("%s\t",pile->name);
+        }
+        i++;
     }
 }
