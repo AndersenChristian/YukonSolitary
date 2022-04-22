@@ -25,29 +25,8 @@ struct LinkedList {
     Card* tail;
 };
 
-LinkedList addCard(LinkedList* list, Card* pCard){
-    if (list->head == NULL){
-        list->head = pCard;
-        list->tail = pCard;
-    } else {
-        Card oldTail = *list->tail;
-        oldTail.next = pCard;
-        pCard->prev = &oldTail;
-        list->tail = pCard;
-    }
-    list->length++;
-}
-
-LinkedList printList(LinkedList* list){
-    Card* currentCard = list->head;
-    for (int i = 0; i < list->length; ++i) {
-        printf(currentCard->name);
-        printf("\t");
-        currentCard = currentCard->next;
-    }
-}
-
-
+void addCard(LinkedList* list, Card* pCard);
+void printList(LinkedList* list);
 
 
 //global variables
@@ -56,10 +35,12 @@ LinkedList printList(LinkedList* list){
 
 //Methods
 //Data
+void initDeck();
 Card * getCard(int position);
 void pushCardToDeck(char name[3]);
-Card * getDeck ();
+LinkedList* getDeck();
 Card ** getBoard();
+void printDeck();
 
 //Logic
 void setupGame();

@@ -8,18 +8,34 @@
 LinkedList deck;
 struct Card* boardSlots[11];
 
-Card * getCard(int position){
 
+void initDeck() {
+    deck.length = 0;
+
+    deck.head = (Card *) malloc(sizeof(Card));
+    deck.tail = (Card *) malloc(sizeof(Card));
+
+    deck.head = NULL;
+    deck.tail = NULL;
+}
+Card * getCard(int position){
 }
 
 void pushCardToDeck(char name[3]){
-    addCard(&deck, name);
+    Card card;
+    card.name[0] = name[0];
+    card.name[1] = name[1];
+    card.name[2] = "\0";
+    addCard(&deck, &card);
 }
-
-Card * getDeck (){
-    return (Card *) &deck;
+LinkedList* getDeck(){
+    return &deck;
 }
 
 Card ** getBoard(){
     return (Card**) &boardSlots;
+}
+
+void printDeck(){
+    printList(&deck);
 }

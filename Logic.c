@@ -9,13 +9,14 @@
 
 void setupGame() {
     setupCards();
-    shuffle();
-    setupBoard();
+    printDeck();
+    //shuffle();
+    //setupBoard();
 }
 
 extern void playGame() {
     //do {
-        updateDisplay();
+        //updateDisplay();
     //}while(winCondition()==true);
 }
 

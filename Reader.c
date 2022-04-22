@@ -13,6 +13,8 @@ void setupCards(){
 
     cardFile = fopen("..\\Cards.txt","r");
 
+    initDeck();
+
     for (int i = 0; i < 52; ++i) {
         if (fgets(buffer, 10, cardFile)){
             pushCardToDeck((char *) buffer);
