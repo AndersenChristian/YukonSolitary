@@ -76,4 +76,7 @@ void updateDisplay();
 //Reader
 void setupCards();
 
+//PlayerInput
+char* getPlayerInput();
+
 #endif //YUKON_HEADER_H
