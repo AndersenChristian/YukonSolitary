@@ -16,7 +16,7 @@ void setupGame() {
 
 extern void playGame() {
     //do {
-        updateDisplay();
+        //updateDisplay();
         nextPlayerInput();
     //}while(winCondition()==true);
 }
@@ -53,6 +53,7 @@ void swap(Card *a, Card *b){
 }
 
 void setupBoard(){
+    /*
     Card * ptr = getDeck();
     Card ** board = getBoard();
 
@@ -84,4 +85,5 @@ void setupBoard(){
         currentSpot->prev = getCard(52+i);
         getCard(52+i)->next = currentSpot;
     }
+     */
 }

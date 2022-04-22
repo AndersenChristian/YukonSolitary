@@ -23,19 +23,19 @@ char* getPlayerInput(){
  */
 
 char* lastCommand;
-char input[];
+char input[200];
 
 char testMessage[] = "Test Message";
 
 void nextPlayerInput(){
     showPrevCommand();
     showMessage(testMessage);
-    char* input = getPlayerInput();
+    getPlayerInput();
     processPlayerInput(input);
 }
 
 void showPrevCommand(){
-    printf("LAST Command: %s", lastCommand);
+    printf("LAST Command: %s\n", lastCommand);
 }
 
 void showMessage(char* msg){
@@ -43,33 +43,41 @@ void showMessage(char* msg){
 }
 
 char* getPlayerInput(){
-    scanf("INPUT > ", &input);
+    printf("INPUT > ");
+    scanf("%s", input);
+    printf("\n");
 }
 
-void processPlayerInput(char string[]){
+void processPlayerInput(char* string){
+    printf("Inputted String: %s\n", string);
+
     lastCommand = string;
 
-    char* initials = *string + *(string+1)+'\0';
+    char initials[3];
+    memcpy(initials, string, 2);
 
-    if (*(string+2) == ':'){ // Game Move
+    printf("Initials: %s\n", initials);
 
+
+    if (string[2] == ':'){ // Game Move
+        printf("Is a game move!\n");
     } else {
         // Things to process
-        if (strcmp(initials, "LD") == 1){
+        if (strcmp(initials, "LD") == 0){
+            
+        } else if (strcmp(initials, "SW") == 0){
 
-        } else if (strcmp(initials, "SW") == 1){
+        } else if (strcmp(initials, "SI") == 0){
 
-        } else if (strcmp(initials, "SI") == 1){
+        } else if (strcmp(initials, "SR") == 0){
 
-        } else if (strcmp(initials, "SR") == 1){
+        } else if (strcmp(initials, "SD") == 0){
 
-        } else if (strcmp(initials, "SD") == 1){
+        } else if (strcmp(initials, "QQ") == 0){
 
-        } else if (strcmp(initials, "QQ") == 1){
+        } else if (strcmp(initials, "P") == 0){
 
-        } else if (strcmp(initials, "P") == 1){
-
-        } else if (strcmp(initials, "Q") == 1){
+        } else if (strcmp(initials, "Q") == 0){
 
         }
     }
