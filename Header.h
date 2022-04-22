@@ -26,6 +26,7 @@ struct LinkedList {
 };
 
 void addCard(LinkedList* list, Card* pCard);
+Card* getCard(LinkedList* list, int index);
 void printList(LinkedList* list);
 
 
@@ -36,7 +37,7 @@ void printList(LinkedList* list);
 //Methods
 //Data
 void initDeck();
-Card * getCard(int position);
+
 void pushCardToDeck(char name[3]);
 LinkedList* getDeck();
 LinkedList* getBoard();
@@ -58,6 +59,10 @@ void updateDisplay();
 void setupCards();
 
 //PlayerInput
+void nextPlayerInput();
 char* getPlayerInput();
+void processPlayerInput(char string[]);
+void showMessage(char* msg);
+void showPrevCommand();
 
 #endif //YUKON_HEADER_H

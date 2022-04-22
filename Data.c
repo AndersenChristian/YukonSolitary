@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 LinkedList deck;
-LinkedList* boardSlots[11];
+struct Card* boardSlots[11];
 
 
 void initDeck() {
