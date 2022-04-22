@@ -49,5 +49,28 @@ char* getPlayerInput(){
 void processPlayerInput(char string[]){
     lastCommand = string;
 
-    // Things to process
+    char* initials = *string + *(string+1)+'\0';
+
+    if (*(string+2) == ':'){ // Game Move
+
+    } else {
+        // Things to process
+        if (strcmp(initials, "LD") == 1){
+
+        } else if (strcmp(initials, "SW") == 1){
+
+        } else if (strcmp(initials, "SI") == 1){
+
+        } else if (strcmp(initials, "SR") == 1){
+
+        } else if (strcmp(initials, "SD") == 1){
+
+        } else if (strcmp(initials, "QQ") == 1){
+
+        } else if (strcmp(initials, "P") == 1){
+
+        } else if (strcmp(initials, "Q") == 1){
+
+        }
+    }
 }
