@@ -7,13 +7,24 @@
 #define YUKON_HEADER_H
 
 typedef struct Card Card;
+typedef struct LinkedList LinkedList;
 
- struct Card{
+// --- Structs ---
+struct Card {
     char name[3];
-    unsigned int faceUp; //0 = faceDown, 1 = faceUp
+    bool faceUp;
     Card* prev;
     Card* next;
 };
+
+struct LinkedList {
+    int length;
+    Card* head;
+    Card* tail;
+};
+
+
+
 
 //global variables
 #define DECK_SIZE 52+11 //the 11 are dummies for linked lists
