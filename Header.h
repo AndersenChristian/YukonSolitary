@@ -39,7 +39,7 @@ void initDeck();
 Card * getCard(int position);
 void pushCardToDeck(char name[3]);
 LinkedList* getDeck();
-Card ** getBoard();
+LinkedList* getBoard();
 void printDeck();
 
 //Logic

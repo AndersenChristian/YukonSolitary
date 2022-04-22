@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 LinkedList deck;
-struct Card* boardSlots[11];
+LinkedList* boardSlots[11];
 
 
 void initDeck() {
@@ -32,8 +32,8 @@ LinkedList* getDeck(){
     return &deck;
 }
 
-Card ** getBoard(){
-    return (Card**) &boardSlots;
+LinkedList* getBoard(){
+    return (LinkedList *) boardSlots;
 }
 
 void printDeck(){

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "Header.h"
 
-
+/*
 void updateDisplay(){
     //printing using linked list
     int cardsToPrint = 0;
@@ -23,7 +23,7 @@ void updateDisplay(){
             line++;
         }
 
-        Card * currentSpot = getBoard()[currentLine];
+        Card* currentSpot = getBoard()[currentLine];
 
         if(finishedLines[currentLine] == 0){
             for (int i = 0; i < line-1; i++) {
@@ -59,3 +59,4 @@ void updateDisplay(){
         i++;
     }
 }
+ */
