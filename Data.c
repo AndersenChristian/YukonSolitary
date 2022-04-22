@@ -5,24 +5,37 @@
 
 #include <stdio.h>
 
-Card deck[DECK_SIZE];
+LinkedList deck;
 struct Card* boardSlots[11];
 
+
+void initDeck() {
+    deck.length = 0;
+
+    deck.head = (Card *) malloc(sizeof(Card));
+    deck.tail = (Card *) malloc(sizeof(Card));
+
+    deck.head = NULL;
+    deck.tail = NULL;
+}
 Card * getCard(int position){
-    return &deck[position];
 }
 
-void setCardName(char * ptr, int cardNumber){
-    deck[cardNumber].name[0] = *ptr;
-    deck[cardNumber].name[1] = *(ptr+1);
-    deck[cardNumber].name[2] = '\0'; //used to easily print the whole char arrays as a sting.
-    deck[cardNumber].faceUp = 1; //TODO: delete (only for testing)
+void pushCardToDeck(char name[3]){
+    Card card;
+    card.name[0] = name[0];
+    card.name[1] = name[1];
+    card.name[2] = "\0";
+    addCard(&deck, &card);
 }
-
-Card * getDeck (){
-    return (Card *) &deck;
+LinkedList* getDeck(){
+    return &deck;
 }
 
 Card ** getBoard(){
     return (Card**) &boardSlots;
+}
+
+void printDeck(){
+    printList(&deck);
 }

@@ -2,6 +2,8 @@
 // Created by Christian Andersen on 02-04-2022.
 //
 #include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #ifndef YUKON_HEADER_H
 #define YUKON_HEADER_H
@@ -23,7 +25,8 @@ struct LinkedList {
     Card* tail;
 };
 
-
+void addCard(LinkedList* list, Card* pCard);
+void printList(LinkedList* list);
 
 
 //global variables
@@ -32,10 +35,12 @@ struct LinkedList {
 
 //Methods
 //Data
+void initDeck();
 Card * getCard(int position);
-void setCardName(char ptr[2], int cardNumber);
-Card * getDeck ();
+void pushCardToDeck(char name[3]);
+LinkedList* getDeck();
 Card ** getBoard();
+void printDeck();
 
 //Logic
 void setupGame();

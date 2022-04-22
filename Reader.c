@@ -13,16 +13,13 @@ void setupCards(){
 
     cardFile = fopen("..\\Cards.txt","r");
 
+    initDeck();
+
     for (int i = 0; i < 52; ++i) {
         if (fgets(buffer, 10, cardFile)){
-            setCardName((char *) buffer, i);
+            pushCardToDeck((char *) buffer);
         }
     }
-    //creates the dummy cards for the linked list
-    buffer[0] = '0';
-    buffer[1] = '0';
-    for (int i = 0; i < 11; ++i) {
-        setCardName((char*) buffer, i+52);
-    }
+
     fclose(cardFile);
 }
