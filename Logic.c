@@ -3,8 +3,8 @@
 //
 #include <stdbool.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <time.h>
+#include <stdio.h>
 #include "Header.h"
 
 void setupGame() {
@@ -16,6 +16,8 @@ void setupGame() {
 extern void playGame() {
     //do {
         updateDisplay();
+        char *input = getPlayerInput();
+        printf("%s", input);
     //}while(winCondition()==true);
 }
 
