@@ -54,5 +54,5 @@ void printList(LinkedList* list){
         printf("%s\t", currentCard->name);
         currentCard = currentCard->next;
     }
-    printf("%s\t", currentCard->name);
+    printf("%s\n", currentCard->name);
 }

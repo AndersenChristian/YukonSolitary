@@ -18,6 +18,8 @@ void initDeck() {
     deck.head = NULL;
     deck.tail = NULL;
 }
+Card * getCard(int position){
+}
 
 void pushCardToDeck(char name[3]){
     Card card;
@@ -30,8 +32,8 @@ LinkedList* getDeck(){
     return &deck;
 }
 
-Card ** getBoard(){
-    return (Card**) &boardSlots;
+LinkedList* getBoard(){
+    return (LinkedList *) boardSlots;
 }
 
 void printDeck(){

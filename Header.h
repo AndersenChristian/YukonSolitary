@@ -40,7 +40,7 @@ void initDeck();
 
 void pushCardToDeck(char name[3]);
 LinkedList* getDeck();
-Card ** getBoard();
+LinkedList* getBoard();
 void printDeck();
 
 //Logic
@@ -59,6 +59,10 @@ void updateDisplay();
 void setupCards();
 
 //PlayerInput
+void nextPlayerInput();
 char* getPlayerInput();
+void processPlayerInput(char string[]);
+void showMessage(char* msg);
+void showPrevCommand();
 
 #endif //YUKON_HEADER_H
