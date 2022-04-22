@@ -18,8 +18,6 @@ void initDeck() {
     deck.head = NULL;
     deck.tail = NULL;
 }
-Card * getCard(int position){
-}
 
 void pushCardToDeck(char name[3]){
     Card card;

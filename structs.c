@@ -32,6 +32,19 @@ void addCard(LinkedList* list, Card* pCard){
     }
 }
 
+Card* getCard(LinkedList* list, int index){
+    if (list->length <= 0) printf("List has length 0");
+
+    Card* currentCard = list->head;
+    for (int i = 0; i < list->length; ++i) {
+        if (i == index){
+            return currentCard;
+        } else {
+            currentCard = currentCard->next;
+        }
+    }
+}
+
 void printList(LinkedList* list){
     printf("List length: %d \t", list->length);
 
