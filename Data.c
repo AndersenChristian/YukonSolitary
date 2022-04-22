@@ -5,18 +5,15 @@
 
 #include <stdio.h>
 
-Card deck[DECK_SIZE];
+LinkedList deck;
 struct Card* boardSlots[11];
 
 Card * getCard(int position){
-    return &deck[position];
+
 }
 
-void setCardName(char * ptr, int cardNumber){
-    deck[cardNumber].name[0] = *ptr;
-    deck[cardNumber].name[1] = *(ptr+1);
-    deck[cardNumber].name[2] = '\0'; //used to easily print the whole char arrays as a sting.
-    deck[cardNumber].faceUp = 1; //TODO: delete (only for testing)
+void pushCardToDeck(char name[3]){
+    addCard(&deck, name);
 }
 
 Card * getDeck (){

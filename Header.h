@@ -2,6 +2,8 @@
 // Created by Christian Andersen on 02-04-2022.
 //
 #include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #ifndef YUKON_HEADER_H
 #define YUKON_HEADER_H
@@ -23,6 +25,28 @@ struct LinkedList {
     Card* tail;
 };
 
+LinkedList addCard(LinkedList* list, Card* pCard){
+    if (list->head == NULL){
+        list->head = pCard;
+        list->tail = pCard;
+    } else {
+        Card oldTail = *list->tail;
+        oldTail.next = pCard;
+        pCard->prev = &oldTail;
+        list->tail = pCard;
+    }
+    list->length++;
+}
+
+LinkedList printList(LinkedList* list){
+    Card* currentCard = list->head;
+    for (int i = 0; i < list->length; ++i) {
+        printf(currentCard->name);
+        printf("\t");
+        currentCard = currentCard->next;
+    }
+}
+
 
 
 
@@ -33,7 +57,7 @@ struct LinkedList {
 //Methods
 //Data
 Card * getCard(int position);
-void setCardName(char ptr[2], int cardNumber);
+void pushCardToDeck(char name[3]);
 Card * getDeck ();
 Card ** getBoard();
 
