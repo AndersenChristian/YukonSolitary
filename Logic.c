@@ -24,14 +24,24 @@ bool winCondition(){
 }
 
 void shuffle() {
-    Card * ptr = getDeck();
-    int rannum1, rannum2;
+    Card *cardH; //Dette skal være en getMetode kaldet getLinkedList.
+    Card *card1 = cardH;
+    Card *cardP = cardH;
     srand(time(NULL));
-    for (int i = 0; i < 100000; ++i) {
-        rannum1 = (rand()%52);
-        rannum2 = (rand()%52);
-        swap( ptr+rannum1, ptr+rannum2);
+    int randomNumber = (rand()%52)+1;
+    for (int i = 0; i <= randomNumber; ++i) {
+        card1 = card1->next;
     }
+
+    cardP->prev = cardH;
+    cardH->prev = card1;
+    cardH->next->prev = NULL;
+
+    //Updater linkedList metode her.
+    cardH->next = cardP;
+    card1->next = cardH;
+    cardP = card1->next;
+
 }
 
 void swap(Card *a, Card *b){
