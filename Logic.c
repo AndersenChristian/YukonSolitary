@@ -16,7 +16,8 @@ void setupGame() {
 
 extern void playGame() {
     //do {
-        //updateDisplay();
+        updateDisplay();
+        nextPlayerInput();
     //}while(winCondition()==true);
 }
 

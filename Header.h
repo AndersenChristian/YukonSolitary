@@ -59,6 +59,10 @@ void updateDisplay();
 void setupCards();
 
 //PlayerInput
+void nextPlayerInput();
 char* getPlayerInput();
+void processPlayerInput(char string[]);
+void showMessage(char* msg);
+void showPrevCommand();
 
 #endif //YUKON_HEADER_H
