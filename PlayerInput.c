@@ -28,7 +28,7 @@ char input[200];
 char testMessage[] = "Test Message";
 
 void nextPlayerInput(){
-    showMessage(testMessage);
+    //showMessage(testMessage);
     getPlayerInput();
     processPlayerInput(input);
 }
@@ -63,7 +63,7 @@ void processPlayerInput(char* string){
     } else {
         // Things to process
         if (strcmp(initials, "LD") == 0){
-            
+
         } else if (strcmp(initials, "SW") == 0){
 
         } else if (strcmp(initials, "SI") == 0){
@@ -74,9 +74,9 @@ void processPlayerInput(char* string){
 
         } else if (strcmp(initials, "QQ") == 0){
 
-        } else if (strcmp(initials, "P") == 0){
+        } else if (strcmp(initials, "P ") == 0){
 
-        } else if (strcmp(initials, "Q") == 0){
+        } else if (strcmp(initials, "Q ") == 0){
 
         }
     }
