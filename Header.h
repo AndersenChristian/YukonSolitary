@@ -11,6 +11,8 @@
 typedef struct Card Card;
 typedef struct LinkedList LinkedList;
 
+enum input{LD,SW,SI,SR,SD,QQ,P,Q};
+
 // --- Structs ---
 struct Card {
     char name[3];
@@ -37,10 +39,10 @@ void printList(LinkedList* list);
 //Methods
 //Data
 void initDeck();
-
+bool isDeckLoaded();
 void pushCardToDeck(char name[3]);
 LinkedList* getDeck();
-Card ** getBoard();
+LinkedList* getBoard();
 void printDeck();
 
 //Logic
@@ -54,6 +56,8 @@ void setupBoard();
 
 //Interface
 void updateDisplay();
+void displayEmpty();
+void displayInfolines();
 
 //Reader
 void setupCards();
@@ -63,6 +67,6 @@ void nextPlayerInput();
 char* getPlayerInput();
 void processPlayerInput(char string[]);
 void showMessage(char* msg);
-void showPrevCommand();
+char* getLastCommand();
 
 #endif //YUKON_HEADER_H

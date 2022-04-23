@@ -2,12 +2,13 @@
 // Created by Rawfodog on 01-04-2022.
 //
 #include "Header.h"
-
+#include <stdbool.h>
 #include <stdio.h>
 
 LinkedList deck;
-Card* boardSlots[11];
+struct Card* boardSlots[11];
 
+bool deckLoaded = false;
 
 void initDeck() {
     deck.length = 0;
@@ -30,10 +31,14 @@ LinkedList* getDeck(){
     return &deck;
 }
 
-Card ** getBoard(){
-    return (Card**) &boardSlots;
+LinkedList* getBoard(){
+    return (LinkedList *) boardSlots;
 }
 
 void printDeck(){
     printList(&deck);
+}
+
+bool isDeckLoaded(){
+    return deckLoaded;
 }

@@ -11,13 +11,12 @@ void setupGame() {
     setupCards();
     printDeck();
     //shuffle();
-    //setupBoard();
+    setupBoard();
 }
 
 extern void playGame() {
     //do {
-        //updateDisplay();
-        nextPlayerInput();
+        displayEmpty();
     //}while(winCondition()==true);
 }
 
@@ -26,24 +25,28 @@ bool winCondition(){
 }
 
 void shuffle() {
-    Card *cardH; //Dette skal være en getMetode kaldet getLinkedList.
+    LinkedList deck = *getDeck();
+    Card *cardH = deck.head;
+    Card *cardN = cardH->next;
     Card *card1 = cardH;
     Card *cardP = cardH;
+    int j = 0;
     srand(time(NULL));
-    int randomNumber = (rand()%52)+1;
-    for (int i = 0; i <= randomNumber; ++i) {
-        card1 = card1->next;
+    while (j < 10000){
+        int randomNumber = (rand()%52)+1;
+        for (int i = 0; i <= randomNumber; ++i) {
+            card1 = card1->next;
+        }
+        cardP->prev = cardH;
+        cardH->prev = card1;
+        cardH->next->prev = NULL;
+
+        deck.head = cardN;
+        cardH->next = cardP;
+        card1->next = cardH;
+        cardP = card1->next;
+        j++;
     }
-
-    cardP->prev = cardH;
-    cardH->prev = card1;
-    cardH->next->prev = NULL;
-
-    //Updater linkedList metode her.
-    cardH->next = cardP;
-    card1->next = cardH;
-    cardP = card1->next;
-
 }
 
 void swap(Card *a, Card *b){
@@ -53,37 +56,23 @@ void swap(Card *a, Card *b){
 }
 
 void setupBoard(){
-    /*
-    Card * ptr = getDeck();
-    Card ** board = getBoard();
+    Card * ptrToCard = getDeck()->head;
+    LinkedList* boardSlots = getBoard();
 
     for (int i = 0; i<7; i++){ //create the first point in the linked list
-        board[i] = &ptr[i];
+        boardSlots[i].head = ptrToCard;
+        boardSlots[i].tail = ptrToCard;
+        ptrToCard = ptrToCard->next;
+        boardSlots[i].head->next = NULL;
+        boardSlots[i].head->prev = NULL;
     }
 
     for (int i = 7; i < 52; ++i) { //starts in 7, as those are the unsigned card atm.
-        Card * currentSpot = board[i%7];
-        while(currentSpot->next != NULL) {
-            currentSpot = currentSpot->next;
-        }
-        currentSpot->next = &ptr[i];
+        Card* currentSlotsLastCard = boardSlots[i%7].tail;
+        currentSlotsLastCard->next = ptrToCard;
+        ptrToCard->prev = currentSlotsLastCard;
+        boardSlots[i%7].tail = ptrToCard;
+        ptrToCard = ptrToCard->next;
+        //if (i%7 > 3)
     }
-
-    //creates the dummy by the end.
-    for (int i = 0; i < 7; ++i) {
-        Card * currentSpot = board[i];
-        while(currentSpot->next != NULL) {
-            currentSpot = currentSpot->next;
-        }
-        currentSpot->next = getCard(52+i);
-        getCard(52+i)->prev = currentSpot;
-    }
-
-    //insure that the dummy at the end is also alligned with the one in the beginning.
-    for (int i = 0; i < 7; ++i) {
-        Card * currentSpot = board[i];
-        currentSpot->prev = getCard(52+i);
-        getCard(52+i)->next = currentSpot;
-    }
-     */
 }
