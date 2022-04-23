@@ -56,8 +56,8 @@ void swap(Card *a, Card *b){
 }
 
 void setupBoard(){
-    Card * ptr = getDeck();
-    Card ** board = getBoard();
+    Card * ptrToCard = getDeck()->head;
+    LinkedList* boardSlots = getBoard();
 
     for (int i = 0; i<7; i++){ //create the first point in the linked list
         boardSlots[i].head = ptrToCard;
