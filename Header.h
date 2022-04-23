@@ -11,7 +11,9 @@
 typedef struct Card Card;
 typedef struct LinkedList LinkedList;
 
-enum input{LD,SW,SI,SR,SD,QQ,P,Q};
+//enum INPUT{LD,SW,SI,SR,SD,QQ,P,Q}; //TODO might need to be deleted
+enum SUITS{C,D,H,S};
+enum CARD_VALUES{A = 1,T = 10, J = 11, Q = 12, K = 13};
 
 // --- Structs ---
 struct Card {
