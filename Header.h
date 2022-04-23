@@ -11,6 +11,8 @@
 typedef struct Card Card;
 typedef struct LinkedList LinkedList;
 
+enum input{LD,SW,SI,SR,SD,QQ,P,Q};
+
 // --- Structs ---
 struct Card {
     char name[3];
