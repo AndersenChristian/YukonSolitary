@@ -28,14 +28,13 @@ char input[200];
 char testMessage[] = "Test Message";
 
 void nextPlayerInput(){
-    showPrevCommand();
     showMessage(testMessage);
     getPlayerInput();
     processPlayerInput(input);
 }
 
-void showPrevCommand(){
-    printf("LAST Command: %s\n", lastCommand);
+char* getLastCommand(){
+    return lastCommand;
 }
 
 void showMessage(char* msg){
