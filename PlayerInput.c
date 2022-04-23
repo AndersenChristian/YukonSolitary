@@ -28,7 +28,7 @@ char input[200];
 char testMessage[] = "Test Message";
 
 void nextPlayerInput(){
-    showMessage(testMessage);
+    //showMessage(testMessage);
     getPlayerInput();
     processPlayerInput(input);
 }

@@ -9,7 +9,7 @@
 
 void setupGame() {
     setupCards();
-    printDeck();
+    //printDeck();
     //shuffle();
     setupBoard();
 }
@@ -17,6 +17,7 @@ void setupGame() {
 extern void playGame() {
     //do {
         displayEmpty();
+        nextPlayerInput();
     //}while(winCondition()==true);
 }
 
