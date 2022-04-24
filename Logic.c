@@ -80,7 +80,7 @@ void setupBoard(){
 
 void saveGame(char* filename){
     // TODO to be implemented
-    
+
 }
 
 void exitGame(){

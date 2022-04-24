@@ -51,15 +51,26 @@ void processPlayerInput(char* string){
 
     lastCommand = string;
 
-    char initials[3];
-    memcpy(initials, string, 2);
+    if (string[2] == ':' && string[5] == '-' && string[6] == '>'){ // Game Move
+        // Get everything from input
+        char fromColumn[3];
+        char card[3];
+        char toColumn[3];
 
-    //printf("Initials: %s\n", initials);
+        memcpy(fromColumn, string, 2);
+        memcpy(card, &string[3], 2);
+        memcpy(toColumn, &string[7], 2);
 
+        card[2] = '\0';
+        toColumn[2] = '\0';
 
-    if (string[2] == ':'){ // Game Move
-        printf("Is a game move!\n");
+        // Process it
+
     } else {
+        char initials[3];
+        memcpy(initials, string, 2);
+        //printf("Initials: %s\n", initials);
+
         // Things to process
         if (strcmp(initials, "LD") == 0){
 
