@@ -144,7 +144,8 @@ void processPlayerInput(char* string){
 
         // Things to process
         if (strcmp(initials, "LD") == 0){
-
+            if (isDeckLoaded())
+                setupCards();
         } else if (strcmp(initials, "SW") == 0){
 
         } else if (strcmp(initials, "SI") == 0){

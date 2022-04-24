@@ -54,6 +54,7 @@ void updateDisplay(){
         else
             currentLine++;
     }while (cardsPrinted!=52 || finishesPrinted != 4);
+    displayInfolines();
 }
 
 void displayEmpty(){
