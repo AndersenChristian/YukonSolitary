@@ -31,6 +31,7 @@ struct LinkedList {
 
 void addCard(LinkedList* list, Card* pCard);
 Card* getCard(LinkedList* list, int index);
+Card* getLastCard(LinkedList* list);
 void printList(LinkedList* list);
 void moveCardToStack(Card* cardToMove, Card* destination);
 

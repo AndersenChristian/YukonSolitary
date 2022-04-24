@@ -20,6 +20,7 @@ extern void playGame() {
     displayEmpty();
     do {
         processPlayerInput(getPlayerInput());
+        updateBoard();
         displayEmpty(); // TODO is just display
     }while(!isGameWon());
 }
@@ -167,9 +168,9 @@ void flipTopCards(){
     LinkedList* slots = getBoard();
     for (int i = 0; i < 7; ++i) {
         LinkedList currentList = slots[i];
-        Card* currentCard = currentList.head;
-        while (currentCard != NULL){
-            // TO make here
+        Card* currentCard = getLastCard(&currentList);
+        if (currentCard->faceUp == false){
+            currentCard->faceUp = true;
         }
     }
 }
@@ -200,13 +201,17 @@ void attemptCardMove(char* columnFrom, Card* card, char* columnDest){
 }
 
 int getColumnIndex(char* columnStr){
-    if (columnStr == "C1") {return 0;}
-    if (columnStr == "C2") {return 1;}
-    if (columnStr == "C3") {return 2;}
-    if (columnStr == "C4") {return 3;}
-    if (columnStr == "C5") {return 4;}
-    if (columnStr == "C6") {return 5;}
-    if (columnStr == "C7") {return 6;}
+    if (strcmp(columnStr, "C1") == 0) {return 0;}
+    if (strcmp(columnStr, "C2") == 0) {return 1;}
+    if (strcmp(columnStr, "C3") == 0) {return 2;}
+    if (strcmp(columnStr, "C4") == 0) {return 3;}
+    if (strcmp(columnStr, "C5") == 0) {return 4;}
+    if (strcmp(columnStr, "C6") == 0) {return 5;}
+    if (strcmp(columnStr, "C7") == 0) {return 6;}
+    if (strcmp(columnStr, "F1") == 0) {return 7;}
+    if (strcmp(columnStr, "F2") == 0) {return 8;}
+    if (strcmp(columnStr, "F3") == 0) {return 9;}
+    if (strcmp(columnStr, "F4") == 0) {return 10;}
 }
 
 bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
