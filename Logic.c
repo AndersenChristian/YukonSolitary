@@ -77,3 +77,8 @@ void setupBoard(){
         //if (i%7 > 3)
     }
 }
+
+void exitGame(){
+    printf("\n---Exiting Game---\n");
+    exit(0);
+}

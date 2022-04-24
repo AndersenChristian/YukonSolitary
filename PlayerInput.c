@@ -73,7 +73,7 @@ void processPlayerInput(char* string){
         } else if (strcmp(initials, "SD") == 0){
 
         } else if (strcmp(initials, "QQ") == 0){
-
+            exitGame();
         } else if (strcmp(initials, "P ") == 0){
 
         } else if (strcmp(initials, "Q ") == 0){

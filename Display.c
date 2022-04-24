@@ -12,9 +12,9 @@ void updateDisplay(){
     if (!isDeckLoaded()){
         displayEmpty();
     }else{
-        switch (expression) {
-
-        }
+        //switch (expression) {
+        //
+        //}
     }
 
 

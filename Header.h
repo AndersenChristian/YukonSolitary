@@ -54,6 +54,7 @@ bool winCondition();
 void shuffle();
 void swap(Card*, Card*);
 void setupBoard();
+void exitGame();
 
 
 //Interface
