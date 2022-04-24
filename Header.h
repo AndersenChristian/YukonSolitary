@@ -47,6 +47,9 @@ LinkedList* getDeck();
 LinkedList* getBoard();
 void printDeck();
 bool isGameWon();
+void setLastCommand(char* command);
+char* getLastCommand();
+
 
 //Logic
 void setupGame();
@@ -68,10 +71,8 @@ void displayInfolines();
 void setupCards();
 
 //PlayerInput
-void nextPlayerInput();
 char* getPlayerInput();
 void processPlayerInput(char string[]);
 void showMessage(char* msg);
-char* getLastCommand();
 
 #endif //YUKON_HEADER_H

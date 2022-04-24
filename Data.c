@@ -8,6 +8,8 @@
 LinkedList deck;
 struct Card* boardSlots[11];
 
+char* lastCommand = "\0";
+
 bool deckLoaded = false;
 bool isGameDone = false;
 
@@ -25,7 +27,7 @@ void pushCardToDeck(char name[3]){
     Card card;
     card.name[0] = name[0];
     card.name[1] = name[1];
-    card.name[2] = "\0";
+    card.name[2] = '\0';
     addCard(&deck, &card);
 }
 LinkedList* getDeck(){
@@ -46,4 +48,12 @@ bool isDeckLoaded(){
 
 bool isGameWon(){
     return isGameDone;
+}
+
+void setLastCommand(char* command){
+    lastCommand = command;
+}
+
+char* getLastCommand(){
+    return lastCommand;
 }
