@@ -32,6 +32,7 @@ struct LinkedList {
 void addCard(LinkedList* list, Card* pCard);
 Card* getCard(LinkedList* list, int index);
 void printList(LinkedList* list);
+void moveCardToStack(Card* cardToMove, Card* destination)
 
 
 //global variables
@@ -60,6 +61,11 @@ void swap(Card*, Card*);
 void setupBoard();
 void saveGame(char* filename);
 void exitGame();
+void attemptCardMove(char* columnFrom, Card* card, char* columnDest);
+int getColumnIndex(char* columnStr);
+bool cardCanBePlaced(Card* cardBehind, Card* cardOntop);
+enum SUITS getCardSuit(Card* card);
+int getCardValue(Card* card);
 
 
 //Interface
