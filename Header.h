@@ -32,7 +32,7 @@ struct LinkedList {
 void addCard(LinkedList* list, Card* pCard);
 Card* getCard(LinkedList* list, int index);
 void printList(LinkedList* list);
-void moveCardToStack(Card* cardToMove, Card* destination)
+void moveCardToStack(Card* cardToMove, Card* destination);
 
 
 //global variables

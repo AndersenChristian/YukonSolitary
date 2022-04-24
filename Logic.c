@@ -66,6 +66,8 @@ void setupBoard(){
     for (int i = 0; i<7; i++){ //create the first point in the linked list
         boardSlots[i].head = ptrToCard;
         boardSlots[i].tail = ptrToCard;
+        if (i == 0)
+            ptrToCard->faceUp = true;
         ptrToCard = ptrToCard->next;
         boardSlots[i].head->next = NULL;
         boardSlots[i].head->prev = NULL;
@@ -81,6 +83,8 @@ void setupBoard(){
             currentSlotsLastCard->next = ptrToCard;
             ptrToCard->prev = currentSlotsLastCard;
             boardSlots[currentList].tail = ptrToCard;
+            if (cardsPerPile[currentList] < 6)
+                ptrToCard->faceUp = true;
             ptrToCard = ptrToCard->next;
             boardSlots[currentList].tail->next=NULL;
             cardsPerPile[currentList]--;
