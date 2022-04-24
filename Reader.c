@@ -6,7 +6,7 @@
 #include "Header.h"
 #include <string.h>
 
-char errorMessage[100];
+char errorMessage[100]; //todo move into scope
 
 char buffer[5];
 FILE *cardFile;

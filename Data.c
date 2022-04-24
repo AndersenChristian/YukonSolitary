@@ -9,6 +9,7 @@ LinkedList deck;
 struct Card* boardSlots[11];
 
 char* lastCommand = "\0";
+//char* errorMessage = "\0"; //todo remove commenting out.
 
 bool deckLoaded = false;
 bool isGameDone = false;
