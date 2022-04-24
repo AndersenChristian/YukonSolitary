@@ -43,6 +43,17 @@ Card* getCard(LinkedList* list, int index){
             currentCard = currentCard->next;
         }
     }
+    return currentCard;
+}
+
+void moveCardToStack(Card* cardToMove, Card* destination){
+    cardToMove->prev->next = cardToMove->next;
+    cardToMove->next->prev = cardToMove->prev;
+
+    destination->next = cardToMove;
+    cardToMove->prev = destination;
+    cardToMove->next = NULL;
+
 }
 
 void printList(LinkedList* list){
