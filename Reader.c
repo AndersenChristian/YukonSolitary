@@ -6,6 +6,8 @@
 #include "Header.h"
 #include <string.h>
 
+char errorMessage[100];
+
 char buffer[5];
 FILE *cardFile;
 
@@ -15,7 +17,7 @@ void setupCards(){
     else
         cardFile = fopen(strtok(getPlayerInput(),""),"r");
     if (cardFile == NULL)
-
+        strcpy(errorMessage, "test");
     initDeck();
     for (int i = 0; i < 52; ++i) {
         if (fgets(buffer, 10, cardFile)){

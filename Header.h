@@ -37,6 +37,7 @@ void moveCardToStack(Card* cardToMove, Card* destination);
 
 //global variables
 #define DECK_SIZE 52+11 //the 11 are dummies for linked lists
+extern char errorMessage[100];
 
 
 //Methods

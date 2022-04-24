@@ -134,7 +134,7 @@ void processPlayerInput(char* string){
         toColumn[2] = '\0';
 
         // Process it
-        attemptCardMove(fromColumn, card, toColumn);
+        //attemptCardMove(fromColumn, card, toColumn);
 
     } else {
         char initials[3];

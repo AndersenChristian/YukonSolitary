@@ -81,5 +81,5 @@ void displayEmpty(){
 
 void displayInfolines(char* msg) {
     printf("LAST Command: %s\n", getLastCommand());
-    showMessage("OK"); // TODO Change to something
+    printf("Message: not loaded");
 }
