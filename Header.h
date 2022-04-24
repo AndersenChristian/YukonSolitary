@@ -46,6 +46,7 @@ void pushCardToDeck(char name[3]);
 LinkedList* getDeck();
 LinkedList* getBoard();
 void printDeck();
+bool isGameWon();
 
 //Logic
 void setupGame();

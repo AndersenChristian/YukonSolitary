@@ -9,16 +9,17 @@
 
 void setupGame() {
     setupCards();
-    //printDeck();
+    printDeck();
     //shuffle();
     setupBoard();
 }
 
 extern void playGame() {
-    //do {
-        displayEmpty();
+    displayEmpty();
+    do {
         nextPlayerInput();
-    //}while(winCondition()==true);
+        displayEmpty();
+    }while(!isGameWon());
 }
 
 bool winCondition(){

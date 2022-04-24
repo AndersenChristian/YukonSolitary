@@ -9,6 +9,7 @@ LinkedList deck;
 struct Card* boardSlots[11];
 
 bool deckLoaded = false;
+bool isGameDone = false;
 
 void initDeck() {
     deck.length = 0;
@@ -41,4 +42,8 @@ void printDeck(){
 
 bool isDeckLoaded(){
     return deckLoaded;
+}
+
+bool isGameWon(){
+    return isGameDone;
 }

@@ -38,7 +38,7 @@ void updateDisplay(){
 }
 
 void displayEmpty(){
-    system("cls");
+    //system("cls");
     for (int i = 0; i < 7; ++i) {
         printf("C%d\t",i+1);
     }
