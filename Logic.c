@@ -13,6 +13,7 @@ void setupGame() {
     printDeck();
     //shuffle();
     setupBoard();
+    updateDisplay();
 }
 
 extern void playGame() {

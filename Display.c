@@ -37,9 +37,12 @@ void updateDisplay(){
                 finishedLines[currentLine] = 1;
             cardsPrinted++;
         }
-
-
-
+        if (currentLine == 6) {
+            currentLine = 0;
+            line++;
+        }
+        else
+            currentLine++;
     }while (cardsPrinted!=52);
 
 }
