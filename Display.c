@@ -2,39 +2,49 @@
 // Created by Rawfodog on 01-04-2022.
 //
 #include <stdio.h>
+#include <stdlib.h>
 #include "Header.h"
 
 void displayInfolines();
 
 void updateDisplay(){
-    system("cls");
-
-    if (!isDeckLoaded()){
-        displayEmpty();
-    }else{
-        //switch (expression) {
-        //
-        //}
-    }
-
-
     for (int i = 0; i < 7; ++i) {
         printf("C%d\t",i+1);
     }
     printf("\n\n");
 
+    Card* currentCard;
     int cardsPrinted = 0;
     int currentLine = 0;
     int line = 0;
     int finishedLines[7]; //0 = not finished, 1 = is finished.
 
     for (int i = 0; i < 7; i++) {
-        finishedLines[i]=0;
+        if(getBoard()[i].head != NULL)
+            finishedLines[i]=0;
+        else
+            finishedLines[i]=1;
     }
 
-    /*if (!isDeckLoaded()){
+    do {
+        if (finishedLines[currentLine] == 0) {
+            currentCard = getBoard()[currentLine].head;
+            for (int i = 0; i < line; i++){
+                currentCard = currentCard->next;
+            }
+            printf(currentCard->name);
+            if (currentCard->next == NULL)
+                finishedLines[currentLine] = 1;
+            cardsPrinted++;
+        }
+        if (currentLine == 6) {
+            currentLine = 0;
+            line++;
+        }
+        else
+            currentLine++;
+    }while (cardsPrinted!=52);
 
-    }*/
 }
 
 void displayEmpty(){
