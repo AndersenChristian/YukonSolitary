@@ -17,6 +17,7 @@ void updateDisplay(){
     int cardsPrinted = 0;
     int currentLine = 0;
     int line = 0;
+    int finishesPrinted = 0;
     int finishedLines[7]; //0 = not finished, 1 = is finished.
 
     for (int i = 0; i < 7; i++) {
@@ -32,19 +33,27 @@ void updateDisplay(){
             for (int i = 0; i < line; i++){
                 currentCard = currentCard->next;
             }
-            printf(currentCard->name);
+            if (currentCard->faceUp)
+                printf("%s\t",currentCard->name);
+            else
+                printf("[]\t");
             if (currentCard->next == NULL)
                 finishedLines[currentLine] = 1;
             cardsPrinted++;
-        }
+        } else
+            printf("\t");
         if (currentLine == 6) {
+            if (line == 0 || line == 2 || line == 4 || line == 6) {
+                printf("\t[]\tF%d", finishesPrinted + 1);
+                finishesPrinted++;
+            }
             currentLine = 0;
             line++;
+            printf("\n");
         }
         else
             currentLine++;
-    }while (cardsPrinted!=52);
-
+    }while (cardsPrinted!=52 || finishesPrinted != 4);
 }
 
 void displayEmpty(){
