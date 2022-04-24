@@ -97,6 +97,12 @@ void exitGame(){
 }
 
 
+void updateBoard(){
+    flipTopCards();
+    //TODO Make this function
+    //MoveCardsToFoundations();
+}
+
 void processPlayerInput(char* string){
     //printf("Inputted String: %s\n", string);
 
@@ -141,6 +147,17 @@ void processPlayerInput(char* string){
 
         } else if (strcmp(initials, "Q ") == 0){
 
+        }
+    }
+}
+
+void flipTopCards(){
+    LinkedList* slots = getBoard();
+    for (int i = 0; i < 7; ++i) {
+        LinkedList currentList = slots[i];
+        Card* currentCard = currentList.head;
+        while (currentCard != NULL){
+            // TO make here
         }
     }
 }
