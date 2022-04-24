@@ -68,6 +68,7 @@ bool cardCanBePlaced(Card* cardBehind, Card* cardOntop);
 enum SUITS getCardSuit(Card* card);
 int getCardValue(Card* card);
 void flipTopCards();
+void loadDeck();
 
 
 //Interface
