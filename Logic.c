@@ -78,6 +78,11 @@ void setupBoard(){
     }
 }
 
+void saveGame(char* filename){
+    // TODO to be implemented
+    
+}
+
 void exitGame(){
     printf("\n---Exiting Game---\n");
     exit(0);

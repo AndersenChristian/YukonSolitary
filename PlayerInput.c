@@ -43,19 +43,18 @@ void showMessage(char* msg){
 
 char* getPlayerInput(){
     printf("INPUT > ");
-    scanf("%s", input);
-    printf("\n");
+    fgets (input, 100, stdin);
 }
 
 void processPlayerInput(char* string){
-    printf("Inputted String: %s\n", string);
+    //printf("Inputted String: %s\n", string);
 
     lastCommand = string;
 
     char initials[3];
     memcpy(initials, string, 2);
 
-    printf("Initials: %s\n", initials);
+    //printf("Initials: %s\n", initials);
 
 
     if (string[2] == ':'){ // Game Move
@@ -71,7 +70,8 @@ void processPlayerInput(char* string){
         } else if (strcmp(initials, "SR") == 0){
 
         } else if (strcmp(initials, "SD") == 0){
-
+            char* filename = &string[3];
+            saveGame(filename);
         } else if (strcmp(initials, "QQ") == 0){
             exitGame();
         } else if (strcmp(initials, "P ") == 0){
