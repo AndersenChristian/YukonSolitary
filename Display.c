@@ -61,5 +61,5 @@ void displayEmpty(){
 
 void displayInfolines(char* msg) {
     printf("LAST Command: %s\n", getLastCommand());
-    showMessage("OK");
+    showMessage("OK"); // TODO Change to something
 }
