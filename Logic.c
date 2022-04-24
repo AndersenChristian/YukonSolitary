@@ -66,24 +66,36 @@ void setupBoard(){
     for (int i = 0; i<7; i++){ //create the first point in the linked list
         boardSlots[i].head = ptrToCard;
         boardSlots[i].tail = ptrToCard;
+        if (i == 0)
+            ptrToCard->faceUp = true;
         ptrToCard = ptrToCard->next;
         boardSlots[i].head->next = NULL;
         boardSlots[i].head->prev = NULL;
     }
 
+
+    int cardsPerPile[] = {0,5,6,7,8,9,10};
     int currentList = 0;
-    int offset = 0;
-    for (int i = 7; i < 52; ++i) { //starts in 7, as those are the unsigned card atm.
-        Card* currentSlotsLastCard = boardSlots[currentList].tail + 1;
-        currentSlotsLastCard->next = ptrToCard;
-        ptrToCard->prev = currentSlotsLastCard;
-        boardSlots[i%7].tail = ptrToCard;
-        ptrToCard = ptrToCard->next;
-        if (i == 37 || i == 42 || i == 46 || i == 49 || i == 51 || i == 52)
-            offset++;
-        if (i == 12 || i == 18 || i == 24 || i == 30 || i == 36 || i == 41 || i == 45 || i == 48 || i == 50 || i == 51)
-            currentList = 0 + offset;
-    }
+    int amountOfCardsUsed = 7;
+    do {
+        if (cardsPerPile[currentList] != 0) {
+            Card *currentSlotsLastCard = boardSlots[currentList].tail;
+            currentSlotsLastCard->next = ptrToCard;
+            ptrToCard->prev = currentSlotsLastCard;
+            boardSlots[currentList].tail = ptrToCard;
+            if (cardsPerPile[currentList] < 6)
+                ptrToCard->faceUp = true;
+            ptrToCard = ptrToCard->next;
+            boardSlots[currentList].tail->next=NULL;
+            cardsPerPile[currentList]--;
+            amountOfCardsUsed++;
+        }
+        //ensure we get around
+        if (currentList == 6)
+            currentList = 0;
+        else
+            currentList++;
+    } while (amountOfCardsUsed != 52);
 }
 
 void saveGame(char* filename){
