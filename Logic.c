@@ -8,14 +8,6 @@
 #include <string.h>
 #include "Header.h"
 
-void setupGame() {
-    setupCards();
-    printDeck();
-    //shuffle();
-    setupBoard();
-    updateDisplay();
-}
-
 extern void playGame() {
     displayEmpty();
     do {
@@ -52,12 +44,6 @@ void shuffle() {
         cardP = card1->next;
         j++;
     }
-}
-
-void swap(Card *a, Card *b){
-    Card temp = *a;
-    *a = *b;
-    *b = temp;
 }
 
 void setupBoard(){
@@ -111,13 +97,13 @@ void exitGame(){
 
 
 void updateBoard(){
-    flipTopCards();
+    //flipTopCards();
     //TODO Make this function
     //MoveCardsToFoundations();
 }
 
 void processPlayerInput(char* string){
-    //printf("Inputted String: %s\n", string);
+    //printf("Inputted String: %s\n", string); //todo: delete after testing
 
     setLastCommand(string);
 
@@ -140,11 +126,11 @@ void processPlayerInput(char* string){
     } else {
         char initials[3];
         memcpy(initials, string, 2);
-        //printf("Initials: %s\n", initials);
+        //printf("Initials: %s\n", initials); //TODO: delete after testing
 
         // Things to process
         if (strcmp(initials, "LD") == 0){
-            if (isDeckLoaded())
+            if (!isDeckLoaded())
                 setupCards();
         } else if (strcmp(initials, "SW") == 0){
 

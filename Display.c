@@ -3,6 +3,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Header.h"
 
 void displayInfolines();
@@ -80,6 +81,9 @@ void displayEmpty(){
 }
 
 void displayInfolines(char* msg) {
-    printf("LAST Command: %s\n", getLastCommand());
-    printf("Message: not loaded");
+    printf("LAST Command: %s", getLastCommand());
+    if (getErrorMessage() == NULL || strcmp(getErrorMessage(), "") == 0) //if errormessage points to null or is empty.
+        printf("Message: OK\n");
+    else
+        printf("Message: %s\n",getErrorMessage());
 }

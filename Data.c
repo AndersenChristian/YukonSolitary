@@ -4,12 +4,14 @@
 #include "Header.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 LinkedList deck;
 struct Card* boardSlots[11];
 
-char* lastCommand = "\0";
-//char* errorMessage = "\0"; //todo remove commenting out.
+char* lastCommand = "\n";
+char* errorMessage = "\0";
 
 bool deckLoaded = false;
 bool isGameDone = false;
@@ -57,4 +59,17 @@ void setLastCommand(char* command){
 
 char* getLastCommand(){
     return lastCommand;
+}
+
+void setErrorMessage(char message[]){
+    errorMessage = malloc(sizeof(&message));
+    strcpy(errorMessage, message);
+}
+
+char* getErrorMessage(){
+    return errorMessage;
+}
+
+void resetErrorMessage(){
+
 }

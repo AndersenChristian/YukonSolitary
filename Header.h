@@ -37,8 +37,7 @@ void moveCardToStack(Card* cardToMove, Card* destination);
 
 
 //global variables
-#define DECK_SIZE 52+11 //the 11 are dummies for linked lists
-extern char errorMessage[100]; //todo remove
+#define DECK_SIZE (52+11) //the 11 are dummies for linked lists
 
 
 //Methods
@@ -52,6 +51,9 @@ void printDeck();
 bool isGameWon();
 void setLastCommand(char* command);
 char* getLastCommand();
+void setErrorMessage();
+char* getErrorMessage();
+void resetErrorMessage();
 
 
 //Logic
@@ -59,7 +61,6 @@ void setupGame();
 void playGame();
 bool winCondition();
 void shuffle();
-void swap(Card*, Card*);
 void setupBoard();
 void updateBoard();
 void saveGame(char* filename);
