@@ -161,7 +161,7 @@ void flipTopCards(){
         }
     }
 }
-
+/*
 void attemptCardMove(char* columnFrom, Card* card, char* columnDest){
     // Find card in from-column
     LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
@@ -210,6 +210,7 @@ bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
     }
     return false;
 }
+ */
 
 int getCardValue(Card* card){
     switch (card->name[0]) {
@@ -228,7 +229,7 @@ int getCardValue(Card* card){
         case 'K': return 13;
     }
 }
-
+/*
 enum SUITS getCardSuit(Card* card){
     switch (card->name[1]) {
         case 'S': return S;
@@ -238,3 +239,4 @@ enum SUITS getCardSuit(Card* card){
 
     }
 }
+ */

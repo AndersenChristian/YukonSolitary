@@ -49,6 +49,10 @@ bool isDeckLoaded(){
     return deckLoaded;
 }
 
+void setIsDeckLoaded(bool flag){
+    deckLoaded = flag;
+}
+
 bool isGameWon(){
     return isGameDone;
 }
