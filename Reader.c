@@ -30,32 +30,30 @@ void setupCards(){
         setIsDeckLoaded(true);
 }
 
-bool validateDeck(){
-    CARD_SUITS suit;
-    CARD_VALUES cardValue;
-    printf("%d",cardValue);
-    Card* nextCard = getDeck()->head;
-    bool flag;
+bool validateDeck() {
+    Card *nextCard;
+    bool flag = true;
 
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 13; ++j) {
+    for (int i = 0; i < 4; ++i) { //goes through all suits
+        for (int j = 0; j < 13; ++j) { //goes through all card values
+            if (!flag) {
+                setErrorMessage("Card is missing");
+                return false;
+            }
+            nextCard = getDeck()->head;
             flag = false;
             do {
-                cardValue = A;
-                cardValue = (int) 'A';
-                char c = (char) 'A';
-                cardValue = (int) nextCard->name[0];
-                suit = nextCard->name[1];
-                printf("%d%d", cardValue, suit);
-                //if ((enum CARD_VALUES) nextCard->name[0] == j && (enum CARD_SUITS) nextCard->name[1] == i) {
+                if (getCardSuit(nextCard) == i && getCardValue(nextCard) == j+1) {
                     if (flag) {
-                        //set error message
+                        setErrorMessage("Same card exist twice");
                         return false; //break the code
                     }
                     flag = true;
-                //}
+                    }
+                if(nextCard->next == NULL)
+                    break;
                 nextCard = nextCard->next;
-            } while (nextCard->next != NULL);
+            }while (1);
         }
     }
 }

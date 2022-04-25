@@ -229,8 +229,8 @@ int getCardValue(Card* card){
         case 'K': return 13;
     }
 }
-/*
-enum SUITS getCardSuit(Card* card){
+
+CARD_SUITS getCardSuit(Card* card){
     switch (card->name[1]) {
         case 'S': return S;
         case 'D': return D;
@@ -239,4 +239,3 @@ enum SUITS getCardSuit(Card* card){
 
     }
 }
- */
