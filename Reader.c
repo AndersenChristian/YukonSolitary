@@ -26,8 +26,10 @@ void setupCards(){
     }
     fclose(cardFile);
 
-    if (validateDeck()) //check if the deck has all the cards necessary.
+    if (validateDeck()) { //check if the deck has all the cards necessary.
         setIsDeckLoaded(true);
+        setErrorMessage("Deck loaded correct");
+    }
 }
 
 bool validateDeck() {
@@ -56,4 +58,5 @@ bool validateDeck() {
             }while (1);
         }
     }
+    return true;
 }
