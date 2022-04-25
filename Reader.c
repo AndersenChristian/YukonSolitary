@@ -12,8 +12,12 @@ char* token;
 void setupCards(){
     if (getLastCommand()[2] != 32)
         cardFile = fopen("..\\Cards.txt","r");
-    else
-        cardFile = fopen((getLastCommand()+3),"r");
+    else {
+        //TODO working on string fixing for file pathing.
+        token = getLastCommand() + 3;
+        token[strcspn(token, "\n")] = 0;
+        cardFile = fopen((token), "r");
+    }
     if (cardFile == NULL) {
         setErrorMessage("the file does not exist");
         return;
