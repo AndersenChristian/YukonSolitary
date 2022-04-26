@@ -173,6 +173,7 @@ void processPlayerInput(char* string){
                 saveGame("CurrentSeed.txt"); //saves the current card setup.
                 setupBoard();
                 setGameStarted(true);
+                setErrorMessage("OK");
             }else{
                 setErrorMessage("Must load a deck, before you can start the game");
             }
