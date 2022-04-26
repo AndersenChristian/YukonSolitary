@@ -64,7 +64,7 @@ void setupCards(){
 bool validateDeck() {
     Card *nextCard;
     bool flag = true;
-    int cardsChecked = 0;
+    int cardsChecked;
 
     for (int i = 0; i < 4; ++i) {       //goes through all suits
         for (int j = 0; j < 13; ++j) {  //goes through all card values
@@ -72,6 +72,7 @@ bool validateDeck() {
                 setErrorMessage("Card is missing");
                 return false;
             }
+            cardsChecked = 0;
             nextCard = getDeck()->head; //gets the first card in the deck.
             flag = false;
             do {
