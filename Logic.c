@@ -281,7 +281,19 @@ CARD_SUITS getCardSuit(Card* card){
 void deAllocateMalloc(){
     Card* card;
     if(hasGameStarted()){
-        printf("need to be implemented");
+        for (int i = 0; i < 11; ++i) {
+            if (getBoard()[i].head == NULL) //ensures that there are any cards in the LinkedList
+                break;
+            card = getBoard()[i].head;
+            do{
+                if(card->next == NULL){
+                    free(card);
+                    break;
+                }
+                card = card->next;
+                free(card->prev);
+            }while(1);
+        }
     }else{
         card = getDeck()->head->next;
         while (true){
