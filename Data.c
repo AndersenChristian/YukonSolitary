@@ -87,7 +87,3 @@ bool hasGameStarted(){
 void setGameStarted(bool flag){
     gameStarted = flag;
 }
-
-bool getGameStarted(){
-    return gameStarted;
-}

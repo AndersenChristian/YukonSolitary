@@ -167,11 +167,12 @@ void processPlayerInput(char* string){
             printf("\n---Exiting Game---\n");
             exit(0);
         } else if (strcmp(initials, "P\n") == 0){
-            if(getGameStarted())
+            if(hasGameStarted())
                 setErrorMessage("Game already in progress");
             else if(isDeckLoaded()) {
                 saveGame("CurrentSeed.txt"); //saves the current card setup.
                 setupBoard();
+                setGameStarted(true);
             }else{
                 setErrorMessage("Must load a deck, before you can start the game");
             }
@@ -279,7 +280,7 @@ CARD_SUITS getCardSuit(Card* card){
 
 void deAllocateMalloc(){
     Card* card;
-    if(getGameStarted()){
+    if(hasGameStarted()){
         printf("need to be implemented");
     }else{
         card = getDeck()->head->next;

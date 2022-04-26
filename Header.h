@@ -57,7 +57,6 @@ void resetErrorMessage();
 void setIsDeckLoaded(bool);
 bool hasGameStarted();
 void setGameStarted(bool);
-bool getGameStarted();
 
 
 //Logic
