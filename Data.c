@@ -68,10 +68,6 @@ char* getLastCommand(){
 }
 
 void setErrorMessage(char message[]){
-    if (errorMessage != NULL){
-        free(errorMessage);
-        errorMessage = NULL;
-    }
     errorMessage = malloc(sizeof(&message));
     strcpy(errorMessage, message);
 }
