@@ -79,6 +79,7 @@ void loadDeck();
 void updateDisplay();
 void displayEmpty();
 void displayInfolines();
+void defaultDisplay();
 
 //Reader
 void setupCards();

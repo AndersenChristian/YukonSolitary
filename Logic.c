@@ -9,11 +9,11 @@
 #include "Header.h"
 
 extern void playGame() {
-    displayEmpty();
+    updateDisplay();
     do {
         processPlayerInput(getPlayerInput());
         updateBoard();
-        displayEmpty(); // TODO is just display
+        updateDisplay();
     }while(!isGameWon());
 }
 
@@ -132,6 +132,8 @@ void processPlayerInput(char* string){
         if (strcmp(initials, "LD") == 0){
             if (!isDeckLoaded())
                 setupCards();
+            else
+                setErrorMessage("Deck already loaded");
         } else if (strcmp(initials, "SW") == 0){
 
         } else if (strcmp(initials, "SI") == 0){

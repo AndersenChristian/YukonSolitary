@@ -9,11 +9,56 @@
 void displayInfolines();
 
 void updateDisplay(){
-    for (int i = 0; i < 7; ++i) {
-        printf("C%d\t",i+1);
-    }
-    printf("\n\n");
+    printf("\nC1\tC2\tC3\tC4\tC5\tC6\tC7\n\n"); //always the first line we need printed
+    if (!isDeckLoaded())
+        displayEmpty();
+    else
+        defaultDisplay();
 
+    displayInfolines();
+}
+
+void displayEmpty(){
+    int count = 1;
+    for (int i = 0; i < 7; ++i) {
+        if (i%2 == 0) {
+            for (int j = 0; j <8; ++j) {
+                printf("\t");
+            }
+            printf("[]\tF%d\n",count);
+            count++;
+        }else {
+            printf("\n");
+        }
+    }
+}
+
+void defaultDisplay(){
+    int cardPrinted = 0;
+    int foundationsPrinted = 0;
+    int lineOn = 1;
+    Card* currentCard = getDeck()->head;
+    do{
+        if (currentCard->faceUp || strcmp(getLastCommand(), "SW\n") == 0 )
+            printf("%s\t",currentCard->name);
+        else
+            printf("[]\t");
+        if ((cardPrinted +1) % 7 == 0){
+            if (foundationsPrinted != 4 && lineOn%2 == 1) {
+                printf("\t[]\tF%d", foundationsPrinted + 1);
+                foundationsPrinted++;
+            }
+            printf("\n");
+            lineOn++;
+        }
+        cardPrinted++;
+        if (currentCard->next != NULL)
+            currentCard = currentCard->next;
+    }while (cardPrinted != 52 || foundationsPrinted != 4);
+    printf("\n");
+}
+
+void gameDisplay(){
     Card* currentCard;
     int cardsPrinted = 0;
     int currentLine = 0;
@@ -55,32 +100,9 @@ void updateDisplay(){
         else
             currentLine++;
     }while (cardsPrinted!=52 || finishesPrinted != 4);
-    displayInfolines();
 }
 
-void displayEmpty(){
-    //system("cls");
-    for (int i = 0; i < 7; ++i) {
-        printf("C%d\t",i+1);
-    }
-    printf("\n\n");
-
-    int count = 1;
-    for (int i = 0; i < 7; ++i) {
-        if (i%2 == 0) {
-            for (int j = 0; j <8; ++j) {
-                printf("\t");
-            }
-            printf("[]\tF%d\n",count);
-            count++;
-        }else {
-            printf("\n");
-        }
-    }
-    displayInfolines();
-}
-
-void displayInfolines(char* msg) {
+void displayInfolines() {
     printf("LAST Command: %s", getLastCommand());
     if (getErrorMessage() == NULL || strcmp(getErrorMessage(), "") == 0) //if errormessage points to null or is empty.
         printf("Message: OK\n");
