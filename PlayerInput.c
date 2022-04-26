@@ -7,16 +7,12 @@
 #include <stdio.h>
 
 
-char input[200];
-
-void showMessage(char* msg){
-    printf("Message: %s\n", msg);
-}
+char input[255];
 
 char* getPlayerInput(){
     printf("INPUT > ");
     fflush(stdin);
-    fgets (input, 100, stdin);
+    fgets (input, 255, stdin);
     return input;
 }
 

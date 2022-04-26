@@ -8,6 +8,9 @@
 #include <string.h>
 #include "Header.h"
 
+/**
+ *
+ */
 extern void playGame() {
     updateDisplay();
     do {
@@ -17,11 +20,20 @@ extern void playGame() {
     }while(!isGameWon());
 }
 
+/**
+ *
+ * @return
+ */
 bool winCondition(){
     //todo test for win condition
 }
 
-void shuffle() { //TODO redo with task described setup.
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * Shuffle the car
+ */
+void shuffle() {
     LinkedList* deck = getDeck();       //gets a pointer to the current LinkedList
     Card* nextCard = deck->head->next;  //keeps a track of the remaining card we need to shuffle into the LinkedList
     int cardInList = 1;                 //keep a track of how many cards is currently in the new LinkedList
@@ -69,7 +81,9 @@ void shuffle() { //TODO redo with task described setup.
     }while(cardInList != 52);      //ensures that we put all cards into the new LinkedList
 
 }
-
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ */
 void setupBoard(){
     Card * ptrToCard = getDeck()->head;
     LinkedList* boardSlots = getBoard();
@@ -108,6 +122,13 @@ void setupBoard(){
     } while (amountOfCardsUsed != 52);
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * Gets a String containing the name of the .txt file
+ *
+ * @param filename gets the name of the file, including the type. limited to only accept .txt files
+ */
 void saveGame(char* filename){
     FILE *fp;
     if(strcspn(filename,".txt") == strlen(filename)){
@@ -161,7 +182,6 @@ void processPlayerInput(char* string){
     } else {
         char initials[3];
         memcpy(initials, string, 2);
-        //printf("Initials: %s\n", initials); //TODO: delete after testing
 
         // Things to process
         if (strcmp(initials, "LD") == 0){
@@ -171,10 +191,17 @@ void processPlayerInput(char* string){
                 setErrorMessage("Deck already loaded");
         } else if (strcmp(initials, "SW") == 0){
             //All functionality of this one is programmed into the display.
+            setErrorMessage("OK");
         } else if (strcmp(initials, "SI") == 0){
 
         } else if (strcmp(initials, "SR") == 0){
-            shuffle();
+            if (isDeckLoaded()) {
+                shuffle();
+                setErrorMessage("OK");
+            } else {
+                setErrorMessage("You must load a deck before shuffeling");
+            }
+
         } else if (strcmp(initials, "SD") == 0){
             if (isDeckLoaded()) {
                 if(strlen(string) > 3) {
@@ -190,7 +217,10 @@ void processPlayerInput(char* string){
                 deAllocateMalloc();
             printf("\n---Exiting Game---\n");
             exit(0);
-        } else if (strcmp(initials, "P\n") == 0){
+
+        // if a deck is loaded and the game is not already in progress, this will build our 11 LinkedList
+        // for the board, and update the game state.
+        }else if (strcmp(initials, "P\n") == 0){
             if(hasGameStarted())
                 setErrorMessage("Game already in progress");
             else if(isDeckLoaded()) {
@@ -201,17 +231,22 @@ void processPlayerInput(char* string){
             }else{
                 setErrorMessage("Must load a deck, before you can start the game");
             }
+
+        // If the game is running, this will reverse the gamestate, and load the card into a single LinkedList
+        // with the same setup as before the game started.
         } else if (strcmp(initials, "Q\n") == 0){
-            if (hasGameStarted()) {
+            if (hasGameStarted()) {                                 //ensures that a game is in progress.
                 setErrorMessage("OK");
-                deAllocateMalloc(); //removes the current card.
-                setLastCommand("LD ../CurrentSeed.txt");
-                setupCards();
-                setLastCommand("Q\n");
+                deAllocateMalloc();                                 //removes the current card, and free the memory.
+                setLastCommand("LD ../CurrentSeed.txt");   //The last command is where the setupCards get the filePath.
+                setupCards();                                       //Setup 1 LinkedList containing the cards from CurrentSeed.txt
+                setLastCommand("Q\n");                     //reverse the LastCommand for proper showing
                 setGameStarted(false);
             }
             else
                 setErrorMessage("Game not started");
+
+        //the default if everything else fails.
         } else {
             setErrorMessage("Invalid command, try again");
         }
@@ -303,17 +338,28 @@ CARD_SUITS getCardSuit(Card* card){
         case 'D': return D;
         case 'H': return H;
         case 'C': return C;
-
     }
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * This method is used to free the memory used by malloc.
+ * It's seperated into 2 section.
+ *
+ * First section is if the game has started. In that case, the references to the cards can be found in the
+ * LinkedList array called boardSlots, and we will iterate through each of those list to free all Cards.
+ *
+ * Second is if cards have been loaded, but haven't been split into the smaller LinkedList.
+ * In that case, all the references can be found in the LinkedList deck, and we iterate through that one, until all have been removed.
+*/
 void deAllocateMalloc(){
     Card* card;
-    if(hasGameStarted()){
+    if(hasGameStarted()){                   //If the game has started the cards pointers are in the 11 LinkedList,
         for (int i = 0; i < 11; ++i) {
             if (getBoard()[i].head == NULL) //ensures that there are any cards in the LinkedList
                 break;
-            card = getBoard()[i].head;
+            card = getBoard()[i].head;      //gets the first Card of the LinkedList
             do{
                 if(card->next == NULL){
                     free(card);

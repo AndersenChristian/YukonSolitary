@@ -11,11 +11,11 @@ LinkedList deck;
 LinkedList boardSlots[11];
 
 char* lastCommand = "\n";
-char* errorMessage;
+char errorMessage[50]; //set by the various methods of the program to proper display if anything goes wrong.
 
+//the following boolean values are used to keep a track of the current game-state
 bool deckLoaded = false;
 bool isGameDone = false;
-bool deckShuffled = false;
 bool gameStarted = false;
 
 void initDeck() {
@@ -68,7 +68,6 @@ char* getLastCommand(){
 }
 
 void setErrorMessage(char message[]){
-    errorMessage = malloc(sizeof(&message));
     strcpy(errorMessage, message);
 }
 

@@ -9,23 +9,38 @@ char buffer[5];
 FILE *cardFile;
 char* token;
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * This method loads in a deck of playing cards from a file.
+ *
+ * If the player doesn't give a filename, the default file Cards.txt will be used.
+ *
+ * else, it will try and read the file with the name and path given.
+ *
+ * This method will fail if only a name is given. If the file is saved within the root
+ * of this program, the format must be ../<filename>
+ * If in doubt use absolute path
+ *
+ * (note) some OS accept '\\' but this can cause issues.
+ */
 void setupCards(){
-    if (getLastCommand()[2] != 32)
+    if (getLastCommand()[2] != 32) //checks if the 3 char in the string is an empty space.
         cardFile = fopen("..\\Cards.txt","r");
     else {
-        token = getLastCommand() + 3;
-        if(!(strcspn(token,"\n") == strlen(token)))
+        token = getLastCommand() + 3; //gets the string that start after the empty space.
+        if(!(strcspn(token,"\n") == strlen(token))) //checks if there is a /n in the end of the string and removes it.
             token[strcspn(token, "\n")] = 0;
         cardFile = fopen((token), "r");
     }
-    if (cardFile == NULL) {
+    if (cardFile == NULL) { //If the file we are trying to read doesn't exist, fopen will return NULL
         setErrorMessage("the file does not exist");
         return;
     }
-    initDeck();
+    initDeck(); //creates the deck for the cards to be put into.
     for (int i = 0; i < 52; ++i) {
         if (fgets(buffer, 10, cardFile)){
-            pushCardToDeck((char *) buffer);
+            pushCardToDeck((char *) buffer); //setup the card one by one.
         }
     }
     fclose(cardFile);
@@ -33,15 +48,25 @@ void setupCards(){
     if (validateDeck()) { //check if the deck has all the cards necessary.
         setIsDeckLoaded(true);
         setErrorMessage("Deck loaded correct");
+    } else {
+        deAllocateMalloc(); //if the validation fails, we remove our mem allocation.
     }
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * We goes through each suit, and in each suit we iterate through each cardValue from ace to king.
+ * If it doesn't find the card, or finds the cards twice, it will stop and return an error code.
+ *
+ * @return whether or not the file contains exactly 1 of each playing card.
+ */
 bool validateDeck() {
     Card *nextCard;
     bool flag = true;
 
-    for (int i = 0; i < 4; ++i) { //goes through all suits
-        for (int j = 0; j < 13; ++j) { //goes through all card values
+    for (int i = 0; i < 4; ++i) {       //goes through all suits
+        for (int j = 0; j < 13; ++j) {  //goes through all card values
             if (!flag) {
                 setErrorMessage("Card is missing");
                 return false;
