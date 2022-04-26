@@ -57,6 +57,7 @@ void resetErrorMessage();
 void setIsDeckLoaded(bool);
 bool hasGameStarted();
 void setGameStarted(bool);
+bool getGameStarted();
 
 
 //Logic
@@ -75,10 +76,12 @@ CARD_SUITS getCardSuit(Card* card);
 int getCardValue(Card* card);
 void flipTopCards();
 void loadDeck();
+void deAllocateMalloc();
 
 
 //Interface
 void updateDisplay();
+void gameDisplay();
 void displayEmpty();
 void displayInfolines();
 void defaultDisplay();

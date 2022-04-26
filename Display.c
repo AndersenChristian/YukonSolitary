@@ -10,7 +10,9 @@ void displayInfolines();
 
 void updateDisplay(){
     printf("\nC1\tC2\tC3\tC4\tC5\tC6\tC7\n\n"); //always the first line we need printed
-    if (!isDeckLoaded())
+    if (hasGameStarted())
+        gameDisplay();
+    else if(!isDeckLoaded())
         displayEmpty();
     else
         defaultDisplay();

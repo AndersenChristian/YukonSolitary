@@ -60,7 +60,6 @@ void setupBoard(){
         boardSlots[i].head->prev = NULL;
     }
 
-
     int cardsPerPile[] = {0,5,6,7,8,9,10};
     int currentList = 0;
     int amountOfCardsUsed = 7;
@@ -91,7 +90,10 @@ void saveGame(char* filename){
         setErrorMessage("Wrong file type");
         return;
     }
-    fp = fopen ("..\\currentSeed.txt", "w");
+    char filePath[100] = "../";
+    strcat(filePath,filename);
+    filePath[strcspn(filePath,"\n")]=0;
+    fp = fopen (filePath, "w");
     if (getDeck()->head != NULL){
         Card* card = getDeck()->head;
         fputs(card->name, fp);
@@ -102,15 +104,8 @@ void saveGame(char* filename){
             fputs("\n",fp);
         }
     }
-        fclose(fp);
-
+    fclose(fp);
 }
-
-void exitGame(){
-    printf("\n---Exiting Game---\n");
-    exit(0);
-}
-
 
 void updateBoard(){
     //flipTopCards();
@@ -167,15 +162,20 @@ void processPlayerInput(char* string){
                 setErrorMessage("You must first load i file to save it");
         } else if (strcmp(initials, "QQ") == 0){
             remove("..\\CurrentSeed.txt");
-            exitGame();
+            deAllocateMalloc();
+            printf("\n---Exiting Game---\n");
+            exit(0);
         } else if (strcmp(initials, "P\n") == 0){
-            if(isDeckLoaded()) {
-                saveGame("CurrentSeed.txt");
+            if(getGameStarted())
+                setErrorMessage("Game already in progress");
+            else if(isDeckLoaded()) {
+                saveGame("CurrentSeed.txt"); //saves the current card setup.
+                setupBoard();
             }else{
                 setErrorMessage("Must load a deck, before you can start the game");
             }
         } else if (strcmp(initials, "Q\n") == 0){
-            if (hasGameStarted) {
+            if (hasGameStarted()) {
                 setGameStarted(false);
                 setErrorMessage("OK");
             }
@@ -184,7 +184,7 @@ void processPlayerInput(char* string){
         }
     }
 }
-
+/*
 void flipTopCards(){
     LinkedList* slots = getBoard();
     for (int i = 0; i < 7; ++i) {
@@ -195,7 +195,7 @@ void flipTopCards(){
         }
     }
 }
-/*
+
 void attemptCardMove(char* columnFrom, Card* card, char* columnDest){
     // Find card in from-column
     LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
@@ -271,5 +271,22 @@ CARD_SUITS getCardSuit(Card* card){
         case 'H': return H;
         case 'C': return C;
 
+    }
+}
+
+void deAllocateMalloc(){
+    Card* card;
+    if(getGameStarted()){
+        printf("need to be implemented");
+    }else{
+        card = getDeck()->head->next;
+        while (true){
+            free(card->prev);
+            if(card->next == NULL){
+                free(card);
+                break;
+            }
+            card = card->next;
+        }
     }
 }

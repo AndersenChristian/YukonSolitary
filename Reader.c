@@ -13,7 +13,6 @@ void setupCards(){
     if (getLastCommand()[2] != 32)
         cardFile = fopen("..\\Cards.txt","r");
     else {
-        //TODO working on string fixing for file pathing.
         token = getLastCommand() + 3;
         token[strcspn(token, "\n")] = 0;
         cardFile = fopen((token), "r");
