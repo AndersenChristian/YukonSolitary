@@ -162,7 +162,8 @@ void processPlayerInput(char* string){
                 setErrorMessage("You must first load i file to save it");
         } else if (strcmp(initials, "QQ") == 0){
             remove("..\\CurrentSeed.txt");
-            deAllocateMalloc();
+            if(isDeckLoaded())
+                deAllocateMalloc();
             printf("\n---Exiting Game---\n");
             exit(0);
         } else if (strcmp(initials, "P\n") == 0){
@@ -181,6 +182,8 @@ void processPlayerInput(char* string){
             }
             else
                 setErrorMessage("Game not started");
+        } else {
+            setErrorMessage("Invalid command, try again");
         }
     }
 }

@@ -8,10 +8,10 @@
 #include <string.h>
 
 LinkedList deck;
-struct Card* boardSlots[11];
+LinkedList boardSlots[11];
 
 char* lastCommand = "\n";
-char* errorMessage = "\0";
+char* errorMessage;
 
 bool deckLoaded = false;
 bool isGameDone = false;
@@ -40,7 +40,7 @@ LinkedList* getDeck(){
 }
 
 LinkedList* getBoard(){
-    return (LinkedList *) boardSlots;
+    return boardSlots;
 }
 
 void printDeck(){
@@ -68,6 +68,10 @@ char* getLastCommand(){
 }
 
 void setErrorMessage(char message[]){
+    if (errorMessage != NULL){
+        free(errorMessage);
+        errorMessage = NULL;
+    }
     errorMessage = malloc(sizeof(&message));
     strcpy(errorMessage, message);
 }
