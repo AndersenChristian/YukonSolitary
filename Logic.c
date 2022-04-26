@@ -22,28 +22,52 @@ bool winCondition(){
 }
 
 void shuffle() { //TODO redo with task described setup.
-    LinkedList deck = *getDeck();
-    Card *cardH = deck.head;
-    Card *cardN = cardH->next;
-    Card *card1 = cardH;
-    Card *cardP = cardH;
-    int j = 0;
-    srand(time(NULL));
-    while (j < 10000){
-        int randomNumber = (rand()%52)+1;
-        for (int i = 0; i <= randomNumber; ++i) {
-            card1 = card1->next;
-        }
-        cardP->prev = cardH;
-        cardH->prev = card1;
-        cardH->next->prev = NULL;
+    LinkedList* deck = getDeck();       //gets a pointer to the current LinkedList
+    Card* nextCard = deck->head->next;  //keeps a track of the remaining card we need to shuffle into the LinkedList
+    int cardInList = 1;                 //keep a track of how many cards is currently in the new LinkedList
 
-        deck.head = cardN;
-        cardH->next = cardP;
-        card1->next = cardH;
-        cardP = card1->next;
-        j++;
-    }
+    //removes all the card except the first from the LinkedList, and ensure all pointers are correct.
+    deck->tail = deck->head;
+    deck->head->next = NULL;
+    deck->head->prev = NULL;
+
+    //Create a random generator to decide where to put the card
+    srand(time(NULL));
+    int randomNumber;
+    Card* cardForNextItteration;
+
+    do{
+        randomNumber = rand()%(cardInList + 1); //generates a random number between 0 and the number of cards in list
+        if(nextCard->next != NULL) {
+            cardForNextItteration = nextCard->next; //pointer to the next card to ensure we don't lose it.
+        }
+        if (randomNumber == 0) {                //If the random number is 0, we have to set a new head of the LinkedList
+            deck->head->prev = nextCard;
+            nextCard->next = deck->head;
+            nextCard->prev = NULL;
+            deck->head = nextCard;
+        } else{
+            Card* tempCard = deck->head;
+            while (randomNumber != 1){
+                tempCard = tempCard ->next;         //Finds the card that should be after the one we are trying to place
+                randomNumber--;
+            }
+            if(tempCard->next == NULL){         //If this is true, the new card must be the new tail of the LinkedList
+                deck->tail = nextCard;
+                nextCard->next = NULL;
+                tempCard->next = nextCard;
+                nextCard->prev = tempCard;
+            }else{
+                nextCard->next = tempCard->next;
+                nextCard->next->prev = nextCard;
+                tempCard->next = nextCard;
+                nextCard->prev = tempCard;
+            }
+        }
+        nextCard = cardForNextItteration; //Updates the card we are trying to place
+        cardInList++;
+    }while(cardInList != 52);      //ensures that we put all cards into the new LinkedList
+
 }
 
 void setupBoard(){
@@ -146,11 +170,11 @@ void processPlayerInput(char* string){
             else
                 setErrorMessage("Deck already loaded");
         } else if (strcmp(initials, "SW") == 0){
-
+            //All functionality of this one is programmed into the display.
         } else if (strcmp(initials, "SI") == 0){
 
         } else if (strcmp(initials, "SR") == 0){
-
+            shuffle();
         } else if (strcmp(initials, "SD") == 0){
             if (isDeckLoaded()) {
                 if(strlen(string) > 3) {
