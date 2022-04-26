@@ -87,6 +87,10 @@ void setupBoard(){
 
 void saveGame(char* filename){
     FILE *fp;
+    if(strcspn(filename,".txt") == strlen(filename)){
+        setErrorMessage("Wrong file type");
+        return;
+    }
     fp = fopen ("..\\currentSeed.txt", "w");
     if (getDeck()->head != NULL){
         Card* card = getDeck()->head;
@@ -154,8 +158,11 @@ void processPlayerInput(char* string){
 
         } else if (strcmp(initials, "SD") == 0){
             if (isDeckLoaded()) {
-                char *filename = &string[3];
-                saveGame(filename);
+                if(strlen(string) > 3) {
+                    char *filename = &string[3];
+                    saveGame(filename);
+                } else
+                    setErrorMessage("You must choose a file name");
             }else
                 setErrorMessage("You must first load i file to save it");
         } else if (strcmp(initials, "QQ") == 0){

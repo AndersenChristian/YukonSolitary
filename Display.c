@@ -108,4 +108,5 @@ void displayInfolines() {
         printf("Message: OK\n");
     else
         printf("Message: %s\n",getErrorMessage());
+    setErrorMessage("");
 }
