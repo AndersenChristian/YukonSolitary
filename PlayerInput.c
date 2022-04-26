@@ -15,6 +15,7 @@ void showMessage(char* msg){
 
 char* getPlayerInput(){
     printf("INPUT > ");
+    fflush(stdin);
     fgets (input, 100, stdin);
     return input;
 }

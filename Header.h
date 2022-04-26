@@ -51,10 +51,12 @@ void printDeck();
 bool isGameWon();
 void setLastCommand(char* command);
 char* getLastCommand();
-void setErrorMessage();
+void setErrorMessage(char[]);
 char* getErrorMessage();
 void resetErrorMessage();
 void setIsDeckLoaded(bool);
+bool hasGameStarted();
+void setGameStarted(bool);
 
 
 //Logic

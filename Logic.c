@@ -21,7 +21,7 @@ bool winCondition(){
     //todo test for win condition
 }
 
-void shuffle() {
+void shuffle() { //TODO redo with task described setup.
     LinkedList deck = *getDeck();
     Card *cardH = deck.head;
     Card *cardN = cardH->next;
@@ -86,7 +86,19 @@ void setupBoard(){
 }
 
 void saveGame(char* filename){
-    // TODO to be implemented
+    FILE *fp;
+    fp = fopen ("..\\currentSeed.txt", "w");
+    if (getDeck()->head != NULL){
+        Card* card = getDeck()->head;
+        fputs(card->name, fp);
+        fputs("\n",fp);
+        while(card->next != NULL){
+            card = card->next;
+            fputs(card->name, fp);
+            fputs("\n",fp);
+        }
+    }
+        fclose(fp);
 
 }
 
@@ -141,14 +153,27 @@ void processPlayerInput(char* string){
         } else if (strcmp(initials, "SR") == 0){
 
         } else if (strcmp(initials, "SD") == 0){
-            char* filename = &string[3];
-            saveGame(filename);
+            if (isDeckLoaded()) {
+                char *filename = &string[3];
+                saveGame(filename);
+            }else
+                setErrorMessage("You must first load i file to save it");
         } else if (strcmp(initials, "QQ") == 0){
+            remove("..\\CurrentSeed.txt");
             exitGame();
-        } else if (strcmp(initials, "P ") == 0){
-
-        } else if (strcmp(initials, "Q ") == 0){
-
+        } else if (strcmp(initials, "P\n") == 0){
+            if(isDeckLoaded()) {
+                saveGame("CurrentSeed.txt");
+            }else{
+                setErrorMessage("Must load a deck, before you can start the game");
+            }
+        } else if (strcmp(initials, "Q\n") == 0){
+            if (hasGameStarted) {
+                setGameStarted(false);
+                setErrorMessage("OK");
+            }
+            else
+                setErrorMessage("Game not started");
         }
     }
 }

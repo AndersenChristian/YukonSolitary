@@ -15,6 +15,8 @@ char* errorMessage = "\0";
 
 bool deckLoaded = false;
 bool isGameDone = false;
+bool deckShuffled = false;
+bool gameStarted = false;
 
 void initDeck() {
     deck.length = 0;
@@ -74,6 +76,10 @@ char* getErrorMessage(){
     return errorMessage;
 }
 
-void resetErrorMessage(){
+bool hasGameStarted(){
+    return gameStarted;
+}
 
+void setGameStarted(bool flag){
+    gameStarted = flag;
 }
