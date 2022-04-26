@@ -14,7 +14,8 @@ void setupCards(){
         cardFile = fopen("..\\Cards.txt","r");
     else {
         token = getLastCommand() + 3;
-        token[strcspn(token, "\n")] = 0;
+        if(!(strcspn(token,"\n") == strlen(token)))
+            token[strcspn(token, "\n")] = 0;
         cardFile = fopen((token), "r");
     }
     if (cardFile == NULL) {

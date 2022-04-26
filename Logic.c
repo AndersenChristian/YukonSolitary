@@ -178,8 +178,12 @@ void processPlayerInput(char* string){
             }
         } else if (strcmp(initials, "Q\n") == 0){
             if (hasGameStarted()) {
-                setGameStarted(false);
                 setErrorMessage("OK");
+                deAllocateMalloc(); //removes the current card.
+                setLastCommand("LD ../CurrentSeed.txt");
+                setupCards();
+                setLastCommand("Q\n");
+                setGameStarted(false);
             }
             else
                 setErrorMessage("Game not started");
