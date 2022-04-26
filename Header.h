@@ -11,9 +11,7 @@
 typedef struct Card Card;
 typedef struct LinkedList LinkedList;
 
-//enum INPUT{LD,SW,SI,SR,SD,QQ,P,Q}; //TODO might need to be deleted
 typedef enum {C = 0, D, H, S} CARD_SUITS;
-typedef enum {A = 1, T = 10, J = 11, Q = 12, K = 13} CARD_VALUES;
 
 // --- Structs ---
 struct Card {
@@ -37,7 +35,7 @@ void moveCardToStack(Card* cardToMove, Card* destination);
 
 
 //global variables
-#define DECK_SIZE (52+11) //the 11 are dummies for linked lists
+#define DECK_SIZE (52)
 
 
 //Methods

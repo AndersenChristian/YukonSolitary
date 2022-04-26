@@ -7,7 +7,7 @@
 
 char buffer[5];
 FILE *cardFile;
-char* token;
+char* token; //token is used to do some string manipulation, and remove unwanted chars in the beginning.
 
 /**
  * Author: Christian J. L. Andersen (S133288)
@@ -38,7 +38,7 @@ void setupCards(){
         return;
     }
     initDeck(); //creates the deck for the cards to be put into.
-    for (int i = 0; i < 52; ++i) {
+    for (int i = 0; i < DECK_SIZE; ++i) {
         if (fgets(buffer, 10, cardFile)){
             pushCardToDeck((char *) buffer); //setup the card one by one.
         }
@@ -64,28 +64,35 @@ void setupCards(){
 bool validateDeck() {
     Card *nextCard;
     bool flag = true;
+    int cardsChecked = 0;
 
     for (int i = 0; i < 4; ++i) {       //goes through all suits
         for (int j = 0; j < 13; ++j) {  //goes through all card values
-            if (!flag) {
+            if (!flag) { //If we get here and flag is false, we have iterated through all cards without finding the one we are looking for.
                 setErrorMessage("Card is missing");
                 return false;
             }
-            nextCard = getDeck()->head;
+            nextCard = getDeck()->head; //gets the first card in the deck.
             flag = false;
             do {
-                if (getCardSuit(nextCard) == i && getCardValue(nextCard) == j+1) {
-                    if (flag) {
+                if (getCardSuit(nextCard) == i && getCardValue(nextCard) == j+1) { //check if the suit and value equils the card we are looking for.
+                    if (flag) { //if we have a match, and flag is already true, we have found the same card twice.
                         setErrorMessage("Same card exist twice");
                         return false; //break the code
                     }
                     flag = true;
                     }
-                if(nextCard->next == NULL)
+                cardsChecked++;
+                if(nextCard->next == NULL){ //this goes through when we have iterated through all the cards in the list.
+                    if(cardsChecked != 52) { //if the amount of cards found at this point is not 52 exactly, we either have to many or to few cards in the deck.
+                        setErrorMessage("Wrong amount of cards in deck");
+                        return false;
+                    }
                     break;
-                nextCard = nextCard->next;
-            }while (1);
+                }
+                nextCard = nextCard->next; //gets the next card in the series ready for next loop
+            }while (1); //don't need a condition, since we build in break methods to reduce runtime.
         }
     }
-    return true;
+    return true; //if we gets here, we have found exactly 1 of each playing card, and therefor it must be a valid deck.
 }
