@@ -1,9 +1,12 @@
-//
-// Created by Frederik on 4/22/2022.
-//
-
 #include "Header.h"
+#include <string.h>
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ * @param pCard
+ */
+ // TODO might not be used, since length never gets updated
 void addCard(LinkedList* list, Card* pCard){
     Card* newCard = malloc(sizeof (Card));
     newCard->name[0] = pCard->name[0];
@@ -32,9 +35,15 @@ void addCard(LinkedList* list, Card* pCard){
     }
 }
 
-Card* getCard(LinkedList* list, int index){
-    if (list->length <= 0) printf("List has length 0");
-
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ * @param index
+ * @return
+ */
+Card* getCardByIndex(LinkedList* list, int index){
+    // TODO rewrite since length cannot be used:
+    /*
     Card* currentCard = list->head;
     for (int i = 0; i < list->length; ++i) {
         if (i == index){
@@ -44,8 +53,27 @@ Card* getCard(LinkedList* list, int index){
         }
     }
     return currentCard;
+     */
 }
 
+Card* getCardByName(LinkedList* list, char* name){
+    Card* currentCard = list->head;
+
+    while (currentCard->next != NULL || currentCard != NULL) {
+        if (strcasecmp(currentCard->name, name) == 0){
+            return currentCard;
+        }
+        currentCard = currentCard->next;
+    }
+
+    return NULL;
+}
+
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ * @return
+ */
 Card* getLastCard(LinkedList* list){
     Card* currentCard = list->head;
     while (currentCard != NULL){
@@ -55,16 +83,22 @@ Card* getLastCard(LinkedList* list){
     return currentCard;
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param cardToMove
+ * @param destination
+ */
 void moveCardToStack(Card* cardToMove, Card* destination){
-    cardToMove->prev->next = cardToMove->next;
-    cardToMove->next->prev = cardToMove->prev;
+    cardToMove->prev->next = NULL;
 
     destination->next = cardToMove;
     cardToMove->prev = destination;
-    cardToMove->next = NULL;
 
 }
-
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ */
 void printList(LinkedList* list){
     printf("List length: %d \t", list->length);
 
