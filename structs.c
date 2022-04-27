@@ -1,10 +1,12 @@
 #include "Header.h"
+#include <string.h>
 
 /**
  * Author: Frederik G. Petersen (S215834)
  * @param list
  * @param pCard
  */
+ // TODO might not be used, since length never gets updated
 void addCard(LinkedList* list, Card* pCard){
     Card* newCard = malloc(sizeof (Card));
     newCard->name[0] = pCard->name[0];
@@ -39,9 +41,9 @@ void addCard(LinkedList* list, Card* pCard){
  * @param index
  * @return
  */
-Card* getCard(LinkedList* list, int index){
-    if (list->length <= 0) printf("List has length 0");
-
+Card* getCardByIndex(LinkedList* list, int index){
+    // TODO rewrite since length cannot be used:
+    /*
     Card* currentCard = list->head;
     for (int i = 0; i < list->length; ++i) {
         if (i == index){
@@ -51,6 +53,20 @@ Card* getCard(LinkedList* list, int index){
         }
     }
     return currentCard;
+     */
+}
+
+Card* getCardByName(LinkedList* list, char* name){
+    Card* currentCard = list->head;
+
+    while (currentCard->next != NULL || currentCard != NULL) {
+        if (strcasecmp(currentCard->name, name) == 0){
+            return currentCard;
+        }
+        currentCard = currentCard->next;
+    }
+
+    return NULL;
 }
 
 /**
@@ -73,12 +89,10 @@ Card* getLastCard(LinkedList* list){
  * @param destination
  */
 void moveCardToStack(Card* cardToMove, Card* destination){
-    cardToMove->prev->next = cardToMove->next;
-    cardToMove->next->prev = cardToMove->prev;
+    cardToMove->prev->next = NULL;
 
     destination->next = cardToMove;
     cardToMove->prev = destination;
-    cardToMove->next = NULL;
 
 }
 /**

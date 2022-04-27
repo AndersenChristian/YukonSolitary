@@ -181,7 +181,8 @@ void processPlayerInput(char* string){
         toColumn[2] = '\0';
 
         // Process it
-        //attemptCardMove(fromColumn, card, toColumn);
+        attemptCardMove(fromColumn, card, toColumn);
+        setErrorMessage("Card Moved");
 
     } else {
         char initials[3];
@@ -256,7 +257,7 @@ void processPlayerInput(char* string){
         }
     }
 }
-/*
+
 void flipTopCards(){
     LinkedList* slots = getBoard();
     for (int i = 0; i < 7; ++i) {
@@ -268,8 +269,27 @@ void flipTopCards(){
     }
 }
 
-void attemptCardMove(char* columnFrom, Card* card, char* columnDest){
+void attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     // Find card in from-column
+    LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
+    LinkedList toList = getBoard()[getColumnIndex(columnDest)];
+    Card* fromCard = getCardByName(&fromList, cardName);
+    Card* toCard = getLastCard(&toList);
+
+    if (fromCard == NULL || toCard == NULL){
+        setErrorMessage("Move is Invalid!");
+        return;
+    }
+
+    if (cardCanBePlaced(toCard, fromCard)){
+        printf("Can be placed\n");
+        moveCardToStack(fromCard, toCard);
+    }
+
+
+
+
+    /*
     LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
     Card* fromCard = fromList.head;
     while (fromCard != NULL){
@@ -291,6 +311,7 @@ void attemptCardMove(char* columnFrom, Card* card, char* columnDest){
         // Next
         fromCard = fromCard->next;
     }
+     */
 }
 
 int getColumnIndex(char* columnStr){
@@ -316,7 +337,6 @@ bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
     }
     return false;
 }
- */
 
 /**
  * Author: Frederik G. Petersen (S215834)

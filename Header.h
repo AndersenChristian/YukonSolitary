@@ -28,7 +28,8 @@ struct LinkedList {
 };
 
 void addCard(LinkedList* list, Card* pCard);
-Card* getCard(LinkedList* list, int index);
+Card* getCardByIndex(LinkedList* list, int index);
+Card* getCardByName(LinkedList* list, char* name);
 Card* getLastCard(LinkedList* list);
 void printList(LinkedList* list);
 void moveCardToStack(Card* cardToMove, Card* destination);
@@ -66,7 +67,7 @@ void setupBoard();
 void updateBoard();
 void saveGame(char* filename);
 void exitGame();
-void attemptCardMove(char* columnFrom, Card* card, char* columnDest);
+void attemptCardMove(char* columnFrom, char* card, char* columnDest);
 int getColumnIndex(char* columnStr);
 bool cardCanBePlaced(Card* cardBehind, Card* cardOntop);
 CARD_SUITS getCardSuit(Card* card);
