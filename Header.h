@@ -33,6 +33,7 @@ Card* getCardByName(LinkedList* list, char* name);
 Card* getLastCard(LinkedList* list);
 void printList(LinkedList* list);
 void moveCardToStack(Card* cardToMove, Card* destination);
+void moveCardToFoundation(LinkedList* foundation, Card* card);
 
 
 //global variables
@@ -67,11 +68,13 @@ void setupBoard();
 void updateBoard();
 void saveGame(char* filename);
 void exitGame();
-void attemptCardMove(char* columnFrom, char* card, char* columnDest);
+bool attemptCardMove(char* columnFrom, char* card, char* columnDest);
+void attemptMovingCardsToFoundation(LinkedList* list);
 int getColumnIndex(char* columnStr);
 bool cardCanBePlaced(Card* cardBehind, Card* cardOntop);
 CARD_SUITS getCardSuit(Card* card);
 int getCardValue(Card* card);
+LinkedList* getFoundation(Card* card);
 void flipTopCards();
 void loadDeck();
 void deAllocateMalloc();

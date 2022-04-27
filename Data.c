@@ -8,7 +8,7 @@
 #include <string.h>
 
 LinkedList deck;
-LinkedList boardSlots[11];
+LinkedList boardSlots[11]; //0-6 Cards, 7-11 Foundations [C, S, D, H]
 
 char* lastCommand = "\n";
 char errorMessage[50]; //set by the various methods of the program to proper display if anything goes wrong.

@@ -181,8 +181,7 @@ void processPlayerInput(char* string){
         toColumn[2] = '\0';
 
         // Process it
-        attemptCardMove(fromColumn, card, toColumn);
-        setErrorMessage("Card Moved");
+        bool moveMade = attemptCardMove(fromColumn, card, toColumn);
 
     } else {
         char initials[3];
@@ -258,18 +257,20 @@ void processPlayerInput(char* string){
     }
 }
 
-void flipTopCards(){
-    LinkedList* slots = getBoard();
-    for (int i = 0; i < 7; ++i) {
-        LinkedList currentList = slots[i];
-        Card* currentCard = getLastCard(&currentList);
-        if (currentCard->faceUp == false){
-            currentCard->faceUp = true;
-        }
+void flipTopCards(LinkedList* list){
+    Card* currentCard = getLastCard(list);
+    if (currentCard->faceUp == false){
+        currentCard->faceUp = true;
     }
-}
 
-void attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
+}
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param columnFrom
+ * @param cardName
+ * @param columnDest
+ */
+bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     // Find card in from-column
     LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
     LinkedList toList = getBoard()[getColumnIndex(columnDest)];
@@ -278,40 +279,34 @@ void attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
 
     if (fromCard == NULL || toCard == NULL){
         setErrorMessage("Move is Invalid!");
-        return;
+        return false;
     }
 
     if (cardCanBePlaced(toCard, fromCard)){
-        printf("Can be placed\n");
         moveCardToStack(fromCard, toCard);
+        flipTopCards(&fromList);
+        setErrorMessage("Card Moved");
+        // TODO Check if it works when having implemented showing foundations
+        //attemptMovingCardsToFoundation(&fromList);
+        return true;
     }
+}
 
+void attemptMovingCardsToFoundation(LinkedList* list){
+    Card* card = getLastCard(list);
+    LinkedList foundation = *getFoundation(card);
+    Card* foundationCard = foundation.tail;
 
-
-
-    /*
-    LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
-    Card* fromCard = fromList.head;
-    while (fromCard != NULL){
-        if (card == fromCard){
-            // The card does exists in column
-            LinkedList toList = getBoard()[getColumnIndex(columnDest)];
-            Card* toCard = toList.head;
-            while (toCard != NULL){
-                if (toCard->next == NULL){
-                    if (cardCanBePlaced(toCard, card)){
-                        moveCardToStack(card, toCard);
-                    }
-                    break;
-                }
-                toCard = toCard->next;
-            }
-            return;
+    if (foundationCard == NULL){
+        // Only for Aces
+        if (getCardValue(card) == 'A'){
+            moveCardToFoundation(&foundation, card);
         }
-        // Next
-        fromCard = fromCard->next;
+
+    } else if (getCardValue(foundationCard)+1 == getCardValue(card)){
+        // For rest
+        moveCardToFoundation(&foundation, card);
     }
-     */
 }
 
 int getColumnIndex(char* columnStr){
@@ -373,6 +368,14 @@ CARD_SUITS getCardSuit(Card* card){
         case 'H': return H;
         case 'C': return C;
     }
+}
+
+LinkedList* getFoundation(Card* card){
+    LinkedList* list = getBoard();
+    if (card->name[1] == 'C') return &list[7];
+    if (card->name[1] == 'S') return &list[8];
+    if (card->name[1] == 'D') return &list[9];
+    if (card->name[1] == 'H') return &list[10];
 }
 
 /**

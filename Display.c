@@ -105,7 +105,7 @@ void gameDisplay(){
 }
 
 void displayInfolines() {
-    printf("LAST Command: %s", getLastCommand());
+    printf("\nLAST Command: %s", getLastCommand());
     if (getErrorMessage() == NULL || strcmp(getErrorMessage(), "") == 0) //if errormessage points to null or is empty.
         printf("Message: OK\n");
     else

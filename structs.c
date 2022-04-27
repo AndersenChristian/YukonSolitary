@@ -95,6 +95,22 @@ void moveCardToStack(Card* cardToMove, Card* destination){
     cardToMove->prev = destination;
 
 }
+
+void moveCardToFoundation(LinkedList* foundation, Card* card){
+    Card* tailCard = foundation->tail;
+
+    if (tailCard == NULL){
+        foundation->head = card;
+        foundation->tail = card;
+        card->prev = NULL;
+        card->prev->next = NULL;
+    } else {
+        tailCard->next = card;
+        card->prev->next = NULL;
+        card->prev = tailCard;
+    }
+
+}
 /**
  * Author: Frederik G. Petersen (S215834)
  * @param list
