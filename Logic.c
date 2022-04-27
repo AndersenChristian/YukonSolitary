@@ -29,12 +29,65 @@ extern void playGame() {
 bool winCondition(){
     //todo test for win condition
 }
+void split(){
+    LinkedList* deck = getDeck();
+    LinkedList secondPile;
+    LinkedList thirdPile;
+
+    int cardsInList = 1;
+    int count = atoi( &getLastCommand()[3]);
+    int i = 0;
+
+    int randomNumber = rand()%(cardsInList+1);
+    Card* temp = deck->head;
+    if (getLastCommand() > 0 && getLastCommand() < 52){
+        secondPile.head = deck->head;
+        do {
+            temp = temp->next;
+            i++;
+
+        }while(i < count);
+        secondPile.tail = temp;
+
+        thirdPile.head = secondPile.tail->next;
+        thirdPile.tail = deck->tail;
+
+        secondPile.tail->next = NULL;
+        thirdPile.head->prev = NULL;
+    }
+    else{
+        secondPile.head = deck->head;
+        do {
+            temp = temp->next;
+            i++;
+
+        }while(i < randomNumber);
+        secondPile.tail = temp;
+
+        thirdPile.head = secondPile.tail->next;
+        thirdPile.tail = deck->tail;
+
+        secondPile.tail->next = NULL;
+        thirdPile.head->prev = NULL;
+    }
+    deck->head = secondPile.head;
+    deck->tail = secondPile.head;
+
+    do{
+        deck->tail->next = secondPile.head->next;
+        deck->tail = secondPile.head->next;
+        deck->tail->next = thirdPile.head->next;
+        deck->tail = thirdPile.head->next;
+
+    }while (secondPile.tail->next != NULL || thirdPile.tail->next != NULL);
+}
 
 /**
  * Author: Christian J. L. Andersen (S133288)
  *
- * Shuffle the car
+ * Shuffle the cards.
  */
+
 void shuffle() {
     LinkedList* deck = getDeck();       //gets a pointer to the current LinkedList
     Card* nextCard = deck->head->next;  //keeps a track of the remaining card we need to shuffle into the LinkedList
@@ -197,7 +250,7 @@ void processPlayerInput(char* string){
             //All functionality of this one is programmed into the display.
             setErrorMessage("OK");
         } else if (strcasecmp(initials, "SI") == 0){
-
+            split();
         } else if (strcasecmp(initials, "SR") == 0){
             if (isDeckLoaded()) {
                 shuffle();
