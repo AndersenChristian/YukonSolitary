@@ -157,7 +157,11 @@ void updateBoard(){
     //TODO Make this function
     //MoveCardsToFoundations();
 }
-
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param string
+ */
+ // TODO Make better initial comparision to check nothing follows the initals
 void processPlayerInput(char* string){
     //printf("Inputted String: %s\n", string); //todo: delete after testing
 
@@ -184,17 +188,17 @@ void processPlayerInput(char* string){
         memcpy(initials, string, 2);
 
         // Things to process
-        if (strcmp(initials, "LD") == 0){
+        if (strcasecmp(initials, "LD") == 0){
             if (!isDeckLoaded())
                 setupCards();
             else
                 setErrorMessage("Deck already loaded");
-        } else if (strcmp(initials, "SW") == 0){
+        } else if (strcasecmp(initials, "SW") == 0){
             //All functionality of this one is programmed into the display.
             setErrorMessage("OK");
-        } else if (strcmp(initials, "SI") == 0){
+        } else if (strcasecmp(initials, "SI") == 0){
 
-        } else if (strcmp(initials, "SR") == 0){
+        } else if (strcasecmp(initials, "SR") == 0){
             if (isDeckLoaded()) {
                 shuffle();
                 setErrorMessage("OK");
@@ -202,7 +206,7 @@ void processPlayerInput(char* string){
                 setErrorMessage("You must load a deck before shuffeling");
             }
 
-        } else if (strcmp(initials, "SD") == 0){
+        } else if (strcasecmp(initials, "SD") == 0){
             if (isDeckLoaded()) {
                 if(strlen(string) > 3) {
                     char *filename = &string[3];
@@ -211,7 +215,7 @@ void processPlayerInput(char* string){
                     setErrorMessage("You must choose a file name");
             }else
                 setErrorMessage("You must first load i file to save it");
-        } else if (strcmp(initials, "QQ") == 0){
+        } else if (strcasecmp(initials, "QQ") == 0){
             remove("..\\CurrentSeed.txt");
             if(isDeckLoaded())
                 deAllocateMalloc();
@@ -220,7 +224,7 @@ void processPlayerInput(char* string){
 
         // if a deck is loaded and the game is not already in progress, this will build our 11 LinkedList
         // for the board, and update the game state.
-        }else if (strcmp(initials, "P\n") == 0){
+        }else if (strcasecmp(initials, "P\n") == 0){
             if(hasGameStarted())
                 setErrorMessage("Game already in progress");
             else if(isDeckLoaded()) {
@@ -234,7 +238,7 @@ void processPlayerInput(char* string){
 
         // If the game is running, this will reverse the gamestate, and load the card into a single LinkedList
         // with the same setup as before the game started.
-        } else if (strcmp(initials, "Q\n") == 0){
+        } else if (strcasecmp(initials, "Q\n") == 0){
             if (hasGameStarted()) {                                 //ensures that a game is in progress.
                 setErrorMessage("OK");
                 deAllocateMalloc();                                 //removes the current card, and free the memory.
@@ -290,17 +294,17 @@ void attemptCardMove(char* columnFrom, Card* card, char* columnDest){
 }
 
 int getColumnIndex(char* columnStr){
-    if (strcmp(columnStr, "C1") == 0) {return 0;}
-    if (strcmp(columnStr, "C2") == 0) {return 1;}
-    if (strcmp(columnStr, "C3") == 0) {return 2;}
-    if (strcmp(columnStr, "C4") == 0) {return 3;}
-    if (strcmp(columnStr, "C5") == 0) {return 4;}
-    if (strcmp(columnStr, "C6") == 0) {return 5;}
-    if (strcmp(columnStr, "C7") == 0) {return 6;}
-    if (strcmp(columnStr, "F1") == 0) {return 7;}
-    if (strcmp(columnStr, "F2") == 0) {return 8;}
-    if (strcmp(columnStr, "F3") == 0) {return 9;}
-    if (strcmp(columnStr, "F4") == 0) {return 10;}
+    if (strcasecmp(columnStr, "C1") == 0) {return 0;}
+    if (strcasecmp(columnStr, "C2") == 0) {return 1;}
+    if (strcasecmp(columnStr, "C3") == 0) {return 2;}
+    if (strcasecmp(columnStr, "C4") == 0) {return 3;}
+    if (strcasecmp(columnStr, "C5") == 0) {return 4;}
+    if (strcasecmp(columnStr, "C6") == 0) {return 5;}
+    if (strcasecmp(columnStr, "C7") == 0) {return 6;}
+    if (strcasecmp(columnStr, "F1") == 0) {return 7;}
+    if (strcasecmp(columnStr, "F2") == 0) {return 8;}
+    if (strcasecmp(columnStr, "F3") == 0) {return 9;}
+    if (strcasecmp(columnStr, "F4") == 0) {return 10;}
 }
 
 bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
@@ -314,6 +318,11 @@ bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
 }
  */
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param card
+ * @return
+ */
 int getCardValue(Card* card){
     switch (card->name[0]) {
         case 'A': return 1;
@@ -332,6 +341,11 @@ int getCardValue(Card* card){
     }
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param card
+ * @return
+ */
 CARD_SUITS getCardSuit(Card* card){
     switch (card->name[1]) {
         case 'S': return S;

@@ -1,9 +1,10 @@
-//
-// Created by Frederik on 4/22/2022.
-//
-
 #include "Header.h"
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ * @param pCard
+ */
 void addCard(LinkedList* list, Card* pCard){
     Card* newCard = malloc(sizeof (Card));
     newCard->name[0] = pCard->name[0];
@@ -32,6 +33,12 @@ void addCard(LinkedList* list, Card* pCard){
     }
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ * @param index
+ * @return
+ */
 Card* getCard(LinkedList* list, int index){
     if (list->length <= 0) printf("List has length 0");
 
@@ -46,6 +53,11 @@ Card* getCard(LinkedList* list, int index){
     return currentCard;
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ * @return
+ */
 Card* getLastCard(LinkedList* list){
     Card* currentCard = list->head;
     while (currentCard != NULL){
@@ -55,6 +67,11 @@ Card* getLastCard(LinkedList* list){
     return currentCard;
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param cardToMove
+ * @param destination
+ */
 void moveCardToStack(Card* cardToMove, Card* destination){
     cardToMove->prev->next = cardToMove->next;
     cardToMove->next->prev = cardToMove->prev;
@@ -64,7 +81,10 @@ void moveCardToStack(Card* cardToMove, Card* destination){
     cardToMove->next = NULL;
 
 }
-
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ */
 void printList(LinkedList* list){
     printf("List length: %d \t", list->length);
 
