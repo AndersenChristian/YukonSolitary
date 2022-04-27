@@ -92,7 +92,17 @@ void gameDisplay(){
             printf("\t");
         if (currentLine == 6) {
             if (line == 0 || line == 2 || line == 4 || line == 6) {
-                printf("\t[]\tF%d", finishesPrinted + 1);
+                // Frederik's implementation
+                char* foundation = "[]\0";
+                LinkedList F = getBoard()[finishesPrinted + 7];
+                Card* fCard = getLastCard(&F);
+
+                if (fCard != NULL){
+                    foundation = fCard->name;
+                    foundation[2] = '\0';
+                }
+
+                printf("\t%s\tF%d", foundation, finishesPrinted + 1);
                 finishesPrinted++;
             }
             currentLine = 0;
