@@ -97,11 +97,13 @@ void gameDisplay(){
             }
             currentLine = 0;
             line++;
-            printf("\n");
+            if (cardsPrinted != 52)
+                printf("\n");
         }
         else
             currentLine++;
     }while (cardsPrinted!=52 || finishesPrinted != 4);
+    printf("\n");
 }
 
 void displayInfolines() {
