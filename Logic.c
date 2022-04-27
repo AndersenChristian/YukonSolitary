@@ -13,10 +13,12 @@
  */
 extern void playGame() {
     updateDisplay();
+
     do {
         processPlayerInput(getPlayerInput());
-        updateBoard();
+        updateBoard(); // Nothing in function
         updateDisplay();
+
     }while(!isGameWon());
 }
 
@@ -153,9 +155,7 @@ void saveGame(char* filename){
 }
 
 void updateBoard(){
-    //flipTopCards();
-    //TODO Make this function
-    //MoveCardsToFoundations();
+
 }
 /**
  * Author: Frederik G. Petersen (S215834)
@@ -230,6 +230,17 @@ void processPlayerInput(char* string){
             else if(isDeckLoaded()) {
                 saveGame("CurrentSeed.txt"); //saves the current card setup.
                 setupBoard();
+
+                // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                // Find better place for this:
+                attemptMovingCardsToFoundation(&getBoard()[0]);
+                attemptMovingCardsToFoundation(&getBoard()[1]);
+                attemptMovingCardsToFoundation(&getBoard()[2]);
+                attemptMovingCardsToFoundation(&getBoard()[3]);
+                attemptMovingCardsToFoundation(&getBoard()[4]);
+                attemptMovingCardsToFoundation(&getBoard()[5]);
+                attemptMovingCardsToFoundation(&getBoard()[6]);
+
                 setGameStarted(true);
                 setErrorMessage("OK");
             }else{
@@ -287,7 +298,7 @@ bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
         flipTopCards(&fromList);
         setErrorMessage("Card Moved");
         // TODO Check if it works when having implemented showing foundations
-        //attemptMovingCardsToFoundation(&fromList);
+        attemptMovingCardsToFoundation(&fromList);
         return true;
     }
 }
@@ -297,15 +308,16 @@ void attemptMovingCardsToFoundation(LinkedList* list){
     LinkedList foundation = *getFoundation(card);
     Card* foundationCard = foundation.tail;
 
-    if (foundationCard == NULL){
-        // Only for Aces
-        if (getCardValue(card) == 'A'){
+    if (foundationCard == NULL){ // Only for Aces
+        if (getCardValue(card) == 1){
             moveCardToFoundation(&foundation, card);
+            //attemptMovingCardsToFoundation(list); // Get back when no infinite loop
         }
 
     } else if (getCardValue(foundationCard)+1 == getCardValue(card)){
         // For rest
         moveCardToFoundation(&foundation, card);
+        //attemptMovingCardsToFoundation(list); // Get back when no infinite loop
     }
 }
 

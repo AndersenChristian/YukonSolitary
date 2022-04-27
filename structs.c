@@ -97,19 +97,20 @@ void moveCardToStack(Card* cardToMove, Card* destination){
 }
 
 void moveCardToFoundation(LinkedList* foundation, Card* card){
+    // TODO Need to check if the card to move is the last card in the stack it should act differently to not go outside of bonds.
+    /*
     Card* tailCard = foundation->tail;
-
     if (tailCard == NULL){
         foundation->head = card;
         foundation->tail = card;
         card->prev = NULL;
-        card->prev->next = NULL;
     } else {
         tailCard->next = card;
         card->prev->next = NULL;
         card->prev = tailCard;
     }
-
+    printf("Moved Card to Foundation!\n");
+    */
 }
 /**
  * Author: Frederik G. Petersen (S215834)
