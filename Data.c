@@ -21,8 +21,8 @@ bool gameStarted = false;
 void initDeck() {
     deck.length = 0;
 
-    deck.head = (Card *) malloc(sizeof(Card));
-    deck.tail = (Card *) malloc(sizeof(Card));
+    //deck.head = (Card *) malloc(sizeof(Card));
+    //deck.tail = (Card *) malloc(sizeof(Card));
 
     deck.head = NULL;
     deck.tail = NULL;
