@@ -45,8 +45,10 @@ void moveCardToFoundation(LinkedList* foundation, Card* card);
 void initDeck();
 bool isDeckLoaded();
 void pushCardToDeck(char name[3]);
-LinkedList* getDeck();
-LinkedList* getBoard();
+LinkedList* dataptrToDeck();
+LinkedList* dataptrToBoard();
+char* dataPTR_lastCommand();
+
 void printDeck();
 bool isGameWon();
 void setLastCommand(char* command);

@@ -10,7 +10,7 @@
 LinkedList deck;
 LinkedList boardSlots[11]; //0-6 Cards, 7-11 Foundations [C, S, D, H]
 
-char* lastCommand = "\n";
+char lastCommand[255];
 char errorMessage[50]; //set by the various methods of the program to proper display if anything goes wrong.
 
 //the following boolean values are used to keep a track of the current game-state
@@ -35,17 +35,31 @@ void pushCardToDeck(char name[3]){
     card.name[2] = '\0';
     addCard(&deck, &card);
 }
-LinkedList* getDeck(){
+LinkedList* dataptrToDeck(){
     return &deck;
 }
 
-LinkedList* getBoard(){
+LinkedList* dataptrToBoard(){
     return boardSlots;
 }
 
-void printDeck(){
-    printList(&deck);
+char* dataPTR_lastCommand(){
+    &lastCommand;
 }
+
+bool* dataPTR_DeckLoaded(){
+    &deckLoaded;
+}
+
+bool* dataPTR_IsGameDone(){
+    &isGameDone;
+}
+
+bool* dataPTR_GameStarted(){
+    &gameStarted;
+}
+
+
 
 bool isDeckLoaded(){
     return deckLoaded;
@@ -57,10 +71,6 @@ void setIsDeckLoaded(bool flag){
 
 bool isGameWon(){
     return isGameDone;
-}
-
-void setLastCommand(char* command){
-    lastCommand = command;
 }
 
 char* getLastCommand(){

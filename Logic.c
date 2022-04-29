@@ -36,7 +36,7 @@ bool winCondition(){
  * Shuffle the car
  */
 void shuffle() {
-    LinkedList* deck = getDeck();       //gets a pointer to the current LinkedList
+    LinkedList* deck = dataptrToDeck();       //gets a pointer to the current LinkedList
     Card* nextCard = deck->head->next;  //keeps a track of the remaining card we need to shuffle into the LinkedList
     int cardInList = 1;                 //keep a track of how many cards is currently in the new LinkedList
 
@@ -87,8 +87,8 @@ void shuffle() {
  * Author: Christian J. L. Andersen (S133288)
  */
 void setupBoard(){
-    Card * ptrToCard = getDeck()->head;
-    LinkedList* boardSlots = getBoard();
+    Card * ptrToCard = dataptrToDeck()->head;
+    LinkedList* boardSlots = dataptrToBoard();
 
     for (int i = 0; i<7; i++){ //create the first point in the linked list
         boardSlots[i].head = ptrToCard;
@@ -141,8 +141,8 @@ void saveGame(char* filename){
     strcat(filePath,filename);
     filePath[strcspn(filePath,"\n")]=0;
     fp = fopen (filePath, "w");
-    if (getDeck()->head != NULL){
-        Card* card = getDeck()->head;
+    if (dataptrToDeck()->head != NULL){
+        Card* card = dataptrToDeck()->head;
         fputs(card->name, fp);
         fputs("\n",fp);
         while(card->next != NULL){
@@ -233,13 +233,13 @@ void processPlayerInput(char* string){
 
                 // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                 // Find better place for this:
-                attemptMovingCardsToFoundation(&getBoard()[0]);
-                attemptMovingCardsToFoundation(&getBoard()[1]);
-                attemptMovingCardsToFoundation(&getBoard()[2]);
-                attemptMovingCardsToFoundation(&getBoard()[3]);
-                attemptMovingCardsToFoundation(&getBoard()[4]);
-                attemptMovingCardsToFoundation(&getBoard()[5]);
-                attemptMovingCardsToFoundation(&getBoard()[6]);
+                attemptMovingCardsToFoundation(&dataptrToBoard()[0]);
+                attemptMovingCardsToFoundation(&dataptrToBoard()[1]);
+                attemptMovingCardsToFoundation(&dataptrToBoard()[2]);
+                attemptMovingCardsToFoundation(&dataptrToBoard()[3]);
+                attemptMovingCardsToFoundation(&dataptrToBoard()[4]);
+                attemptMovingCardsToFoundation(&dataptrToBoard()[5]);
+                attemptMovingCardsToFoundation(&dataptrToBoard()[6]);
 
                 setGameStarted(true);
                 setErrorMessage("OK");
@@ -283,8 +283,8 @@ void flipTopCards(LinkedList* list){
  */
 bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     // Find card in from-column
-    LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
-    LinkedList toList = getBoard()[getColumnIndex(columnDest)];
+    LinkedList fromList = dataptrToBoard()[getColumnIndex(columnFrom)];
+    LinkedList toList = dataptrToBoard()[getColumnIndex(columnDest)];
     Card* fromCard = getCardByName(&fromList, cardName);
     Card* toCard = getLastCard(&toList);
 
@@ -383,7 +383,7 @@ CARD_SUITS getCardSuit(Card* card){
 }
 
 LinkedList* getFoundation(Card* card){
-    LinkedList* list = getBoard();
+    LinkedList* list = dataptrToBoard();
     if (card->name[1] == 'C') return &list[7];
     if (card->name[1] == 'S') return &list[8];
     if (card->name[1] == 'D') return &list[9];
@@ -406,9 +406,9 @@ void deAllocateMalloc(){
     Card* card;
     if(hasGameStarted()){                   //If the game has started the cards pointers are in the 11 LinkedList,
         for (int i = 0; i < 11; ++i) {
-            if (getBoard()[i].head == NULL) //ensures that there are any cards in the LinkedList
+            if (dataptrToBoard()[i].head == NULL) //ensures that there are any cards in the LinkedList
                 break;
-            card = getBoard()[i].head;      //gets the first Card of the LinkedList
+            card = dataptrToBoard()[i].head;      //gets the first Card of the LinkedList
             do{
                 if(card->next == NULL){
                     free(card);
@@ -419,7 +419,7 @@ void deAllocateMalloc(){
             }while(1);
         }
     }else{
-        card = getDeck()->head->next;
+        card = dataptrToDeck()->head->next;
         while (true){
             free(card->prev);
             if(card->next == NULL){

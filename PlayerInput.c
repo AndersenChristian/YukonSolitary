@@ -13,7 +13,7 @@ char input[255];
 char* getPlayerInput(){
     printf("INPUT > ");
     fflush(stdin);
-    fgets (input, 255, stdin);
+    strcpy(dataPTR_lastCommand(), fgets (input, 255, stdin));
     return input;
 }
 

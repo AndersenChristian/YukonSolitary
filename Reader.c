@@ -73,7 +73,7 @@ bool validateDeck() {
                 return false;
             }
             cardsChecked = 0;
-            nextCard = getDeck()->head; //gets the first card in the deck.
+            nextCard = dataptrToDeck()->head; //gets the first card in the deck.
             flag = false;
             do {
                 if (getCardSuit(nextCard) == i && getCardValue(nextCard) == j+1) { //check if the suit and value equils the card we are looking for.
