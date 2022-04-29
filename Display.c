@@ -1,12 +1,6 @@
-//
-// Created by Rawfodog on 01-04-2022.
-//
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "Header.h"
-
-void displayInfolines();
 
 void updateDisplay(){
     printf("\nC1\tC2\tC3\tC4\tC5\tC6\tC7\n\n"); //always the first line we need printed
@@ -122,4 +116,5 @@ void displayInfolines() {
         printf("Message: OK\n");
     else
         printf("Message: %s\n",dataPTR_ErrorMessage());
+    printf("INPUT > ");
 }

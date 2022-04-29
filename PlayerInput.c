@@ -8,7 +8,6 @@
  * @return
  */
 void getPlayerInput(){
-    printf("INPUT > ");
     fflush(stdin);
     fgets (dataPTR_lastCommand(), 255, stdin);
 }

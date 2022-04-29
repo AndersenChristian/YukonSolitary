@@ -27,7 +27,7 @@ struct LinkedList {
     Card* tail;
 };
 
-void addCard(char*);
+void addCard(const char*);
 Card* getCardByIndex(LinkedList* list, int index);
 Card* getCardByName(LinkedList* list, char* name);
 Card* getLastCard(LinkedList* list);

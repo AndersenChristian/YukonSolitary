@@ -7,7 +7,7 @@
  * @param pCard
  */
  // TODO might not be used, since length never gets updated
-void addCard(char* cardInfo){
+void addCard(const char* cardInfo){
     LinkedList* list = dataPTR_ToDeck();
     Card* newCard = malloc(sizeof (Card));
     newCard->name[0] = cardInfo[0];
@@ -60,7 +60,7 @@ Card* getCardByIndex(LinkedList* list, int index){
 Card* getCardByName(LinkedList* list, char* name){
     Card* currentCard = list->head;
 
-    while (currentCard->next != NULL || currentCard != NULL) {
+    while (currentCard->next != NULL) {
         if (strcasecmp(currentCard->name, name) == 0){
             return currentCard;
         }
@@ -112,19 +112,4 @@ void moveCardToFoundation(LinkedList* foundation, Card* card){
     }
     printf("Moved Card to Foundation!\n");
     */
-}
-/**
- * Author: Frederik G. Petersen (S215834)
- * @param list
- */
-void printList(LinkedList* list){
-    printf("List length: %d \t", list->length);
-
-    Card* currentCard = list->head;
-
-    while (currentCard->next != NULL){
-        printf("%s\t", currentCard->name);
-        currentCard = currentCard->next;
-    }
-    printf("%s\n", currentCard->name);
 }

@@ -3,12 +3,11 @@
 //
 #include "Header.h"
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 LinkedList deck = {0, NULL, NULL};
-LinkedList boardSlots[11]; //0-6 Cards, 7-11 Foundations [C, S, D, H]
+LinkedList boardSlots[11]; //0-6 Cards, 7-11 Foundations
 
 char lastCommand[255] = "\n";
 char errorMessage[255]; //set by the various methods of the program to proper display if anything goes wrong.
