@@ -288,7 +288,7 @@ bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     LinkedList toList = getBoard()[getColumnIndex(columnDest)];
     Card* fromCard = getCardByName(&fromList, cardName);
     Card* toCard = getLastCard(&toList);
-    
+
     if (columnFrom[0] == 'C' && columnDest[0] == 'C'){ // Normal move
         if (fromCard == NULL || toCard == NULL){
             setErrorMessage("Move is Invalid!");
@@ -312,22 +312,37 @@ void attemptFoundationMove(char* columnFrom, char* columnDest){
 
         Card* card = getLastCard(fromList);
 
-        // Disconnect Card
-        if (card->prev == NULL){ // Last card in stack
-            fromList->head = NULL;
-            fromList->tail = NULL;
+        // Get correct Foundation.
+        char suit = card->name[1];
+        LinkedList* foundation = NULL;
 
-        } else { // not last
-            fromList->tail = fromList->tail->prev;
-            card->prev->next = NULL;
-            card->prev = NULL;
+        if (suit == 'C'){ foundation = &getBoard()[7]; }
+        if (suit == 'S'){ foundation = &getBoard()[8]; }
+        if (suit == 'D'){ foundation = &getBoard()[9]; }
+        if (suit == 'H'){ foundation = &getBoard()[10]; }
+
+        if (foundation == NULL){
+            setErrorMessage("Move Is Invalid");
+            return;
         }
 
-        // Connect it to foundation
-        // TODO make it connect to correct foundation
-        moveCardToFoundation(toList, card);
+        // See if it's a valid move
+        if (getCardValue(foundation->tail)+1 == getCardValue(card)){
+            // Disconnect Card
+            if (card->prev == NULL){ // Last card in stack
+                fromList->head = NULL;
+                fromList->tail = NULL;
 
+            } else { // not last
+                fromList->tail = fromList->tail->prev;
+                card->prev->next = NULL;
+                card->prev = NULL;
+            }
 
+            moveCardToFoundation(foundation, card);
+        } else {
+            setErrorMessage("Move is Invalid");
+        }
     }
 
     if (columnFrom[0] == 'F' && columnDest[0] == 'F') { // Back from foundation
@@ -365,6 +380,7 @@ bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
  * @return
  */
 int getCardValue(Card* card){
+    if (card == NULL) return 0;
     switch (card->name[0]) {
         case 'A': return 1;
         case '2': return 2;
