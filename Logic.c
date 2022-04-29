@@ -181,11 +181,22 @@ void processPlayerInput(char* string){
         toColumn[2] = '\0';
 
         // Process it
-        bool moveMade = attemptCardMove(fromColumn, card, toColumn);
+        attemptCardMove(fromColumn, card, toColumn);
+
+
+
+    } else if (string[2] == '-' && string[3] == '>'){ // From/To foundation
+        char fromColumn[3];
+        char toColumn[3];
+        memcpy(fromColumn, string, 2);
+        memcpy(toColumn, &string[4], 2);
+
+        attemptFoundationMove(fromColumn, toColumn);
 
     } else {
         char initials[3];
         memcpy(initials, string, 2);
+        initials[2] = '\0';
 
         // Things to process
         if (strcasecmp(initials, "LD") == 0){
@@ -230,16 +241,6 @@ void processPlayerInput(char* string){
             else if(isDeckLoaded()) {
                 saveGame("CurrentSeed.txt"); //saves the current card setup.
                 setupBoard();
-
-                // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-                // Find better place for this:
-                attemptMovingCardsToFoundation(&getBoard()[0]);
-                attemptMovingCardsToFoundation(&getBoard()[1]);
-                attemptMovingCardsToFoundation(&getBoard()[2]);
-                attemptMovingCardsToFoundation(&getBoard()[3]);
-                attemptMovingCardsToFoundation(&getBoard()[4]);
-                attemptMovingCardsToFoundation(&getBoard()[5]);
-                attemptMovingCardsToFoundation(&getBoard()[6]);
 
                 setGameStarted(true);
                 setErrorMessage("OK");
@@ -287,37 +288,50 @@ bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     LinkedList toList = getBoard()[getColumnIndex(columnDest)];
     Card* fromCard = getCardByName(&fromList, cardName);
     Card* toCard = getLastCard(&toList);
+    
+    if (columnFrom[0] == 'C' && columnDest[0] == 'C'){ // Normal move
+        if (fromCard == NULL || toCard == NULL){
+            setErrorMessage("Move is Invalid!");
+            return false;
+        }
 
-    if (fromCard == NULL || toCard == NULL){
-        setErrorMessage("Move is Invalid!");
-        return false;
-    }
-
-    if (cardCanBePlaced(toCard, fromCard)){
-        moveCardToStack(fromCard, toCard);
-        flipTopCards(&fromList);
-        setErrorMessage("Card Moved");
-        // TODO Check if it works when having implemented showing foundations
-        attemptMovingCardsToFoundation(&fromList);
-        return true;
+        if (cardCanBePlaced(toCard, fromCard)){
+            moveCardToStack(fromCard, toCard);
+            flipTopCards(&fromList);
+            setErrorMessage("Card Moved");
+            return true;
+        }
     }
 }
 
-void attemptMovingCardsToFoundation(LinkedList* list){
-    Card* card = getLastCard(list);
-    LinkedList foundation = *getFoundation(card);
-    Card* foundationCard = foundation.tail;
+void attemptFoundationMove(char* columnFrom, char* columnDest){
+    LinkedList* fromList = &getBoard()[getColumnIndex(columnFrom)];
+    LinkedList* toList = &getBoard()[getColumnIndex(columnDest)];
 
-    if (foundationCard == NULL){ // Only for Aces
-        if (getCardValue(card) == 1){
-            moveCardToFoundation(&foundation, card);
-            //attemptMovingCardsToFoundation(list); // Get back when no infinite loop
+    if (columnFrom[0] == 'C' && columnDest[0] == 'F'){ // To Foundation
+
+        Card* card = getLastCard(fromList);
+
+        // Disconnect Card
+        if (card->prev == NULL){ // Last card in stack
+            fromList->head = NULL;
+            fromList->tail = NULL;
+
+        } else { // not last
+            fromList->tail = fromList->tail->prev;
+            card->prev->next = NULL;
+            card->prev = NULL;
         }
 
-    } else if (getCardValue(foundationCard)+1 == getCardValue(card)){
-        // For rest
-        moveCardToFoundation(&foundation, card);
-        //attemptMovingCardsToFoundation(list); // Get back when no infinite loop
+        // Connect it to foundation
+        // TODO make it connect to correct foundation
+        moveCardToFoundation(toList, card);
+
+
+    }
+
+    if (columnFrom[0] == 'F' && columnDest[0] == 'F') { // Back from foundation
+
     }
 }
 
