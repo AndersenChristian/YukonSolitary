@@ -91,8 +91,9 @@ Card* getLastCard(LinkedList* list){
 
 // These might need to be moved to logic. --------------------------------------
 void moveCardToCard(Card* cardToMove, Card* destination){
-    cardToMove->prev->next = NULL;
-
+    if (cardToMove->prev != NULL){
+        cardToMove->prev->next = NULL;
+    }
     destination->next = cardToMove;
     cardToMove->prev = destination;
 }

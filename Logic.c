@@ -8,6 +8,10 @@
 #include <string.h>
 #include "Header.h"
 
+// TODO LIST
+// - Test if move is valid when moving. It is causing errors.
+// - Be sure to update tail pointer when adding cards to end of stack.
+
 /**
  *
  */
@@ -355,8 +359,23 @@ void attemptFoundationMove(char* columnFrom, char* columnDest){
         }
     }
 
-    if (columnFrom[0] == 'F' && columnDest[0] == 'F') { // Back from foundation
+    if (columnFrom[0] == 'F' && columnDest[0] == 'C') { // Back from foundation
+        Card* foundationCard = getLastCard(fromList);
+        Card* columnCard = getLastCard(toList);
 
+        // Disconnect it from foundation
+        if (foundationCard->prev == NULL){
+            fromList->head = NULL;
+            fromList->tail = NULL;
+        } else {
+            foundationCard->prev->next = NULL;
+            foundationCard->prev = NULL;
+        }
+
+        //
+        if (cardCanBePlaced(columnCard, foundationCard)){
+            moveCardToCard(foundationCard, columnCard);
+        }
     }
 }
 
