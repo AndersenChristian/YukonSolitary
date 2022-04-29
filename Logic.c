@@ -239,7 +239,7 @@ void processPlayerInput(char* string){
                 attemptMovingCardsToFoundation(&dataPTR_ToBoard()[5]);
                 attemptMovingCardsToFoundation(&dataPTR_ToBoard()[6]);
 
-                setGameStarted(true);
+                *dataPTR_GameStarted() = true;
                 setErrorMessage("OK");
             }else{
                 setErrorMessage("Must load a deck, before you can start the game");
@@ -252,7 +252,7 @@ void processPlayerInput(char* string){
                 setErrorMessage("OK");
                 deAllocateMalloc();                                 //removes the current card, and free the memory.
                 setupCards("LD ../currentSeed.txt");                                       //Setup 1 LinkedList containing the cards from CurrentSeed.txt
-                setGameStarted(false);
+                *dataPTR_GameStarted() = false;
             }
             else
                 setErrorMessage("Game not started");

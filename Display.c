@@ -118,8 +118,8 @@ void gameDisplay(){
 
 void displayInfolines() {
     printf("\nLAST Command: %s", dataPTR_lastCommand());
-    if (getErrorMessage() == NULL || strcmp(getErrorMessage(), "") == 0) //if errormessage points to null or is empty.
+    if (strcmp(dataPTR_ErrorMessage(), "") == 0) //if errormessage points to null or is empty.
         printf("Message: OK\n");
     else
-        printf("Message: %s\n",getErrorMessage());
+        printf("Message: %s\n",dataPTR_ErrorMessage());
 }

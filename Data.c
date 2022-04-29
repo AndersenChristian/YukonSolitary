@@ -11,7 +11,7 @@ LinkedList deck = {0, NULL, NULL};
 LinkedList boardSlots[11]; //0-6 Cards, 7-11 Foundations [C, S, D, H]
 
 char lastCommand[255] = "\n";
-char errorMessage[50]; //set by the various methods of the program to proper display if anything goes wrong.
+char errorMessage[255]; //set by the various methods of the program to proper display if anything goes wrong.
 
 //the following boolean values are used to keep a track of the current game-state
 bool deckLoaded = false;
@@ -37,6 +37,10 @@ char* dataPTR_lastCommand(){
     return lastCommand;
 }
 
+char* dataPTR_ErrorMessage(){
+    return errorMessage;
+}
+
 bool* dataPTR_DeckLoaded(){
     return &deckLoaded;
 }
@@ -49,21 +53,6 @@ bool* dataPTR_GameStarted(){
     return &gameStarted;
 }
 
-
-////////////////////////////////////////
-
-void setIsDeckLoaded(bool flag){
-    deckLoaded = flag;
-}
-
-void setErrorMessage(char message[]){
+void setErrorMessage(char* message){
     strcpy(errorMessage, message);
-}
-
-char* getErrorMessage(){
-    return errorMessage;
-}
-
-void setGameStarted(bool flag){
-    gameStarted = flag;
 }

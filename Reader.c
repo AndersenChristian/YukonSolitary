@@ -45,7 +45,7 @@ void setupCards(char* command){
     fclose(cardFile);
 
     if (validateDeck()) { //check if the deck has all the cards necessary.
-        setIsDeckLoaded(true);
+        *dataPTR_DeckLoaded() = true;
         setErrorMessage("Deck loaded correct");
     } else {
         deAllocateMalloc(); //if the validation fails, we remove our mem allocation.

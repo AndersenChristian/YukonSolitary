@@ -46,15 +46,12 @@ void pushCardToDeck(char name[3]);
 LinkedList* dataPTR_ToDeck();
 LinkedList* dataPTR_ToBoard();
 char* dataPTR_lastCommand();
+char* dataPTR_ErrorMessage();
 bool* dataPTR_DeckLoaded();
 bool* dataPTR_IsGameDone();
 bool* dataPTR_GameStarted();
+void setErrorMessage(char*);
 
-void setErrorMessage(char[]);
-char* getErrorMessage();
-void resetErrorMessage();
-void setIsDeckLoaded(bool);
-void setGameStarted(bool);
 
 
 //Logic
