@@ -27,7 +27,7 @@ struct LinkedList {
     Card* tail;
 };
 
-void addCard(LinkedList* list, Card* pCard);
+void addCard(char*);
 Card* getCardByIndex(LinkedList* list, int index);
 Card* getCardByName(LinkedList* list, char* name);
 Card* getLastCard(LinkedList* list);
@@ -42,7 +42,6 @@ void moveCardToFoundation(LinkedList* foundation, Card* card);
 
 //Methods
 //Data
-void pushCardToDeck(char name[3]);
 LinkedList* dataPTR_ToDeck();
 LinkedList* dataPTR_ToBoard();
 char* dataPTR_lastCommand();

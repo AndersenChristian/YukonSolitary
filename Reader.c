@@ -39,7 +39,7 @@ void setupCards(char* command){
     }
     for (int i = 0; i < DECK_SIZE; ++i) {
         if (fgets(buffer, 10, cardFile)){
-            pushCardToDeck((char *) buffer); //setup the card one by one.
+            addCard((char *) buffer); //setup the card one by one.
         }
     }
     fclose(cardFile);

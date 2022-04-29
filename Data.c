@@ -18,13 +18,6 @@ bool deckLoaded = false;
 bool isGameDone = false;
 bool gameStarted = false;
 
-void pushCardToDeck(char name[3]){
-    Card card;
-    card.name[0] = name[0];
-    card.name[1] = name[1];
-    card.name[2] = '\0';
-    addCard(&deck, &card);
-}
 LinkedList* dataPTR_ToDeck(){
     return &deck;
 }

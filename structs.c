@@ -7,14 +7,15 @@
  * @param pCard
  */
  // TODO might not be used, since length never gets updated
-void addCard(LinkedList* list, Card* pCard){
+void addCard(char* cardInfo){
+    LinkedList* list = dataPTR_ToDeck();
     Card* newCard = malloc(sizeof (Card));
-    newCard->name[0] = pCard->name[0];
-    newCard->name[1] = pCard->name[1];
-    newCard->name[2] = pCard->name[2];
-    newCard->next = pCard->next;
-    newCard->prev = pCard->prev;
-    newCard->faceUp = pCard->faceUp;
+    newCard->name[0] = cardInfo[0];
+    newCard->name[1] = cardInfo[1];
+    newCard->name[2] = '\0';
+    newCard->next = NULL;
+    newCard->prev = list->tail;
+    newCard->faceUp = false;
 
     if (list->head == NULL){ // First entry
         list->head = newCard;
