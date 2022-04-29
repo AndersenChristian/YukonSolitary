@@ -3,17 +3,13 @@
 #include <string.h>
 #include <stdio.h>
 
-
-char input[255];
-
 /**
  * Author: Frederik G. Petersen (S215834)
  * @return
  */
-char* getPlayerInput(){
+void getPlayerInput(){
     printf("INPUT > ");
     fflush(stdin);
-    strcpy(dataPTR_lastCommand(), fgets (input, 255, stdin));
-    return input;
+    fgets (dataPTR_lastCommand(), 255, stdin);
 }
 

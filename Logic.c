@@ -15,7 +15,8 @@ extern void playGame() {
     updateDisplay();
 
     do {
-        processPlayerInput(getPlayerInput());
+        getPlayerInput();
+        processPlayerInput(dataPTR_lastCommand());
         updateBoard(); // Nothing in function
         updateDisplay();
 
@@ -36,7 +37,7 @@ bool winCondition(){
  * Shuffle the car
  */
 void shuffle() {
-    LinkedList* deck = dataptrToDeck();       //gets a pointer to the current LinkedList
+    LinkedList* deck = dataPTR_ToDeck();       //gets a pointer to the current LinkedList
     Card* nextCard = deck->head->next;  //keeps a track of the remaining card we need to shuffle into the LinkedList
     int cardInList = 1;                 //keep a track of how many cards is currently in the new LinkedList
 
@@ -87,8 +88,8 @@ void shuffle() {
  * Author: Christian J. L. Andersen (S133288)
  */
 void setupBoard(){
-    Card * ptrToCard = dataptrToDeck()->head;
-    LinkedList* boardSlots = dataptrToBoard();
+    Card * ptrToCard = dataPTR_ToDeck()->head;
+    LinkedList* boardSlots = dataPTR_ToBoard();
 
     for (int i = 0; i<7; i++){ //create the first point in the linked list
         boardSlots[i].head = ptrToCard;
@@ -141,8 +142,8 @@ void saveGame(char* filename){
     strcat(filePath,filename);
     filePath[strcspn(filePath,"\n")]=0;
     fp = fopen (filePath, "w");
-    if (dataptrToDeck()->head != NULL){
-        Card* card = dataptrToDeck()->head;
+    if (dataPTR_ToDeck()->head != NULL){
+        Card* card = dataPTR_ToDeck()->head;
         fputs(card->name, fp);
         fputs("\n",fp);
         while(card->next != NULL){
@@ -163,9 +164,6 @@ void updateBoard(){
  */
  // TODO Make better initial comparision to check nothing follows the initals
 void processPlayerInput(char* string){
-    //printf("Inputted String: %s\n", string); //todo: delete after testing
-
-    setLastCommand(string);
 
     if (string[2] == ':' && string[5] == '-' && string[6] == '>'){ // Game Move
         // Get everything from input
@@ -190,7 +188,7 @@ void processPlayerInput(char* string){
         // Things to process
         if (strcasecmp(initials, "LD") == 0){
             if (!isDeckLoaded())
-                setupCards();
+                setupCards(dataPTR_lastCommand());
             else
                 setErrorMessage("Deck already loaded");
         } else if (strcasecmp(initials, "SW") == 0){
@@ -233,13 +231,13 @@ void processPlayerInput(char* string){
 
                 // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                 // Find better place for this:
-                attemptMovingCardsToFoundation(&dataptrToBoard()[0]);
-                attemptMovingCardsToFoundation(&dataptrToBoard()[1]);
-                attemptMovingCardsToFoundation(&dataptrToBoard()[2]);
-                attemptMovingCardsToFoundation(&dataptrToBoard()[3]);
-                attemptMovingCardsToFoundation(&dataptrToBoard()[4]);
-                attemptMovingCardsToFoundation(&dataptrToBoard()[5]);
-                attemptMovingCardsToFoundation(&dataptrToBoard()[6]);
+                attemptMovingCardsToFoundation(&dataPTR_ToBoard()[0]);
+                attemptMovingCardsToFoundation(&dataPTR_ToBoard()[1]);
+                attemptMovingCardsToFoundation(&dataPTR_ToBoard()[2]);
+                attemptMovingCardsToFoundation(&dataPTR_ToBoard()[3]);
+                attemptMovingCardsToFoundation(&dataPTR_ToBoard()[4]);
+                attemptMovingCardsToFoundation(&dataPTR_ToBoard()[5]);
+                attemptMovingCardsToFoundation(&dataPTR_ToBoard()[6]);
 
                 setGameStarted(true);
                 setErrorMessage("OK");
@@ -253,9 +251,7 @@ void processPlayerInput(char* string){
             if (hasGameStarted()) {                                 //ensures that a game is in progress.
                 setErrorMessage("OK");
                 deAllocateMalloc();                                 //removes the current card, and free the memory.
-                setLastCommand("LD ../CurrentSeed.txt");   //The last command is where the setupCards get the filePath.
-                setupCards();                                       //Setup 1 LinkedList containing the cards from CurrentSeed.txt
-                setLastCommand("Q\n");                     //reverse the LastCommand for proper showing
+                setupCards("LD ../currentSeed.txt");                                       //Setup 1 LinkedList containing the cards from CurrentSeed.txt
                 setGameStarted(false);
             }
             else
@@ -283,8 +279,8 @@ void flipTopCards(LinkedList* list){
  */
 bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     // Find card in from-column
-    LinkedList fromList = dataptrToBoard()[getColumnIndex(columnFrom)];
-    LinkedList toList = dataptrToBoard()[getColumnIndex(columnDest)];
+    LinkedList fromList = dataPTR_ToBoard()[getColumnIndex(columnFrom)];
+    LinkedList toList = dataPTR_ToBoard()[getColumnIndex(columnDest)];
     Card* fromCard = getCardByName(&fromList, cardName);
     Card* toCard = getLastCard(&toList);
 
@@ -383,7 +379,7 @@ CARD_SUITS getCardSuit(Card* card){
 }
 
 LinkedList* getFoundation(Card* card){
-    LinkedList* list = dataptrToBoard();
+    LinkedList* list = dataPTR_ToBoard();
     if (card->name[1] == 'C') return &list[7];
     if (card->name[1] == 'S') return &list[8];
     if (card->name[1] == 'D') return &list[9];
@@ -406,9 +402,9 @@ void deAllocateMalloc(){
     Card* card;
     if(hasGameStarted()){                   //If the game has started the cards pointers are in the 11 LinkedList,
         for (int i = 0; i < 11; ++i) {
-            if (dataptrToBoard()[i].head == NULL) //ensures that there are any cards in the LinkedList
+            if (dataPTR_ToBoard()[i].head == NULL) //ensures that there are any cards in the LinkedList
                 break;
-            card = dataptrToBoard()[i].head;      //gets the first Card of the LinkedList
+            card = dataPTR_ToBoard()[i].head;      //gets the first Card of the LinkedList
             do{
                 if(card->next == NULL){
                     free(card);
@@ -419,7 +415,7 @@ void deAllocateMalloc(){
             }while(1);
         }
     }else{
-        card = dataptrToDeck()->head->next;
+        card = dataPTR_ToDeck()->head->next;
         while (true){
             free(card->prev);
             if(card->next == NULL){
@@ -429,4 +425,7 @@ void deAllocateMalloc(){
             card = card->next;
         }
     }
+    dataPTR_ToDeck()->length = 0;
+    dataPTR_ToDeck()->head = NULL;
+    dataPTR_ToDeck()->tail = NULL;
 }

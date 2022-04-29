@@ -24,11 +24,11 @@ char* token; //token is used to do some string manipulation, and remove unwanted
  *
  * (note) some OS accept '\\' but this can cause issues.
  */
-void setupCards(){
-    if (getLastCommand()[2] != 32) //checks if the 3 char in the string is an empty space.
+void setupCards(char* command){
+    if (command[2] != 32) //checks if the 3 char in the string is an empty space.
         cardFile = fopen("..\\Cards.txt","r");
     else {
-        token = getLastCommand() + 3; //gets the string that start after the empty space.
+        token = command + 3; //gets the string that start after the empty space.
         if(!(strcspn(token,"\n") == strlen(token))) //checks if there is a /n in the end of the string and removes it.
             token[strcspn(token, "\n")] = 0;
         cardFile = fopen((token), "r");
@@ -37,7 +37,6 @@ void setupCards(){
         setErrorMessage("the file does not exist");
         return;
     }
-    initDeck(); //creates the deck for the cards to be put into.
     for (int i = 0; i < DECK_SIZE; ++i) {
         if (fgets(buffer, 10, cardFile)){
             pushCardToDeck((char *) buffer); //setup the card one by one.
@@ -73,7 +72,7 @@ bool validateDeck() {
                 return false;
             }
             cardsChecked = 0;
-            nextCard = dataptrToDeck()->head; //gets the first card in the deck.
+            nextCard = dataPTR_ToDeck()->head; //gets the first card in the deck.
             flag = false;
             do {
                 if (getCardSuit(nextCard) == i && getCardValue(nextCard) == j+1) { //check if the suit and value equils the card we are looking for.

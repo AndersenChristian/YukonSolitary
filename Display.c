@@ -39,9 +39,9 @@ void defaultDisplay(){
     int cardPrinted = 0;
     int foundationsPrinted = 0;
     int lineOn = 1;
-    Card* currentCard = dataptrToDeck()->head;
+    Card* currentCard = dataPTR_ToDeck()->head;
     do{
-        if (currentCard->faceUp || strcmp(getLastCommand(), "SW\n") == 0 )
+        if (currentCard->faceUp || strcmp(dataPTR_lastCommand(), "SW\n") == 0 )
             printf("%s\t",currentCard->name);
         else
             printf("[]\t");
@@ -69,7 +69,7 @@ void gameDisplay(){
     int finishedLines[7]; //0 = not finished, 1 = is finished.
 
     for (int i = 0; i < 7; i++) {
-        if(dataptrToBoard()[i].head != NULL)
+        if(dataPTR_ToBoard()[i].head != NULL)
             finishedLines[i]=0;
         else
             finishedLines[i]=1;
@@ -77,7 +77,7 @@ void gameDisplay(){
 
     do {
         if (finishedLines[currentLine] == 0) {
-            currentCard = dataptrToBoard()[currentLine].head;
+            currentCard = dataPTR_ToBoard()[currentLine].head;
             for (int i = 0; i < line; i++){
                 currentCard = currentCard->next;
             }
@@ -94,7 +94,7 @@ void gameDisplay(){
             if (line == 0 || line == 2 || line == 4 || line == 6) {
                 // Frederik's implementation
                 char* foundation = "[]\0";
-                LinkedList F = dataptrToBoard()[finishesPrinted + 7];
+                LinkedList F = dataPTR_ToBoard()[finishesPrinted + 7];
                 Card* fCard = getLastCard(&F);
 
                 if (fCard != NULL){
@@ -117,7 +117,7 @@ void gameDisplay(){
 }
 
 void displayInfolines() {
-    printf("\nLAST Command: %s", getLastCommand());
+    printf("\nLAST Command: %s", dataPTR_lastCommand());
     if (getErrorMessage() == NULL || strcmp(getErrorMessage(), "") == 0) //if errormessage points to null or is empty.
         printf("Message: OK\n");
     else

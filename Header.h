@@ -42,17 +42,13 @@ void moveCardToFoundation(LinkedList* foundation, Card* card);
 
 //Methods
 //Data
-void initDeck();
 bool isDeckLoaded();
 void pushCardToDeck(char name[3]);
-LinkedList* dataptrToDeck();
-LinkedList* dataptrToBoard();
+LinkedList* dataPTR_ToDeck();
+LinkedList* dataPTR_ToBoard();
 char* dataPTR_lastCommand();
 
-void printDeck();
 bool isGameWon();
-void setLastCommand(char* command);
-char* getLastCommand();
 void setErrorMessage(char[]);
 char* getErrorMessage();
 void resetErrorMessage();
@@ -90,12 +86,11 @@ void displayInfolines();
 void defaultDisplay();
 
 //Reader
-void setupCards();
+void setupCards(char*);
 bool validateDeck();
 
 //PlayerInput
-char* getPlayerInput();
+void getPlayerInput();
 void processPlayerInput(char string[]);
-void showMessage(char* msg);
 
 #endif //YUKON_HEADER_H

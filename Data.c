@@ -7,26 +7,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-LinkedList deck;
+LinkedList deck = {0, NULL, NULL};
 LinkedList boardSlots[11]; //0-6 Cards, 7-11 Foundations [C, S, D, H]
 
-char lastCommand[255];
+char lastCommand[255] = "\n";
 char errorMessage[50]; //set by the various methods of the program to proper display if anything goes wrong.
 
 //the following boolean values are used to keep a track of the current game-state
 bool deckLoaded = false;
 bool isGameDone = false;
 bool gameStarted = false;
-
-void initDeck() {
-    deck.length = 0;
-
-    //deck.head = (Card *) malloc(sizeof(Card));
-    //deck.tail = (Card *) malloc(sizeof(Card));
-
-    deck.head = NULL;
-    deck.tail = NULL;
-}
 
 void pushCardToDeck(char name[3]){
     Card card;
@@ -35,16 +25,16 @@ void pushCardToDeck(char name[3]){
     card.name[2] = '\0';
     addCard(&deck, &card);
 }
-LinkedList* dataptrToDeck(){
+LinkedList* dataPTR_ToDeck(){
     return &deck;
 }
 
-LinkedList* dataptrToBoard(){
+LinkedList* dataPTR_ToBoard(){
     return boardSlots;
 }
 
 char* dataPTR_lastCommand(){
-    &lastCommand;
+    return lastCommand;
 }
 
 bool* dataPTR_DeckLoaded(){
@@ -71,10 +61,6 @@ void setIsDeckLoaded(bool flag){
 
 bool isGameWon(){
     return isGameDone;
-}
-
-char* getLastCommand(){
-    return lastCommand;
 }
 
 void setErrorMessage(char message[]){
