@@ -32,7 +32,8 @@ Card* getCardByIndex(LinkedList* list, int index);
 Card* getCardByName(LinkedList* list, char* name);
 Card* getLastCard(LinkedList* list);
 void printList(LinkedList* list);
-void moveCardToStack(Card* cardToMove, Card* destination);
+void moveCardToCard(Card* cardToMove, Card* destination);
+void moveCardToColumn(LinkedList* column, Card* cardToMove);
 void moveCardToFoundation(LinkedList* foundation, Card* card);
 
 
@@ -69,7 +70,7 @@ void updateBoard();
 void saveGame(char* filename);
 void exitGame();
 bool attemptCardMove(char* columnFrom, char* card, char* columnDest);
-void attemptMovingCardsToFoundation(LinkedList* list);
+void attemptFoundationMove(char* columnFrom, char* columnDest);
 int getColumnIndex(char* columnStr);
 bool cardCanBePlaced(Card* cardBehind, Card* cardOntop);
 CARD_SUITS getCardSuit(Card* card);

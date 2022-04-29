@@ -88,30 +88,44 @@ Card* getLastCard(LinkedList* list){
  * @param cardToMove
  * @param destination
  */
-void moveCardToStack(Card* cardToMove, Card* destination){
-    cardToMove->prev->next = NULL;
 
+// These might need to be moved to logic. --------------------------------------
+void moveCardToCard(Card* cardToMove, Card* destination){
+    if (cardToMove->prev != NULL){
+        cardToMove->prev->next = NULL;
+    }
     destination->next = cardToMove;
     cardToMove->prev = destination;
-
 }
 
-void moveCardToFoundation(LinkedList* foundation, Card* card){
-    // TODO Need to check if the card to move is the last card in the stack it should act differently to not go outside of bonds.
-    /*
-    Card* tailCard = foundation->tail;
-    if (tailCard == NULL){
-        foundation->head = card;
-        foundation->tail = card;
-        card->prev = NULL;
-    } else {
-        tailCard->next = card;
-        card->prev->next = NULL;
-        card->prev = tailCard;
+void moveCardToColumn(LinkedList* column, Card* card){
+    card->prev->next = card->next;
+
+    if(card->next != NULL){
+        card->next->prev = card->prev;
     }
-    printf("Moved Card to Foundation!\n");
-    */
+    card->prev = NULL;
+
+    column->head = card;
+    column->tail = card;
 }
+
+void moveCardToFoundation(LinkedList* foundation, Card* cardToMove){
+    if (foundation->head == NULL){
+        foundation->head = cardToMove;
+        foundation->tail = cardToMove;
+    } else {
+        foundation->tail->next = cardToMove;
+        cardToMove->prev = foundation->tail;
+        foundation->tail = cardToMove;
+    }
+    printf("Moved Card to Foundation\n");
+}
+
+void moveCardFromFoundation(LinkedList* foundation, LinkedList* columnDest){
+
+}
+
 /**
  * Author: Frederik G. Petersen (S215834)
  * @param list

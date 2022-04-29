@@ -8,6 +8,10 @@
 #include <string.h>
 #include "Header.h"
 
+// TODO LIST
+// - Test if move is valid when moving. It is causing errors.
+// - Be sure to update tail pointer when adding cards to end of stack.
+
 /**
  *
  */
@@ -234,11 +238,22 @@ void processPlayerInput(char* string){
         toColumn[2] = '\0';
 
         // Process it
-        bool moveMade = attemptCardMove(fromColumn, card, toColumn);
+        attemptCardMove(fromColumn, card, toColumn);
+
+
+
+    } else if (string[2] == '-' && string[3] == '>'){ // From/To foundation
+        char fromColumn[3];
+        char toColumn[3];
+        memcpy(fromColumn, string, 2);
+        memcpy(toColumn, &string[4], 2);
+
+        attemptFoundationMove(fromColumn, toColumn);
 
     } else {
         char initials[3];
         memcpy(initials, string, 2);
+        initials[2] = '\0';
 
         // Things to process
         if (strcasecmp(initials, "LD") == 0){
@@ -284,16 +299,6 @@ void processPlayerInput(char* string){
                 saveGame("CurrentSeed.txt"); //saves the current card setup.
                 setupBoard();
 
-                // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-                // Find better place for this:
-                attemptMovingCardsToFoundation(&getBoard()[0]);
-                attemptMovingCardsToFoundation(&getBoard()[1]);
-                attemptMovingCardsToFoundation(&getBoard()[2]);
-                attemptMovingCardsToFoundation(&getBoard()[3]);
-                attemptMovingCardsToFoundation(&getBoard()[4]);
-                attemptMovingCardsToFoundation(&getBoard()[5]);
-                attemptMovingCardsToFoundation(&getBoard()[6]);
-
                 setGameStarted(true);
                 setErrorMessage("OK");
             }else{
@@ -336,41 +341,94 @@ void flipTopCards(LinkedList* list){
  */
 bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     // Find card in from-column
-    LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
-    LinkedList toList = getBoard()[getColumnIndex(columnDest)];
-    Card* fromCard = getCardByName(&fromList, cardName);
-    Card* toCard = getLastCard(&toList);
+    LinkedList* fromList = &getBoard()[getColumnIndex(columnFrom)];
+    LinkedList* toList = &getBoard()[getColumnIndex(columnDest)];
+    Card* fromCard = getCardByName(fromList, cardName);
+    Card* toCard = getLastCard(toList);
 
-    if (fromCard == NULL || toCard == NULL){
-        setErrorMessage("Move is Invalid!");
-        return false;
+    // King to Empty Column
+    if (toList->head == NULL){
+        if (fromCard->name[0] == 'K'){
+            moveCardToColumn(toList, fromCard);
+        } else {
+            setErrorMessage("Invalid move");
+            return false;
+        }
     }
 
-    if (cardCanBePlaced(toCard, fromCard)){
-        moveCardToStack(fromCard, toCard);
-        flipTopCards(&fromList);
-        setErrorMessage("Card Moved");
-        // TODO Check if it works when having implemented showing foundations
-        attemptMovingCardsToFoundation(&fromList);
-        return true;
+    // Normal move
+    else if (columnFrom[0] == 'C' && columnDest[0] == 'C'){
+        if (fromCard == NULL || toCard == NULL){
+            setErrorMessage("Move is Invalid!");
+            return false;
+        }
+        if (cardCanBePlaced(toCard, fromCard)){
+            moveCardToCard(fromCard, toCard);
+            flipTopCards(fromList);
+            setErrorMessage("Card Moved");
+            return true;
+        }
     }
 }
 
-void attemptMovingCardsToFoundation(LinkedList* list){
-    Card* card = getLastCard(list);
-    LinkedList foundation = *getFoundation(card);
-    Card* foundationCard = foundation.tail;
+void attemptFoundationMove(char* columnFrom, char* columnDest){
+    LinkedList* fromList = &getBoard()[getColumnIndex(columnFrom)];
+    LinkedList* toList = &getBoard()[getColumnIndex(columnDest)];
 
-    if (foundationCard == NULL){ // Only for Aces
-        if (getCardValue(card) == 1){
-            moveCardToFoundation(&foundation, card);
-            //attemptMovingCardsToFoundation(list); // Get back when no infinite loop
+    if (columnFrom[0] == 'C' && columnDest[0] == 'F'){ // To Foundation
+
+        Card* card = getLastCard(fromList);
+
+        // Get correct Foundation.
+        char suit = card->name[1];
+        LinkedList* foundation = NULL;
+
+        if (suit == 'C'){ foundation = &getBoard()[7]; }
+        if (suit == 'S'){ foundation = &getBoard()[8]; }
+        if (suit == 'D'){ foundation = &getBoard()[9]; }
+        if (suit == 'H'){ foundation = &getBoard()[10]; }
+
+        if (foundation == NULL){
+            setErrorMessage("Move Is Invalid");
+            return;
         }
 
-    } else if (getCardValue(foundationCard)+1 == getCardValue(card)){
-        // For rest
-        moveCardToFoundation(&foundation, card);
-        //attemptMovingCardsToFoundation(list); // Get back when no infinite loop
+        // See if it's a valid move
+        if (getCardValue(foundation->tail)+1 == getCardValue(card)){
+            // Disconnect Card
+            if (card->prev == NULL){ // Last card in stack
+                fromList->head = NULL;
+                fromList->tail = NULL;
+
+            } else { // not last
+                fromList->tail = fromList->tail->prev;
+                card->prev->next = NULL;
+                card->prev = NULL;
+            }
+
+            moveCardToFoundation(foundation, card);
+        } else {
+            setErrorMessage("Move is Invalid");
+        }
+    }
+
+    if (columnFrom[0] == 'F' && columnDest[0] == 'C') { // Back from foundation
+        Card* foundationCard = getLastCard(fromList);
+        Card* columnCard = getLastCard(toList);
+
+        // Disconnect it from foundation
+        if (foundationCard->prev == NULL){
+            fromList->head = NULL;
+            fromList->tail = NULL;
+        } else {
+            foundationCard->prev->next = NULL;
+            foundationCard->prev = NULL;
+        }
+
+        //
+        if (cardCanBePlaced(columnCard, foundationCard)){
+            moveCardToCard(foundationCard, columnCard);
+        }
     }
 }
 
@@ -404,6 +462,7 @@ bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
  * @return
  */
 int getCardValue(Card* card){
+    if (card == NULL) return 0;
     switch (card->name[0]) {
         case 'A': return 1;
         case '2': return 2;
