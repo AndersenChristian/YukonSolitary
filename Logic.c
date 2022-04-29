@@ -20,7 +20,7 @@ extern void playGame() {
         updateBoard(); // Nothing in function
         updateDisplay();
 
-    }while(!isGameWon());
+    }while(!(*dataPTR_IsGameDone()));
 }
 
 /**
@@ -162,7 +162,7 @@ void updateBoard(){
  * Author: Frederik G. Petersen (S215834)
  * @param string
  */
- // TODO Make better initial comparision to check nothing follows the initals
+ // TODO Make better initial comparison to check nothing follows the initials
 void processPlayerInput(char* string){
 
     if (string[2] == ':' && string[5] == '-' && string[6] == '>'){ // Game Move
@@ -187,7 +187,7 @@ void processPlayerInput(char* string){
 
         // Things to process
         if (strcasecmp(initials, "LD") == 0){
-            if (!isDeckLoaded())
+            if (!(*dataPTR_DeckLoaded()))
                 setupCards(dataPTR_lastCommand());
             else
                 setErrorMessage("Deck already loaded");
@@ -197,7 +197,7 @@ void processPlayerInput(char* string){
         } else if (strcasecmp(initials, "SI") == 0){
 
         } else if (strcasecmp(initials, "SR") == 0){
-            if (isDeckLoaded()) {
+            if (dataPTR_DeckLoaded()) {
                 shuffle();
                 setErrorMessage("OK");
             } else {
@@ -205,7 +205,7 @@ void processPlayerInput(char* string){
             }
 
         } else if (strcasecmp(initials, "SD") == 0){
-            if (isDeckLoaded()) {
+            if (dataPTR_DeckLoaded()) {
                 if(strlen(string) > 3) {
                     char *filename = &string[3];
                     saveGame(filename);
@@ -215,7 +215,7 @@ void processPlayerInput(char* string){
                 setErrorMessage("You must first load i file to save it");
         } else if (strcasecmp(initials, "QQ") == 0){
             remove("..\\CurrentSeed.txt");
-            if(isDeckLoaded())
+            if(dataPTR_DeckLoaded())
                 deAllocateMalloc();
             printf("\n---Exiting Game---\n");
             exit(0);
@@ -223,9 +223,9 @@ void processPlayerInput(char* string){
         // if a deck is loaded and the game is not already in progress, this will build our 11 LinkedList
         // for the board, and update the game state.
         }else if (strcasecmp(initials, "P\n") == 0){
-            if(hasGameStarted())
+            if(*dataPTR_GameStarted())
                 setErrorMessage("Game already in progress");
-            else if(isDeckLoaded()) {
+            else if(dataPTR_DeckLoaded()) {
                 saveGame("CurrentSeed.txt"); //saves the current card setup.
                 setupBoard();
 
@@ -248,7 +248,7 @@ void processPlayerInput(char* string){
         // If the game is running, this will reverse the gamestate, and load the card into a single LinkedList
         // with the same setup as before the game started.
         } else if (strcasecmp(initials, "Q\n") == 0){
-            if (hasGameStarted()) {                                 //ensures that a game is in progress.
+            if (*dataPTR_GameStarted()) {                                 //ensures that a game is in progress.
                 setErrorMessage("OK");
                 deAllocateMalloc();                                 //removes the current card, and free the memory.
                 setupCards("LD ../currentSeed.txt");                                       //Setup 1 LinkedList containing the cards from CurrentSeed.txt
@@ -400,7 +400,7 @@ LinkedList* getFoundation(Card* card){
 */
 void deAllocateMalloc(){
     Card* card;
-    if(hasGameStarted()){                   //If the game has started the cards pointers are in the 11 LinkedList,
+    if(*dataPTR_GameStarted()){                   //If the game has started the cards pointers are in the 11 LinkedList,
         for (int i = 0; i < 11; ++i) {
             if (dataPTR_ToBoard()[i].head == NULL) //ensures that there are any cards in the LinkedList
                 break;

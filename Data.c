@@ -38,29 +38,22 @@ char* dataPTR_lastCommand(){
 }
 
 bool* dataPTR_DeckLoaded(){
-    &deckLoaded;
+    return &deckLoaded;
 }
 
 bool* dataPTR_IsGameDone(){
-    &isGameDone;
+    return &isGameDone;
 }
 
 bool* dataPTR_GameStarted(){
-    &gameStarted;
+    return &gameStarted;
 }
 
 
-
-bool isDeckLoaded(){
-    return deckLoaded;
-}
+////////////////////////////////////////
 
 void setIsDeckLoaded(bool flag){
     deckLoaded = flag;
-}
-
-bool isGameWon(){
-    return isGameDone;
 }
 
 void setErrorMessage(char message[]){
@@ -69,10 +62,6 @@ void setErrorMessage(char message[]){
 
 char* getErrorMessage(){
     return errorMessage;
-}
-
-bool hasGameStarted(){
-    return gameStarted;
 }
 
 void setGameStarted(bool flag){
