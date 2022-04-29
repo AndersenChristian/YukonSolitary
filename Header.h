@@ -32,7 +32,8 @@ Card* getCardByIndex(LinkedList* list, int index);
 Card* getCardByName(LinkedList* list, char* name);
 Card* getLastCard(LinkedList* list);
 void printList(LinkedList* list);
-void moveCardToStack(Card* cardToMove, Card* destination);
+void moveCardToCard(Card* cardToMove, Card* destination);
+void moveCardToColumn(LinkedList* column, Card* cardToMove);
 void moveCardToFoundation(LinkedList* foundation, Card* card);
 
 

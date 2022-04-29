@@ -90,11 +90,23 @@ Card* getLastCard(LinkedList* list){
  */
 
 // These might need to be moved to logic. --------------------------------------
-void moveCardToStack(Card* cardToMove, Card* destination){
+void moveCardToCard(Card* cardToMove, Card* destination){
     cardToMove->prev->next = NULL;
 
     destination->next = cardToMove;
     cardToMove->prev = destination;
+}
+
+void moveCardToColumn(LinkedList* column, Card* card){
+    card->prev->next = card->next;
+
+    if(card->next != NULL){
+        card->next->prev = card->prev;
+    }
+    card->prev = NULL;
+
+    column->head = card;
+    column->tail = card;
 }
 
 void moveCardToFoundation(LinkedList* foundation, Card* cardToMove){

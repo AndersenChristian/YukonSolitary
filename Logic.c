@@ -284,20 +284,30 @@ void flipTopCards(LinkedList* list){
  */
 bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     // Find card in from-column
-    LinkedList fromList = getBoard()[getColumnIndex(columnFrom)];
-    LinkedList toList = getBoard()[getColumnIndex(columnDest)];
-    Card* fromCard = getCardByName(&fromList, cardName);
-    Card* toCard = getLastCard(&toList);
+    LinkedList* fromList = &getBoard()[getColumnIndex(columnFrom)];
+    LinkedList* toList = &getBoard()[getColumnIndex(columnDest)];
+    Card* fromCard = getCardByName(fromList, cardName);
+    Card* toCard = getLastCard(toList);
 
-    if (columnFrom[0] == 'C' && columnDest[0] == 'C'){ // Normal move
+    // King to Empty Column
+    if (toList->head == NULL){
+        if (fromCard->name[0] == 'K'){
+            moveCardToColumn(toList, fromCard);
+        } else {
+            setErrorMessage("Invalid move");
+            return false;
+        }
+    }
+
+    // Normal move
+    else if (columnFrom[0] == 'C' && columnDest[0] == 'C'){
         if (fromCard == NULL || toCard == NULL){
             setErrorMessage("Move is Invalid!");
             return false;
         }
-
         if (cardCanBePlaced(toCard, fromCard)){
-            moveCardToStack(fromCard, toCard);
-            flipTopCards(&fromList);
+            moveCardToCard(fromCard, toCard);
+            flipTopCards(fromList);
             setErrorMessage("Card Moved");
             return true;
         }
