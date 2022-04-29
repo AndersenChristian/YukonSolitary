@@ -5,6 +5,8 @@
 #include "Header.h"
 #include <string.h>
 
+bool validateDeck();
+
 char buffer[5];
 FILE *cardFile;
 char* token; //token is used to do some string manipulation, and remove unwanted chars in the beginning.

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "Header.h"
+#include "Interface_Header.h"
 
 void updateDisplay(){
     printf("\nC1\tC2\tC3\tC4\tC5\tC6\tC7\n\n"); //always the first line we need printed

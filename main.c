@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Header.h"
+#include "Logic_Header.h"
 
 int main() {
     playGame();

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
-#include "Header.h"
+#include "Logic_Header.h"
 
 /**
  *
