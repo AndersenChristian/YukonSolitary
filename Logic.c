@@ -15,7 +15,6 @@ extern void playGame() {
     updateDisplay();
 
     do {
-        getPlayerInput();
         processPlayerInput(dataPTR_lastCommand());
         updateBoard(); // Nothing in function
         updateDisplay();
@@ -34,7 +33,7 @@ bool winCondition(){
 /**
  * Author: Christian J. L. Andersen (S133288)
  *
- * Shuffle the car
+ * Shuffle the deck
  */
 void shuffle() {
     LinkedList* deck = dataPTR_ToDeck();       //gets a pointer to the current LinkedList

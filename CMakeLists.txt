@@ -3,4 +3,4 @@ project(Yukon C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Yukon main.c Data.c Logic.c Display.c Header.h Reader.c PlayerInput.c structs.c Logic_Header.h Interface_Header.h)
+add_executable(Yukon main.c Data.c Logic.c Interface/Display.c Header.h Interface/Reader.c structs.c Logic_Header.h Interface/Interface_Header.h)

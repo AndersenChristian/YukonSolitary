@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Header.h"
-#include "Interface_Header.h"
+#include "Interface/Interface_Header.h"
 
 #ifndef YUKON_LOGIC_HEADER_H
 #define YUKON_LOGIC_HEADER_H

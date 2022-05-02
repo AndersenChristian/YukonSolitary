@@ -2,19 +2,25 @@
 #include <string.h>
 #include "Interface_Header.h"
 
+//local methods declaration
+void printGame();
+void printEmptyDisplay();
+void printCards();
+void printCommandLines();
+
 void updateDisplay(){
     printf("\nC1\tC2\tC3\tC4\tC5\tC6\tC7\n\n"); //always the first line we need printed
-    if (*dataPTR_GameStarted())
-        gameDisplay();
-    else if(!(*dataPTR_DeckLoaded()))
-        displayEmpty();
+    if (!(*dataPTR_DeckLoaded()))
+        printEmptyDisplay();
+    else if(!(*dataPTR_GameStarted()))
+        printCards();
     else
-        defaultDisplay();
+        printGame();
 
-    displayInfolines();
+    printCommandLines();
 }
 
-void displayEmpty(){
+void printEmptyDisplay(){
     int count = 1;
     for (int i = 0; i < 7; ++i) {
         if (i%2 == 0) {
@@ -29,7 +35,7 @@ void displayEmpty(){
     }
 }
 
-void defaultDisplay(){
+void printCards(){
     int cardPrinted = 0;
     int foundationsPrinted = 0;
     int lineOn = 1;
@@ -54,7 +60,7 @@ void defaultDisplay(){
     printf("\n");
 }
 
-void gameDisplay(){
+void printGame(){
     Card* currentCard;
     int cardsPrinted = 0;
     int currentLine = 0;
@@ -110,11 +116,13 @@ void gameDisplay(){
     printf("\n");
 }
 
-void displayInfolines() {
+void printCommandLines() {
     printf("\nLAST Command: %s", dataPTR_lastCommand());
     if (strcmp(dataPTR_ErrorMessage(), "") == 0) //if errormessage points to null or is empty.
         printf("Message: OK\n");
     else
         printf("Message: %s\n",dataPTR_ErrorMessage());
     printf("INPUT > ");
+    fflush(stdin);
+    fgets (dataPTR_lastCommand(), 255, stdin);
 }

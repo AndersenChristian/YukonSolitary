@@ -2,7 +2,7 @@
 // Created by Rawfodog on 02-04-2022.
 //
 #include <stdio.h>
-#include "Header.h"
+#include "../Header.h"
 #include <string.h>
 
 bool validateDeck();
