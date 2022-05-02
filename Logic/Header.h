@@ -8,6 +8,7 @@
 #ifndef YUKON_HEADER_H
 #define YUKON_HEADER_H
 
+/*
 typedef struct Card Card;
 typedef struct LinkedList LinkedList;
 
@@ -26,6 +27,7 @@ struct LinkedList {
     Card* head;
     Card* tail;
 };
+*/
 
 void addCard(const char*);
 Card* getCardByIndex(LinkedList* list, int index);
@@ -40,15 +42,5 @@ void moveCardToFoundation(LinkedList* foundation, Card* card);
 #define DECK_SIZE (52)
 
 
-//Methods
-//Data
-LinkedList* dataPTR_ToDeck();
-LinkedList* dataPTR_ToBoard();
-char* dataPTR_lastCommand();
-char* dataPTR_ErrorMessage();
-bool* dataPTR_DeckLoaded();
-bool* dataPTR_IsGameDone();
-bool* dataPTR_GameStarted();
-void setErrorMessage(char*);
 
 #endif //YUKON_HEADER_H

@@ -1,11 +1,14 @@
-//
-// Created by Christian Andersen on 01-04-2022.
-//
+//Libaries
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+
+//Headers
+#include "../Data/Data_Header.h"
+#include "../Interface/Display_Header.h"
+#include "../Interface/Reader_Header.h"
 #include "Logic_Header.h"
 
 /**

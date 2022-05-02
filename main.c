@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "Logic_Header.h"
+#include "Logic/Logic_Header.h"
 
 int main() {
     playGame();

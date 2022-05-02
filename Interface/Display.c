@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "Interface_Header.h"
+
+#include "../Data/Data_Header.h"
 
 //local methods declaration
 void printGame();
@@ -95,7 +96,7 @@ void printGame(){
                 // Frederik's implementation
                 char* foundation = "[]\0";
                 LinkedList F = dataPTR_ToBoard()[finishesPrinted + 7];
-                Card* fCard = getLastCard(&F);
+                Card* fCard = F.tail;
 
                 if (fCard != NULL){
                     foundation = fCard->name;

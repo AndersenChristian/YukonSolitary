@@ -1,5 +1,9 @@
-#include "Header.h"
+//Libaries
 #include <string.h>
+#include <malloc.h>
+
+//Headers
+#include "../Data/Data_Header.h"
 
 /**
  * Author: Frederik G. Petersen (S215834)

@@ -1,9 +1,9 @@
-//
-// Created by Rawfodog on 02-04-2022.
-//
+//Libaries
 #include <stdio.h>
-#include "../Header.h"
 #include <string.h>
+
+//Header
+#include "../Data/Data_Header.h"
 
 bool validateDeck();
 

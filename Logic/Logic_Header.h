@@ -2,10 +2,7 @@
 // Created by Christian Andersen on 29-04-2022.
 //
 #include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "Header.h"
-#include "Interface/Interface_Header.h"
+#include "../Data/Data_Header.h"
 
 #ifndef YUKON_LOGIC_HEADER_H
 #define YUKON_LOGIC_HEADER_H
