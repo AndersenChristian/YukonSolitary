@@ -98,22 +98,15 @@ void moveCardToStack(Card* cardToMove, Card* destination){
 
     destination->next = cardToMove;
     cardToMove->prev = destination;
-
 }
 
-void moveCardToFoundation(LinkedList* foundation, Card* card){
-    // TODO Need to check if the card to move is the last card in the stack it should act differently to not go outside of bonds.
-    /*
-    Card* tailCard = foundation->tail;
-    if (tailCard == NULL){
-        foundation->head = card;
-        foundation->tail = card;
-        card->prev = NULL;
+void moveCardToFoundation(LinkedList* foundation, Card* cardToMove){
+    if (foundation->head == NULL){
+        foundation->head = cardToMove;
+        foundation->tail = cardToMove;
     } else {
-        tailCard->next = card;
-        card->prev->next = NULL;
-        card->prev = tailCard;
+        foundation->tail->next = cardToMove;
+        cardToMove->prev = foundation->tail;
+        foundation->tail = cardToMove;
     }
-    printf("Moved Card to Foundation!\n");
-    */
 }
