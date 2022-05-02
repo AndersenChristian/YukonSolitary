@@ -39,7 +39,7 @@ void split(){
     LinkedList thirdPile;
 
     int cardsInList = 1;
-    int count = atoi( &getLastCommand()[3]);
+    int getLastCommandNum = atoi(&getLastCommand()[3]);
     int i = 0;
 
     int randomNumber = rand()%(cardsInList+1);
@@ -50,7 +50,7 @@ void split(){
             temp = temp->next;
             i++;
 
-        }while(i < count);
+        }while(i <= getLastCommandNum);
         secondPile.tail = temp;
 
         thirdPile.head = secondPile.tail->next;
@@ -65,7 +65,7 @@ void split(){
             temp = temp->next;
             i++;
 
-        }while(i < randomNumber);
+        }while(i <= randomNumber);
         secondPile.tail = temp;
 
         thirdPile.head = secondPile.tail->next;
@@ -265,7 +265,13 @@ void processPlayerInput(char* string){
             //All functionality of this one is programmed into the display.
             setErrorMessage("OK");
         } else if (strcasecmp(initials, "SI") == 0){
-            split();
+            if (isDeckLoaded()){
+                split();
+                setErrorMessage("OK");
+            }
+            else{
+                setErrorMessage("You must load a deck before splitting!");
+            }
         } else if (strcasecmp(initials, "SR") == 0){
             if (isDeckLoaded()) {
                 shuffle();
