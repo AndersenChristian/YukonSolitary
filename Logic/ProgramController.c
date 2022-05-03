@@ -38,7 +38,8 @@ void processPlayerInput(char* string) {
     }
 
     else if (StrStrIA(string, "LD") != NULL) {
-        setupCards(dataPTR_lastCommand());
+        if(!*dataPTR_DeckLoaded())
+            setupCards(dataPTR_lastCommand());
     }
 
     else if (StrStrIA(string, "SW") != NULL) {
@@ -50,23 +51,30 @@ void processPlayerInput(char* string) {
     }
 
     else if (StrStrIA(string, "SI") != NULL) {
-        SI();
+        if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
+            SI();
     }
 
     else if (StrStrIA(string, "SR") != NULL) {
-        SR();
+        if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
+            SR();
     }
 
     else if (StrStrIA(string, "SD") != NULL) {
-        SD(&string[3]);
+        if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
+            SD(&string[3]);
     }
 
     else if (StrStrIA(string, "P") != NULL) {
-        P();
+        if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted()) {
+            SD("currentSeed.txt");
+            P();
+        }
     }
 
     else if (StrStrIA(string, "Q") != NULL) {
-        Q();
+        if (*dataPTR_GameStarted())
+            Q();
     }
 
     else if (string[2] == ':' && string[5] == '-' && string[6] == '>') { // Game Move
