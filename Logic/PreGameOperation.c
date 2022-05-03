@@ -180,34 +180,28 @@ void SI(){
     LinkedList secondPile;
     LinkedList thirdPile;
 
+    int splitNumber;
     int cardsInList = 1;
-    int getLastCommandNum = atoi(&dataPTR_lastCommand()[3]);
+    //int getLastCommandNum = dataPTR_lastCommand()[3] - 0;
     int i = 0;
 
-    int randomNumber = rand()%(cardsInList+1);
+    int lengthOfNumber = strlen(dataPTR_lastCommand());
+
+    if (lengthOfNumber == 1)
+        splitNumber = dataPTR_lastCommand()[3] - 0;
+    else if (lengthOfNumber == 2)
+        splitNumber = (dataPTR_lastCommand()[3] - 0) * 10 + (dataPTR_lastCommand()[4] - 0);
+    else
+        splitNumber = rand()%52;
+
     Card* temp = deck->head;
-    if (&dataPTR_lastCommand > 0 && dataPTR_lastCommand() < 52){
+    if (splitNumber > 0 && splitNumber < 52){
         secondPile.head = deck->head;
         do {
             temp = temp->next;
             i++;
+        }while(i < splitNumber);
 
-        }while(i <= getLastCommandNum);
-        secondPile.tail = temp;
-
-        thirdPile.head = secondPile.tail->next;
-        thirdPile.tail = deck->tail;
-
-        secondPile.tail->next = NULL;
-        thirdPile.head->prev = NULL;
-    }
-    else{
-        secondPile.head = deck->head;
-        do {
-            temp = temp->next;
-            i++;
-
-        }while(i <= randomNumber);
         secondPile.tail = temp;
 
         thirdPile.head = secondPile.tail->next;
@@ -218,12 +212,24 @@ void SI(){
     }
     deck->head = secondPile.head;
     deck->tail = secondPile.head;
+    if(secondPile.head->next != NULL){
+        secondPile.head = secondPile.head->next;
+        secondPile.head->prev = NULL;
+    }else{
+        secondPile.head = NULL;
+    }
+    deck->head->next = NULL;
 
     do{
-        deck->tail->next = secondPile.head->next;
-        deck->tail = secondPile.head->next;
-        deck->tail->next = thirdPile.head->next;
-        deck->tail = thirdPile.head->next;
+        if(thirdPile.head != NULL) {
+            deck->tail->next = thirdPile.head->next;
+            deck->tail = thirdPile.head->next;
+        }
+        if(secondPile.head != NULL) {
+            deck->tail->next = secondPile.head->next;
+            deck->tail = secondPile.head->next;
+        }
+
 
     }while (secondPile.tail->next != NULL || thirdPile.tail->next != NULL);
 }
