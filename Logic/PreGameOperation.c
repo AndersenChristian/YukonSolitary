@@ -7,135 +7,13 @@
 
 //Headers
 #include "../Data/Data_Header.h"
-#include "../Interface/Display_Header.h"
-#include "../Interface/Reader_Header.h"
 
 //own methods declaration
-void processPlayerInput(char*);
-void shuffle();
-void saveGame(char*);
-void setupBoard();
-
-void deAllocateMalloc();
-
-extern void playGame() {
-    updateDisplay();    //just to create a display the first time
-    do {
-        processPlayerInput(dataPTR_lastCommand());
-        updateDisplay();
-    }while(!(*dataPTR_IsGameDone()));
-}
-
-/**
- * Author: Frederik G. Petersen (S215834)
- * @param string
- */
-// TODO Make better initial comparison to check nothing follows the initials
-void processPlayerInput(char* string){
-
-    if (strcasecmp(string, "QQ\n") == 0) {
-        remove("..\\CurrentSeed.txt");
-        if (dataPTR_DeckLoaded())
-            deAllocateMalloc();
-        printf("\n---Exiting Game---\n");
-        exit(0);
-    }
-
-    if (!(*dataPTR_DeckLoaded())) {
-        if (strstr(string, "LD") != NULL)
-            setupCards(dataPTR_lastCommand());
-        else
-            setErrorMessage("Wrong game command at current stage of the game");
-    }
-
-    else if  (!(*dataPTR_GameStarted())) {
-
-        if (strcasecmp(string, "SW\n") == 0) {
-            //All functionality of this one is programmed into the display.
-            setErrorMessage("OK");
-        }
-
-        else if (strcasecmp(string, "SI\n") == 0) {
-            //todo, do something
-        }
-
-        else if (strcasecmp(string, "SR\n") == 0) {
-            if (dataPTR_DeckLoaded()) {
-                shuffle();
-                setErrorMessage("OK");
-            } else {
-                setErrorMessage("You must load a deck before shuffeling");
-            }
-        }
-
-        else if (strstr(string,"SD") != NULL) {
-            if (strlen(string) > 3) {
-                saveGame(&string[3]);
-            } else
-                setErrorMessage("You must choose a file name");
-        }
-
-        else if (strcasecmp(string, "P\n") == 0) {
-            saveGame("CurrentSeed.txt"); //saves the current card setup.
-            setupBoard();
-            *dataPTR_GameStarted() = true;
-            setErrorMessage("OK");
-        }
-
-        else
-            setErrorMessage("Wrong game command at current stage of the game");
-    }else if (dataPTR_GameStarted()) {
-        if (strcasecmp(string, "Q\n") == 0){             //ensures that a game is in progress.
-            setErrorMessage("OK");
-            deAllocateMalloc();                                 //removes the current card, and free the memory.
-            setupCards("LD ../currentSeed.txt");                                       //Setup 1 LinkedList containing the cards from CurrentSeed.txt
-            *dataPTR_GameStarted() = false;
-        }
-
-        if (string[2] == ':' && string[5] == '-' && string[6] == '>'){ // Game Move
-            // Get everything from input
-            char fromColumn[3];
-            char card[3];
-            char toColumn[3];
-
-            memcpy(fromColumn, string, 2);
-            memcpy(card, &string[3], 2);
-            memcpy(toColumn, &string[7], 2);
-
-            card[2] = '\0';
-            toColumn[2] = '\0';
-
-            // Process it
-            //bool moveMade = attemptCardMove(fromColumn, card, toColumn);
-            //TODO make PlayGame handle error messages
-        }
-
-        else
-            setErrorMessage("Wrong game command at current stage of the game");
-
-    }else {
-        //shouldn't happend
-        //could implement some reset code here to reset the entire game
-    }
-}
 
 
-/**
- *
- * @return
- */
-bool winCondition(){
-    //todo test for win condition
-}
-
-/**
- * Author: Christian J. L. Andersen (S133288)
- *
- * Shuffle the deck
- */
-void shuffle() {
+void SR() {
     LinkedList* deck = dataPTR_ToDeck();    //gets a pointer to the current LinkedList
-    Card* nextCard = deck->head->next;      //keeps a track of the remaining card we need to shuffle into the LinkedList
+    Card* nextCard = deck->head->next;      //keeps a track of the remaining card we need to SR into the LinkedList
     int cardInList = 1;                     //keep a track of how many cards is currently in the new LinkedList
 
     //removes all the card except the first from the LinkedList, and ensure all pointers are correct.
@@ -184,7 +62,7 @@ void shuffle() {
 /**
  * Author: Christian J. L. Andersen (S133288)
  */
-void setupBoard(){
+void P(){
     Card * ptrToCard = dataPTR_ToDeck()->head;
     LinkedList* boardSlots = dataPTR_ToBoard();
 
@@ -229,7 +107,7 @@ void setupBoard(){
  *
  * @param filename gets the name of the file, including the type. limited to only accept .txt files
  */
-void saveGame(char* filename){
+void SD(char* filename){
     FILE *fp;
     if(strcspn(filename,".txt") == strlen(filename)){
         setErrorMessage("Wrong file type");
@@ -262,7 +140,7 @@ void saveGame(char* filename){
  * First section is if the game has started. In that case, the references to the cards can be found in the
  * LinkedList array called boardSlots, and we will iterate through each of those list to free all Cards.
  *
- * Second is if cards have been loaded, but haven't been split into the smaller LinkedList.
+ * Second is if cards have been loaded, but haven't been SI into the smaller LinkedList.
  * In that case, all the references can be found in the LinkedList deck, and we iterate through that one, until all have been removed.
 */
 void deAllocateMalloc(){
@@ -295,4 +173,57 @@ void deAllocateMalloc(){
     dataPTR_ToDeck()->length = 0;
     dataPTR_ToDeck()->head = NULL;
     dataPTR_ToDeck()->tail = NULL;
+}
+
+void SI(){
+    LinkedList* deck = dataPTR_ToDeck();
+    LinkedList secondPile;
+    LinkedList thirdPile;
+
+    int cardsInList = 1;
+    int getLastCommandNum = atoi(&dataPTR_lastCommand()[3]);
+    int i = 0;
+
+    int randomNumber = rand()%(cardsInList+1);
+    Card* temp = deck->head;
+    if (&dataPTR_lastCommand > 0 && dataPTR_lastCommand() < 52){
+        secondPile.head = deck->head;
+        do {
+            temp = temp->next;
+            i++;
+
+        }while(i <= getLastCommandNum);
+        secondPile.tail = temp;
+
+        thirdPile.head = secondPile.tail->next;
+        thirdPile.tail = deck->tail;
+
+        secondPile.tail->next = NULL;
+        thirdPile.head->prev = NULL;
+    }
+    else{
+        secondPile.head = deck->head;
+        do {
+            temp = temp->next;
+            i++;
+
+        }while(i <= randomNumber);
+        secondPile.tail = temp;
+
+        thirdPile.head = secondPile.tail->next;
+        thirdPile.tail = deck->tail;
+
+        secondPile.tail->next = NULL;
+        thirdPile.head->prev = NULL;
+    }
+    deck->head = secondPile.head;
+    deck->tail = secondPile.head;
+
+    do{
+        deck->tail->next = secondPile.head->next;
+        deck->tail = secondPile.head->next;
+        deck->tail->next = thirdPile.head->next;
+        deck->tail = thirdPile.head->next;
+
+    }while (secondPile.tail->next != NULL || thirdPile.tail->next != NULL);
 }

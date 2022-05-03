@@ -1,5 +1,5 @@
-#ifndef YUKON_HEADER_H
-#define YUKON_HEADER_H
+#ifndef YUKON_GAMECONTROLLER_HEADER_H
+#define YUKON_GAMECONTROLLER_HEADER_H
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -13,5 +13,7 @@ Card* getLastCard(LinkedList* list);
 void printList(LinkedList* list);
 void moveCardToStack(Card* cardToMove, Card* destination);
 void moveCardToFoundation(LinkedList* foundation, Card* card);
+void attemptMovingCardsToFoundation(LinkedList*);
+void attemptFoundationMove(char*, char*);
 
-#endif //YUKON_HEADER_H
+#endif //YUKON_GAMECONTROLLER_HEADER_H
