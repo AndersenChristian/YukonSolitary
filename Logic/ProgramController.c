@@ -33,13 +33,14 @@ extern void playGame() {
 // TODO Make better initial comparison to check nothing follows the initials
 void processPlayerInput(char* string) {
 
-    if (StrStrIA(string, "QQ") != NULL) {
+    if (StrStrIA(string, "QQ") != NULL)
         QQ();
-    }
 
     else if (StrStrIA(string, "LD") != NULL) {
         if(!*dataPTR_DeckLoaded())
             setupCards(dataPTR_lastCommand());
+        else
+            setErrorMessage("Input not accepted at this point in the program");
     }
 
     else if (StrStrIA(string, "SW") != NULL) {
@@ -53,28 +54,38 @@ void processPlayerInput(char* string) {
     else if (StrStrIA(string, "SI") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
             SI();
+        else
+            setErrorMessage("Input not accepted at this point in the program");
     }
 
     else if (StrStrIA(string, "SR") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
             SR();
+        else
+            setErrorMessage("Input not accepted at this point in the program");
     }
 
     else if (StrStrIA(string, "SD") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
             SD(&string[3]);
+        else
+            setErrorMessage("Input not accepted at this point in the program");
     }
 
     else if (StrStrIA(string, "P") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted()) {
             SD("currentSeed.txt");
             P();
-        }
+
+        }else
+            setErrorMessage("Input not accepted at this point in the program");
     }
 
     else if (StrStrIA(string, "Q") != NULL) {
         if (*dataPTR_GameStarted())
             Q();
+        else
+            setErrorMessage("Input not accepted at this point in the program");
     }
 
     else if (string[2] == ':' && string[5] == '-' && string[6] == '>') { // Game Move
