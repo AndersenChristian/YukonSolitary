@@ -42,7 +42,7 @@ void processPlayerInput(char* string) {
     }
 
     else if (StrStrIA(string, "SW") != NULL) {
-        if (!*dataPTR_GameStarted() && dataPTR_DeckLoaded() && strlen(string))
+        if (!*dataPTR_GameStarted() && *dataPTR_DeckLoaded() && strlen(string))
             //do nothing
             setErrorMessage("OK");
         else
@@ -97,7 +97,7 @@ void processPlayerInput(char* string) {
 
 void QQ(){
     remove("..\\CurrentSeed.txt");
-    if (dataPTR_DeckLoaded())
+    if (*dataPTR_DeckLoaded())
         deAllocateMalloc();
     printf("\n---Exiting Game---\n");
     exit(0);
