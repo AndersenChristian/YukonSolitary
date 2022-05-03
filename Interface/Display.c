@@ -101,6 +101,7 @@ void printGame(){
                 if (fCard != NULL){
                     foundation = fCard->name;
                     foundation[2] = '\0';
+                    cardsPrinted++;
                 }
 
                 printf("\t%s\tF%d", foundation, finishesPrinted + 1);

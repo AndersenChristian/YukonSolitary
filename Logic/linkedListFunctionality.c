@@ -93,11 +93,26 @@ Card* getLastCard(LinkedList* list){
  * @param cardToMove
  * @param destination
  */
-void moveCardToStack(Card* cardToMove, Card* destination){
-    cardToMove->prev->next = NULL;
 
+// These might need to be moved to logic. --------------------------------------
+void moveCardToCard(Card* cardToMove, Card* destination){
+    if (cardToMove->prev != NULL){
+        cardToMove->prev->next = NULL;
+    }
     destination->next = cardToMove;
     cardToMove->prev = destination;
+}
+
+void moveCardToColumn(LinkedList* column, Card* card){
+    card->prev->next = card->next;
+
+    if(card->next != NULL){
+        card->next->prev = card->prev;
+    }
+    card->prev = NULL;
+
+    column->head = card;
+    column->tail = card;
 }
 
 void moveCardToFoundation(LinkedList* foundation, Card* cardToMove){
@@ -109,4 +124,23 @@ void moveCardToFoundation(LinkedList* foundation, Card* cardToMove){
         cardToMove->prev = foundation->tail;
         foundation->tail = cardToMove;
     }
+}
+
+void moveCardFromFoundation(LinkedList* foundation, LinkedList* columnDest){
+
+}
+
+/**
+ * Author: Frederik G. Petersen (S215834)
+ * @param list
+ */
+void printList(LinkedList* list){
+
+    Card* currentCard = list->head;
+
+    while (currentCard->next != NULL){
+        printf("%s\t", currentCard->name);
+        currentCard = currentCard->next;
+    }
+    printf("%s\n", currentCard->name);
 }
