@@ -222,14 +222,20 @@ void SI(){
 
     do{
         if(thirdPile.head != NULL) {
-            deck->tail->next = thirdPile.head->next;
-            deck->tail = thirdPile.head->next;
+            thirdPile.head->prev = deck->tail;
+            deck->tail = thirdPile.head;
+            thirdPile.head = thirdPile.head->next;
+            thirdPile.head->next = NULL;
+            deck->tail->prev->next = deck->tail;
+            thirdPile.head->prev = NULL;
         }
         if(secondPile.head != NULL) {
-            deck->tail->next = secondPile.head->next;
-            deck->tail = secondPile.head->next;
+            secondPile.head->prev = deck->tail;
+            deck->tail = secondPile.head;
+            secondPile.head = secondPile.head->next;
+            secondPile.head->next = NULL;
+            deck->tail->prev->next = deck->tail;
+            secondPile.head->prev = NULL;
         }
-
-
     }while (secondPile.tail->next != NULL || thirdPile.tail->next != NULL);
 }

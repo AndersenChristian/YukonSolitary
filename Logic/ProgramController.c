@@ -49,7 +49,7 @@ void processPlayerInput(char* string) {
             //All functionality of this one is programmed into the display.
             setErrorMessage("OK");
         } else if (strcasecmp(string, "SI\n") == 0) {
-            //todo, do something
+            SI();
         } else if (strcasecmp(string, "SR\n") == 0) {
             if (dataPTR_DeckLoaded()) {
                 SR();
