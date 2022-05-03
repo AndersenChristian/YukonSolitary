@@ -98,6 +98,7 @@ void P(){
         else
             currentList++;
     } while (amountOfCardsUsed != 52);
+    *dataPTR_GameStarted() = true;
 }
 
 /**
