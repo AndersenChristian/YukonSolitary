@@ -39,6 +39,30 @@ void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
     }
 }
 
+void moveCardFromFoundation(LinkedList* foundation, LinkedList* column){
+    Card* foundationCard = getLastCard(foundation);
+    moveCardToColumn(foundation, foundationCard, column);
+}
+
+/*
+void moveCardToFoundation(LinkedList* column){
+    Card* card = getLastCard(column);
+
+    char suit = card->name[1];
+    LinkedList* foundation = NULL;
+
+    if (suit == 'C'){ foundation = &dataPTR_ToBoard()[7]; }
+    if (suit == 'S'){ foundation = &dataPTR_ToBoard()[8]; }
+    if (suit == 'D'){ foundation = &dataPTR_ToBoard()[9]; }
+    if (suit == 'H'){ foundation = &dataPTR_ToBoard()[10]; }
+
+    // Validate move
+    if (getCardValue(foundation->tail)+1 == getCardValue(card)){
+        moveCardToColumn(column, card, foundation);
+    }
+}
+*/
+
 bool moveIsPossible(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
     Card* cardBehind = card;
     Card* cardOnTop = getLastCard(columnTo);
