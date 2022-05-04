@@ -16,4 +16,5 @@ void moveCardToFoundation(LinkedList* foundation, Card* card);
 void attemptMovingCardsToFoundation(LinkedList*);
 void attemptFoundationMove(char*, char*);
 
+
 #endif //YUKON_GAMECONTROLLER_HEADER_H

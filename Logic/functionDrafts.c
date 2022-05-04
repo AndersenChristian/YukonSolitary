@@ -39,3 +39,24 @@ void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
     }
 }
 
+bool moveIsPossible(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
+    Card* cardBehind = card;
+    Card* cardOnTop = getLastCard(columnTo);
+
+    // King exception
+    if(cardOnTop == NULL){
+        if(card->name[0] == 'K'){
+            return true;
+        }
+    }
+
+    /*
+    // Suits
+    if (getCardSuit(cardBehind) != getCardSuit(cardOntop)){
+        if (getCardValue(cardBehind) == getCardValue(cardOntop) +1){
+            return true;
+        }
+    }
+    return false;
+    */
+}
