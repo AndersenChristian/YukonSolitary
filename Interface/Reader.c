@@ -5,6 +5,7 @@
 //Header
 #include "../Data/Data_Header.h"
 #include "../Logic/PreGameOperation_Header.h"
+#include "../Logic/GameController_Header.h"
 
 //Local Methods
 bool validateDeck();

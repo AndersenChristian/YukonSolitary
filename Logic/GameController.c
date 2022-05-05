@@ -10,11 +10,9 @@ bool moveIsPossible(Card* card, LinkedList* columnTo);
 void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo);
 void moveCardFromFoundation(LinkedList* foundation, LinkedList* column);
 void moveCardToFoundation(LinkedList* column);
-CARD_SUITS getCardSuit(Card*);
 LinkedList* getFoundation(Card*);
 int getColumnIndex(char*);
 void flipTopCards(LinkedList*);
-int getCardValue(Card*);
 
 /**
  * Author: Frederik G. Petersen (S215834)

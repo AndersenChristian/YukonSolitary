@@ -10,6 +10,8 @@ void gameMove(char* input);
 void addCard(const char*);
 Card* getCardByName(LinkedList* list, char* name);
 Card* getLastCard(LinkedList* list);
+CARD_SUITS getCardSuit(Card*);
+int getCardValue(Card*);
 void printList(LinkedList* list);
 
 #endif //YUKON_GAMECONTROLLER_HEADER_H
