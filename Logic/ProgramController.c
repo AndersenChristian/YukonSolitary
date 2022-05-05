@@ -33,10 +33,10 @@ extern void playGame() {
 // TODO Make better initial comparison to check nothing follows the initials
 void processPlayerInput(char* string) {
 
-    if (StrStrIA(string, "QQ") != NULL)
+    if (StrStrIA(string, "QQ\n") != NULL)
         QQ();
 
-    else if (StrStrIA(string, "LD") != NULL) {
+    else if (StrStrIA(string, "LD\n") != NULL || StrStrIA(string,"LD ") != NULL) {
         if(!*dataPTR_DeckLoaded())
             setupCards(dataPTR_lastCommand());
         else
@@ -51,21 +51,21 @@ void processPlayerInput(char* string) {
             setErrorMessage("Wrong Input");
     }
 
-    else if (StrStrIA(string, "SI") != NULL) {
+    else if (StrStrIA(string, "SI\n") != NULL || StrStrIA(string, "SI ") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
             SI();
         else
             setErrorMessage("Input not accepted at this point in the program");
     }
 
-    else if (StrStrIA(string, "SR") != NULL) {
+    else if (StrStrIA(string, "SR\n") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
             SR();
         else
             setErrorMessage("Input not accepted at this point in the program");
     }
 
-    else if (StrStrIA(string, "SD") != NULL) {
+    else if (StrStrIA(string, "SD ") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
             SD(&string[3]);
         else
