@@ -8,9 +8,10 @@
 //Headers
 #include "../Data/Data_Header.h"
 
-//own methods declaration
-
-
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ * TODO write docs
+ */
 void SR() {
     LinkedList* deck = dataPTR_ToDeck();    //gets a pointer to the current LinkedList
     Card* nextCard = deck->head->next;      //keeps a track of the remaining card we need to SR into the LinkedList
@@ -61,6 +62,7 @@ void SR() {
 }
 /**
  * Author: Christian J. L. Andersen (S133288)
+ * todo write docs
  */
 void P(){
     Card * ptrToCard = dataPTR_ToDeck()->head;
@@ -175,6 +177,9 @@ void deAllocateMalloc(){
     dataPTR_ToDeck()->tail = NULL;
 }
 
+/**
+ * todo write docs
+ */
 void SI(){
     LinkedList* deck = dataPTR_ToDeck();
     LinkedList secondPile;
