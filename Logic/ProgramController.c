@@ -16,14 +16,14 @@
 void processPlayerInput(char*);
 void QQ();
 void Q();
-bool winCondition();
+bool gameWon();
 
 extern void playGame() {
     updateDisplay();    //just to create a display the first time
     do {
         processPlayerInput(dataPTR_lastCommand());
         updateDisplay();
-    }while(!(*dataPTR_IsGameDone()));
+    }while(!gameWon());
 }
 
 /**
@@ -31,6 +31,7 @@ extern void playGame() {
  * @param string
  */
 // TODO Make better initial comparison to check nothing follows the initials
+// TODO ensure all errormessage is getting set correct
 void processPlayerInput(char* string) {
 
     if (StrStrIA(string, "QQ\n") != NULL)
@@ -88,11 +89,19 @@ void processPlayerInput(char* string) {
             setErrorMessage("Input not accepted at this point in the program");
     }
 
-    else {
+    else if (*dataPTR_GameStarted()){
         gameMove(string);
+    }
+
+    else{
+        setErrorMessage("The command is not recognised, try again");
     }
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ * todo write docs
+ */
 void QQ(){
     remove("..\\CurrentSeed.txt");
     if (*dataPTR_DeckLoaded())
@@ -101,6 +110,10 @@ void QQ(){
     exit(0);
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ * todo write docs
+ */
 void Q(){
     setErrorMessage("OK");
     deAllocateMalloc();                                 //removes the current card, and free the memory.
@@ -109,9 +122,18 @@ void Q(){
 }
 
 /**
- *
+ * Author: Christian J. L. Andersen (S133288)
+ * todo write docs
  * @return
  */
-bool winCondition(){
-    //todo test for win condition
+bool gameWon(){
+    if (!*dataPTR_GameStarted())
+        return false;
+    LinkedList* board = dataPTR_ToBoard();
+    if (board[8].tail != NULL && board[8].tail->name[0] == 'K' &&
+        board[9].tail != NULL && board[9].tail->name[0] == 'K' &&
+        board[10].tail != NULL && board[10].tail->name[0] == 'K' &&
+        board[11].tail != NULL && board[11].tail->name[0] == 'K' )
+        return true;
+    return false;
 }
