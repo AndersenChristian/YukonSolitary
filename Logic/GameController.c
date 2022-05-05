@@ -6,21 +6,23 @@
 #include "GameController_Header.h"
 
 //Own methods declaration
-bool cardCanBePlaced(Card*, Card*);
+bool moveIsPossible(Card* card, LinkedList* columnTo);
+void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo);
+void moveCardFromFoundation(LinkedList* foundation, LinkedList* column);
+void moveCardToFoundation(LinkedList* column);
 CARD_SUITS getCardSuit(Card*);
 LinkedList* getFoundation(Card*);
 int getColumnIndex(char*);
 void flipTopCards(LinkedList*);
 int getCardValue(Card*);
 
-bool moveIsPossible(Card* card, LinkedList* columnTo);
-void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo);
-void moveCardFromFoundation(LinkedList* foundation, LinkedList* column);
-void moveCardToFoundation(LinkedList* column);
-
-
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * The functions processes the player's input to determine the correct way to act based on how the input is constructed.
+ * @param input the input String given by the player.
+ */
 void gameMove(char* input){
-    // TODO make these not case sensitive
     if(input[2] == ':' && input[5] == '-' && input[6] == '>'){
         char columnFrom[3];
         char cardName[3];
@@ -52,11 +54,11 @@ void gameMove(char* input){
         LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
         LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
 
-        if(input[0] == 'C' && input[4] == 'F'){
+        if((input[0] == 'C' && input[4] == 'F') || (input[0] == 'c' && input[4] == 'f')){
             moveCardToFoundation(fromList);
             setErrorMessage("Move Successful");
         }
-        if(input[0] == 'F' && input[4] == 'C'){
+        if((input[0] == 'F' && input[4] == 'C') || (input[0] == 'f' && input[4] == 'c')){
             moveCardFromFoundation(fromList, toList);
             setErrorMessage("Move Successful");
         }
@@ -67,6 +69,14 @@ void gameMove(char* input){
     }
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * The standard game move, moves a card from a column to the top of another column.
+ * @param columnFrom The LinkedList which the card to move resides in
+ * @param card The card to move
+ * @param columnTo The LinkedList to move the card over to
+ */
 void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
     // Get info
     Card* lastCardFrom = getLastCard(columnFrom);
@@ -97,25 +107,31 @@ void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
         lastCardTo->next = card;
         card->prev = lastCardTo;
     }
-    printf("Test");
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * Moves a card from a foundation to a column.
+ * @param foundation From which the foundation the top card is to be moved back into the game
+ * @param column The column that the foundation card should be placed on.
+ */
 void moveCardFromFoundation(LinkedList* foundation, LinkedList* column){
     Card* foundationCard = getLastCard(foundation);
     moveCardToColumn(foundation, foundationCard, column);
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * This function is to move a card from a standard column to a foundation.
+ * The function determines the corresponding foundation itself.
+ * @param column the LinkedList which the last card should attempt to be moved to a foundation.
+ */
 void moveCardToFoundation(LinkedList* column){
     Card* card = getLastCard(column);
-
-    char suit = card->name[1];
-    LinkedList* foundation = NULL;
-
-    if (suit == 'C'){ foundation = &dataPTR_ToBoard()[7]; }
-    else if (suit == 'S'){ foundation = &dataPTR_ToBoard()[8]; }
-    else if (suit == 'D'){ foundation = &dataPTR_ToBoard()[9]; }
-    else if (suit == 'H'){ foundation = &dataPTR_ToBoard()[10]; }
-    else{
+    LinkedList* foundation = getFoundation(card);
+    if(foundation == NULL){
         setErrorMessage("Invalid Move");
         return;
     }
@@ -123,9 +139,20 @@ void moveCardToFoundation(LinkedList* column){
     // Validate move
     if (getCardValue(foundation->tail)+1 == getCardValue(card)){
         moveCardToColumn(column, card, foundation);
+    } else {
+        setErrorMessage("Invalid Move");
+        return;
     }
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * Checks if the normal game move (Column to Column) is valid.
+ * @param card the card which you wish to move
+ * @param columnTo the column the card is going to.
+ * @return
+ */
 bool moveIsPossible(Card* card, LinkedList* columnTo){
     Card* cardBehind = getLastCard(columnTo);
     Card* cardOnTop = card;
@@ -146,123 +173,12 @@ bool moveIsPossible(Card* card, LinkedList* columnTo){
     return false;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
-    // Find card in from-column
-    LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
-    LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnDest)];
-    Card* fromCard = getCardByName(fromList, cardName);
-    Card* toCard = getLastCard(toList);
-
-    // King to Empty Column
-    if (toList->head == NULL){
-        if (fromCard->name[0] == 'K'){
-            moveCardToColumn(toList, fromCard);
-        } else {
-            setErrorMessage("Invalid move");
-            return false;
-        }
-    }
-
-        // Normal move
-    else if (columnFrom[0] == 'C' && columnDest[0] == 'C'){
-        if (fromCard == NULL || toCard == NULL){
-            setErrorMessage("Move is Invalid!");
-            return false;
-        }
-        if (cardCanBePlaced(toCard, fromCard)){
-            moveCardToCard(fromCard, toCard);
-            flipTopCards(fromList);
-            setErrorMessage("Card Moved");
-            return true;
-        }
-    }
-}
-
-void attemptFoundationMove(char* columnFrom, char* columnDest){
-    LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
-    LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnDest)];
-
-    if (columnFrom[0] == 'C' && columnDest[0] == 'F'){ // To Foundation
-
-        Card* card = getLastCard(fromList);
-
-        // Get correct Foundation.
-        char suit = card->name[1];
-        LinkedList* foundation = NULL;
-
-        if (suit == 'C'){ foundation = &dataPTR_ToBoard()[7]; }
-        if (suit == 'S'){ foundation = &dataPTR_ToBoard()[8]; }
-        if (suit == 'D'){ foundation = &dataPTR_ToBoard()[9]; }
-        if (suit == 'H'){ foundation = &dataPTR_ToBoard()[10]; }
-
-        if (foundation == NULL){
-            setErrorMessage("Move Is Invalid");
-            return;
-        }
-
-        // See if it's a valid move
-        if (getCardValue(foundation->tail)+1 == getCardValue(card)){
-            // Disconnect Card
-            if (card->prev == NULL){ // Last card in stack
-                fromList->head = NULL;
-                fromList->tail = NULL;
-
-            } else { // not last
-                fromList->tail = fromList->tail->prev;
-                card->prev->next = NULL;
-                card->prev = NULL;
-            }
-
-            moveCardToFoundation(foundation, card);
-        } else {
-            setErrorMessage("Move is Invalid");
-        }
-    }
-
-    if (columnFrom[0] == 'F' && columnDest[0] == 'C') { // Back from foundation
-        Card* foundationCard = getLastCard(fromList);
-        Card* columnCard = getLastCard(toList);
-
-        // Disconnect it from foundation
-        if (foundationCard->prev == NULL){
-            fromList->head = NULL;
-            fromList->tail = NULL;
-        } else {
-            foundationCard->prev->next = NULL;
-            foundationCard->prev = NULL;
-        }
-
-        //
-        if (cardCanBePlaced(columnCard, foundationCard)){
-            moveCardToCard(foundationCard, columnCard);
-        }
-    }
-}
-
-bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
-    // Suits
-    if (getCardSuit(cardBehind) != getCardSuit(cardOntop)){
-        if (getCardValue(cardBehind) == getCardValue(cardOntop) +1){
-            return true;
-        }
-    }
-    return false;
-}
-*/
-
-
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * This should be called when removing a card from at stack to ensure that thetop card gets flipped.
+ * @param list The list to flip the top card on
+ */
 void flipTopCards(LinkedList* list) {
     Card *currentCard = getLastCard(list);
     if (currentCard->faceUp == false) {
@@ -272,8 +188,9 @@ void flipTopCards(LinkedList* list) {
 
 /**
  * Author: Frederik G. Petersen (S215834)
- * @param card
- * @return
+ *
+ * @param card gets the numerical value of a Card.
+ * @return numerical value of the card. Returns 0 when passed NULL
  */
 int getCardValue(Card* card){
     if (card==NULL) return 0;
@@ -296,8 +213,10 @@ int getCardValue(Card* card){
 
 /**
  * Author: Frederik G. Petersen (S215834)
+ *
+ * Extracts the card's suit from the name of a card
  * @param card
- * @return
+ * @return ENUM of Card_Suits
  */
 CARD_SUITS getCardSuit(Card* card){
     switch (card->name[1]) {
@@ -308,14 +227,29 @@ CARD_SUITS getCardSuit(Card* card){
     }
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * Gets the corresponding foundation based on the suit of the card.
+ * @param card The card which should be placed in a foundation.
+ * @return Return the foundation LinkedList corresponding to the card suit.
+ */
 LinkedList* getFoundation(Card* card){
     LinkedList* list = dataPTR_ToBoard();
     if (card->name[1] == 'C') return &list[7];
     if (card->name[1] == 'S') return &list[8];
     if (card->name[1] == 'D') return &list[9];
     if (card->name[1] == 'H') return &list[10];
+    else return NULL;
 }
 
+/**
+ * Author: Frederik G. Petersen (S215834)
+ *
+ * Gets the index of a column/foundation from the column/foundations name
+ * @param columnStr the name of the column
+ * @return the index of the column.
+ */
 int getColumnIndex(char* columnStr){
     if (strcasecmp(columnStr, "C1") == 0) {return 0;}
     if (strcasecmp(columnStr, "C2") == 0) {return 1;}
@@ -336,7 +270,6 @@ int getColumnIndex(char* columnStr){
  * @param list
  * @param pCard
  */
-// TODO might not be used, since length never gets updated
 void addCard(const char* cardInfo){
     LinkedList* list = dataPTR_ToDeck();
     Card* newCard = malloc(sizeof (Card));
@@ -365,25 +298,12 @@ void addCard(const char* cardInfo){
 
 /**
  * Author: Frederik G. Petersen (S215834)
- * @param list
- * @param index
- * @return
+ *
+ * Gets the card in a linkedList base on the card name
+ * @param list The linkedlist the card should be found int
+ * @param name The name of the card
+ * @return Returns Card pointer, or NULL if the card does not exists in the linkedlist
  */
-Card* getCardByIndex(LinkedList* list, int index){
-    // TODO rewrite since length cannot be used:
-    /*
-    Card* currentCard = list->head;
-    for (int i = 0; i < list->length; ++i) {
-        if (i == index){
-            return currentCard;
-        } else {
-            currentCard = currentCard->next;
-        }
-    }
-    return currentCard;
-     */
-}
-
 Card* getCardByName(LinkedList* list, char* name){
     Card* currentCard = list->head;
 
@@ -393,14 +313,15 @@ Card* getCardByName(LinkedList* list, char* name){
         }
         currentCard = currentCard->next;
     }
-
     return NULL;
 }
 
 /**
  * Author: Frederik G. Petersen (S215834)
- * @param list
- * @return
+ *
+ * Get's the last card of a LinkedList
+ * @param list the LinkedList which the last card should be found in.
+ * @return Returns Card pointer, or NULL if there is no card in the linkedlist.
  */
 Card* getLastCard(LinkedList* list){
     Card* currentCard = list->head;
@@ -413,7 +334,9 @@ Card* getLastCard(LinkedList* list){
 
 /**
  * Author: Frederik G. Petersen (S215834)
- * @param list
+ *
+ * For debugging linked lists
+ * @param list LinkedList to print
  */
 void printList(LinkedList* list){
 
