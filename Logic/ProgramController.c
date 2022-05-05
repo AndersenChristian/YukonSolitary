@@ -39,7 +39,7 @@ void processPlayerInput(char* string) {
 
     else if (StrStrIA(string, "LD\n") != NULL || StrStrIA(string,"LD ") != NULL) {
         if(!*dataPTR_DeckLoaded())
-            setupCards(dataPTR_lastCommand());
+            loadDeckFromFile(dataPTR_lastCommand());
         else
             setErrorMessage("Input not accepted at this point in the program");
     }
@@ -117,7 +117,7 @@ void QQ(){
 void Q(){
     setErrorMessage("OK");
     deAllocateMalloc();                                 //removes the current card, and free the memory.
-    setupCards("LD ../currentSeed.txt");                //Setup 1 LinkedList containing the cards from CurrentSeed.txt
+    loadDeckFromFile("LD ../currentSeed.txt");                //Setup 1 LinkedList containing the cards from CurrentSeed.txt
     *dataPTR_GameStarted() = false;
 }
 

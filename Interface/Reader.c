@@ -28,7 +28,7 @@ char* token; //token is used to do some string manipulation, and remove unwanted
  *
  * (note) some OS accept '\\' but this can cause issues.
  */
-void setupCards(char* command){
+void loadDeckFromFile(char* command){
     if (command[2] != 32) //checks if the 3 char in the string is an empty space.
         cardFile = fopen("..\\Cards.txt","r");
     else {
