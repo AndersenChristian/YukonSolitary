@@ -1,5 +1,6 @@
 //Libaries
 #include <string.h>
+#include <stdbool.h>
 
 //Header
 #include "../Data/Data_Header.h"
@@ -13,6 +14,8 @@ void moveCardToFoundation(LinkedList* column);
 LinkedList* getFoundation(Card*);
 int getColumnIndex(char*);
 void flipTopCards(LinkedList*);
+Card* getCardByName(LinkedList* list, char* name);
+Card* getLastCard(LinkedList* list);
 
 /**
  * Author: Frederik G. Petersen (S215834)
@@ -163,11 +166,8 @@ bool moveIsPossible(Card* card, LinkedList* columnTo){
     } else
 
     // Suits
-    if (getCardSuit(cardBehind) != getCardSuit(cardOnTop)){
-        if (getCardValue(cardBehind) == getCardValue(cardOnTop) +1){
-            return true;
-        }
-    }
+    if (getCardSuit(cardBehind) != getCardSuit(cardOnTop) && getCardValue(cardBehind) == getCardValue(cardOnTop) +1)
+        return true;
     return false;
 }
 
@@ -181,47 +181,6 @@ void flipTopCards(LinkedList* list) {
     Card *currentCard = getLastCard(list);
     if (currentCard->faceUp == false) {
         currentCard->faceUp = true;
-    }
-}
-
-/**
- * Author: Frederik G. Petersen (S215834)
- *
- * @param card gets the numerical value of a Card.
- * @return numerical value of the card. Returns 0 when passed NULL
- */
-int getCardValue(Card* card){
-    if (card==NULL) return 0;
-    switch (card->name[0]) {
-        case 'A': return 1;
-        case '2': return 2;
-        case '3': return 3;
-        case '4': return 4;
-        case '5': return 5;
-        case '6': return 6;
-        case '7': return 7;
-        case '8': return 8;
-        case '9': return 9;
-        case 'T': return 10;
-        case 'J': return 11;
-        case 'Q': return 12;
-        case 'K': return 13;
-    }
-}
-
-/**
- * Author: Frederik G. Petersen (S215834)
- *
- * Extracts the card's suit from the name of a card
- * @param card
- * @return ENUM of Card_Suits
- */
-CARD_SUITS getCardSuit(Card* card){
-    switch (card->name[1]) {
-        case 'S': return S;
-        case 'D': return D;
-        case 'H': return H;
-        case 'C': return C;
     }
 }
 
@@ -262,38 +221,6 @@ int getColumnIndex(char* columnStr){
     if (strcasecmp(columnStr, "F4") == 0) {return 10;}
 }
 
-
-/**
- * Author: Frederik G. Petersen (S215834)
- * @param list
- * @param pCard
- */
-void addCard(const char* cardInfo){
-    LinkedList* list = dataPTR_ToDeck();
-    Card* newCard = malloc(sizeof (Card));
-    newCard->name[0] = cardInfo[0];
-    newCard->name[1] = cardInfo[1];
-    newCard->name[2] = '\0';
-    newCard->next = NULL;
-    newCard->prev = list->tail;
-    newCard->faceUp = false;
-
-    if (list->head == NULL){ // First entry
-        list->head = newCard;
-        list->tail = newCard;
-
-    } else { // Every other entry
-        Card* oldTail = list->tail;
-
-        oldTail->next = newCard;
-
-        newCard->prev = oldTail;
-        newCard->next = NULL;
-
-        list->tail = newCard;
-    }
-}
-
 /**
  * Author: Frederik G. Petersen (S215834)
  *
@@ -328,19 +255,4 @@ Card* getLastCard(LinkedList* list){
         currentCard = currentCard->next;
     }
     return currentCard;
-}
-
-/**
- * Author: Frederik G. Petersen (S215834)
- *
- * For debugging linked lists
- * @param list LinkedList to print
- */
-void printList(LinkedList* list){
-
-    Card* currentCard = list->head;
-
-    while (currentCard->next != NULL){
-        currentCard = currentCard->next;
-    }
 }
