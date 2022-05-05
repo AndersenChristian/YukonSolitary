@@ -4,8 +4,9 @@
 
 //Header
 #include "../Data/Data_Header.h"
-#
+#include "../Logic/PreGameOperation_Header.h"
 
+//Local Methods
 bool validateDeck();
 
 char buffer[5];
