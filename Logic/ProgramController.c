@@ -43,7 +43,7 @@ void processPlayerInput(char* string) {
             setErrorMessage("Input not accepted at this point in the program");
     }
 
-    else if (StrStrIA(string, "SW") != NULL) {
+    else if (StrStrIA(string, "SW\n") != NULL) {
         if (!*dataPTR_GameStarted() && *dataPTR_DeckLoaded() && strlen(string))
             //do nothing
             setErrorMessage("OK");
@@ -72,7 +72,7 @@ void processPlayerInput(char* string) {
             setErrorMessage("Input not accepted at this point in the program");
     }
 
-    else if (StrStrIA(string, "P") != NULL) {
+    else if (StrStrIA(string, "P\n") != NULL) {
         if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted()) {
             SD("currentSeed.txt");
             P();
@@ -81,7 +81,7 @@ void processPlayerInput(char* string) {
             setErrorMessage("Input not accepted at this point in the program");
     }
 
-    else if (StrStrIA(string, "Q") != NULL) {
+    else if (StrStrIA(string, "Q\n") != NULL) {
         if (*dataPTR_GameStarted())
             Q();
         else
@@ -102,7 +102,7 @@ void processPlayerInput(char* string) {
         toColumn[2] = '\0';
 
         // Process it
-        //bool moveMade = attemptCardMove(fromColumn, card, toColumn);
+        bool moveMade = attemptCardMove(fromColumn, card, toColumn);
         //TODO make PlayGame handle error messages
     } else if (string[2] == '-' && string[3] == '>') { // From/To foundation
         char fromColumn[3];

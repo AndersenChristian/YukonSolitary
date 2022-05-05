@@ -1,3 +1,4 @@
+/*
 //
 // Created by Frederik on 5/4/2022.
 //
@@ -44,7 +45,7 @@ void moveCardFromFoundation(LinkedList* foundation, LinkedList* column){
     moveCardToColumn(foundation, foundationCard, column);
 }
 
-/*
+
 void moveCardToFoundation(LinkedList* column){
     Card* card = getLastCard(column);
 
@@ -61,7 +62,7 @@ void moveCardToFoundation(LinkedList* column){
         moveCardToColumn(column, card, foundation);
     }
 }
-*/
+
 
 bool moveIsPossible(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
     Card* cardBehind = card;
@@ -74,7 +75,7 @@ bool moveIsPossible(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
         }
     }
 
-    /*
+
     // Suits
     if (getCardSuit(cardBehind) != getCardSuit(cardOntop)){
         if (getCardValue(cardBehind) == getCardValue(cardOntop) +1){
@@ -82,5 +83,6 @@ bool moveIsPossible(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
         }
     }
     return false;
-    */
+
 }
+*/

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "../Data/Data_Header.h"
 
+bool attemptCardMove(char*, char*, char*);
 void addCard(const char*);
 Card* getCardByIndex(LinkedList* list, int index);
 Card* getCardByName(LinkedList* list, char* name);
