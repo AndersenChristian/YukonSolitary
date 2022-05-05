@@ -31,8 +31,14 @@ LinkedList* dataPTR_ToBoard();
 char* dataPTR_lastCommand();
 char* dataPTR_ErrorMessage();
 bool* dataPTR_DeckLoaded();
-bool* dataPTR_IsGameDone();
 bool* dataPTR_GameStarted();
 void setErrorMessage(char*);
+
+//Enum translation methods
+CARD_SUITS getCardSuit(Card*);
+int getCardValue(Card*);
+
+//Add a new card to Deck
+void addCard(const char*);
 
 #endif //YUKON_DATA_HEADER_H
