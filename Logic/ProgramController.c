@@ -88,29 +88,8 @@ void processPlayerInput(char* string) {
             setErrorMessage("Input not accepted at this point in the program");
     }
 
-    else if (string[2] == ':' && string[5] == '-' && string[6] == '>') { // Game Move
-        // Get everything from input
-        char fromColumn[3];
-        char card[3];
-        char toColumn[3];
-
-        memcpy(fromColumn, string, 2);
-        memcpy(card, &string[3], 2);
-        memcpy(toColumn, &string[7], 2);
-
-        card[2] = '\0';
-        toColumn[2] = '\0';
-
-        // Process it
-        bool moveMade = attemptCardMove(fromColumn, card, toColumn);
-        //TODO make PlayGame handle error messages
-    } else if (string[2] == '-' && string[3] == '>') { // From/To foundation
-        char fromColumn[3];
-        char toColumn[3];
-        memcpy(fromColumn, string, 2);
-        memcpy(toColumn, &string[4], 2);
-
-        attemptFoundationMove(fromColumn, toColumn);
+    else {
+        gameMove(string);
     }
 }
 

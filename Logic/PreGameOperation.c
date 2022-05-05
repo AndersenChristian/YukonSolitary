@@ -171,7 +171,6 @@ void deAllocateMalloc(){
             card = card->next;
         }
     }
-    dataPTR_ToDeck()->length = 0;
     dataPTR_ToDeck()->head = NULL;
     dataPTR_ToDeck()->tail = NULL;
 }

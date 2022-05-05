@@ -12,15 +12,152 @@ LinkedList* getFoundation(Card*);
 int getColumnIndex(char*);
 void flipTopCards(LinkedList*);
 int getCardValue(Card*);
-void moveCardToColumn(LinkedList*, Card*);
-void moveCardToCard(Card*, Card*);
 
-/**
- * Author: Frederik G. Petersen (S215834)
- * @param columnFrom
- * @param cardName
- * @param columnDest
- */
+bool moveIsPossible(Card* card, LinkedList* columnTo);
+void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo);
+void moveCardFromFoundation(LinkedList* foundation, LinkedList* column);
+void moveCardToFoundation(LinkedList* column);
+
+
+void gameMove(char* input){
+    // TODO make these not case sensitive
+    if(input[2] == ':' && input[5] == '-' && input[6] == '>'){
+        char columnFrom[3];
+        char cardName[3];
+        char columnTo[3];
+        memcpy(columnFrom, input, 2);
+        memcpy(cardName, &input[3], 2);
+        memcpy(columnTo, &input[7], 2);
+        cardName[2] = '\0';
+        columnTo[2] = '\0';
+
+        LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
+        LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
+        Card* card = getCardByName(fromList, cardName);
+
+        if(moveIsPossible(card, toList)){
+            moveCardToColumn(fromList, card, toList);
+            flipTopCards(fromList);
+            setErrorMessage("Move Successful");
+        }else{
+            setErrorMessage("Invalid Move");
+        };
+
+    }
+    else if(input[2] == '-' && input[3] == '>'){
+        char columnFrom[3];
+        char columnTo[3];
+        memcpy(columnFrom, input, 2);
+        memcpy(columnTo, &input[4], 2);
+        LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
+        LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
+
+        if(input[0] == 'C' && input[4] == 'F'){
+            moveCardToFoundation(fromList);
+            setErrorMessage("Move Successful");
+        }
+        if(input[0] == 'F' && input[4] == 'C'){
+            moveCardFromFoundation(fromList, toList);
+            setErrorMessage("Move Successful");
+        }
+    }
+    else {
+        setErrorMessage("Invalid Move");
+        return;
+    }
+}
+
+void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
+    // Get info
+    Card* lastCardFrom = getLastCard(columnFrom);
+    Card* lastCardTo = getLastCard(columnTo);
+
+    // Change FROM head and tails
+    if(card == columnFrom->head){
+        columnFrom->head = NULL;
+        columnFrom->tail = NULL;
+    } else {
+        columnFrom->tail = card->prev;
+    }
+
+    // Change TO head and tails
+    if(columnTo->head == NULL){
+        columnTo->head = card;
+    }
+    columnTo->tail = lastCardFrom;
+
+    // Detach
+    if(card->prev != NULL){
+        card->prev->next = NULL;
+        card->prev = NULL;
+    }
+
+    // Connect
+    if (lastCardTo != NULL){
+        lastCardTo->next = card;
+        card->prev = lastCardTo;
+    }
+    printf("Test");
+}
+
+void moveCardFromFoundation(LinkedList* foundation, LinkedList* column){
+    Card* foundationCard = getLastCard(foundation);
+    moveCardToColumn(foundation, foundationCard, column);
+}
+
+void moveCardToFoundation(LinkedList* column){
+    Card* card = getLastCard(column);
+
+    char suit = card->name[1];
+    LinkedList* foundation = NULL;
+
+    if (suit == 'C'){ foundation = &dataPTR_ToBoard()[7]; }
+    else if (suit == 'S'){ foundation = &dataPTR_ToBoard()[8]; }
+    else if (suit == 'D'){ foundation = &dataPTR_ToBoard()[9]; }
+    else if (suit == 'H'){ foundation = &dataPTR_ToBoard()[10]; }
+    else{
+        setErrorMessage("Invalid Move");
+        return;
+    }
+
+    // Validate move
+    if (getCardValue(foundation->tail)+1 == getCardValue(card)){
+        moveCardToColumn(column, card, foundation);
+    }
+}
+
+bool moveIsPossible(Card* card, LinkedList* columnTo){
+    Card* cardBehind = getLastCard(columnTo);
+    Card* cardOnTop = card;
+
+    // King exception
+    if(cardBehind == NULL){
+        if(card->name[0] == 'K'){
+            return true;
+        }
+    } else
+
+    // Suits
+    if (getCardSuit(cardBehind) != getCardSuit(cardOnTop)){
+        if (getCardValue(cardBehind) == getCardValue(cardOnTop) +1){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 bool attemptCardMove(char* columnFrom, char* cardName, char* columnDest){
     // Find card in from-column
     LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
@@ -123,6 +260,8 @@ bool cardCanBePlaced(Card* cardBehind, Card* cardOntop){
     }
     return false;
 }
+*/
+
 
 void flipTopCards(LinkedList* list) {
     Card *currentCard = getLastCard(list);
@@ -191,12 +330,6 @@ int getColumnIndex(char* columnStr){
     if (strcasecmp(columnStr, "F4") == 0) {return 10;}
 }
 
-//Libaries
-#include <string.h>
-#include <malloc.h>
-
-//Headers
-#include "../Data/Data_Header.h"
 
 /**
  * Author: Frederik G. Petersen (S215834)
@@ -217,7 +350,6 @@ void addCard(const char* cardInfo){
     if (list->head == NULL){ // First entry
         list->head = newCard;
         list->tail = newCard;
-        list->length += 1;
 
     } else { // Every other entry
         Card* oldTail = list->tail;
@@ -228,8 +360,6 @@ void addCard(const char* cardInfo){
         newCard->next = NULL;
 
         list->tail = newCard;
-
-        list->length++;
     }
 }
 
@@ -257,7 +387,7 @@ Card* getCardByIndex(LinkedList* list, int index){
 Card* getCardByName(LinkedList* list, char* name){
     Card* currentCard = list->head;
 
-    while (currentCard->next != NULL) {
+    while (currentCard != NULL) {
         if (strcasecmp(currentCard->name, name) == 0){
             return currentCard;
         }
@@ -279,48 +409,6 @@ Card* getLastCard(LinkedList* list){
         currentCard = currentCard->next;
     }
     return currentCard;
-}
-
-/**
- * Author: Frederik G. Petersen (S215834)
- * @param cardToMove
- * @param destination
- */
-
-// These might need to be moved to logic. --------------------------------------
-void moveCardToCard(Card* cardToMove, Card* destination){
-    if (cardToMove->prev != NULL){
-        cardToMove->prev->next = NULL;
-    }
-    destination->next = cardToMove;
-    cardToMove->prev = destination;
-}
-
-void moveCardToColumn(LinkedList* column, Card* card){
-    card->prev->next = card->next;
-
-    if(card->next != NULL){
-        card->next->prev = card->prev;
-    }
-    card->prev = NULL;
-
-    column->head = card;
-    column->tail = card;
-}
-
-void moveCardToFoundation(LinkedList* foundation, Card* cardToMove){
-    if (foundation->head == NULL){
-        foundation->head = cardToMove;
-        foundation->tail = cardToMove;
-    } else {
-        foundation->tail->next = cardToMove;
-        cardToMove->prev = foundation->tail;
-        foundation->tail = cardToMove;
-    }
-}
-
-void moveCardFromFoundation(LinkedList* foundation, LinkedList* columnDest){
-
 }
 
 /**

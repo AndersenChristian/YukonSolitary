@@ -75,7 +75,6 @@ bool moveIsPossible(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
         }
     }
 
-
     // Suits
     if (getCardSuit(cardBehind) != getCardSuit(cardOntop)){
         if (getCardValue(cardBehind) == getCardValue(cardOntop) +1){
@@ -83,6 +82,5 @@ bool moveIsPossible(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
         }
     }
     return false;
-
 }
 */

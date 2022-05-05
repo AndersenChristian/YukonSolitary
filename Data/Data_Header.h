@@ -18,7 +18,6 @@ struct Card {
 };
 
 struct LinkedList {
-    int length;
     Card* head;
     Card* tail;
 };
