@@ -62,11 +62,11 @@ void gameMove(char* input){
 
         if((input[0] == 'C' && input[4] == 'F') || (input[0] == 'c' && input[4] == 'f')){
             moveCardToFoundation(fromList);
-            setErrorMessage("Move Successful");
         }
-        if((input[0] == 'F' && input[4] == 'C') || (input[0] == 'f' && input[4] == 'c')){
+        else if((input[0] == 'F' && input[4] == 'C') || (input[0] == 'f' && input[4] == 'c')){
             moveCardFromFoundation(fromList, toList);
-            setErrorMessage("Move Successful");
+        } else {
+            setErrorMessage("Invalid Move");
         }
     }
     else {
@@ -113,6 +113,8 @@ void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
         lastCardTo->next = card;
         card->prev = lastCardTo;
     }
+
+    setErrorMessage("Move Successful");
 }
 
 /**
@@ -124,7 +126,11 @@ void moveCardToColumn(LinkedList* columnFrom, Card* card, LinkedList* columnTo){
  */
 void moveCardFromFoundation(LinkedList* foundation, LinkedList* column){
     Card* foundationCard = getLastCard(foundation);
-    moveCardToColumn(foundation, foundationCard, column);
+    if(moveIsPossible(foundationCard, column)){
+        moveCardToColumn(foundation, foundationCard, column);
+    } else {
+        setErrorMessage("Invalid move");
+    }
 }
 
 /**
@@ -136,6 +142,11 @@ void moveCardFromFoundation(LinkedList* foundation, LinkedList* column){
  */
 void moveCardToFoundation(LinkedList* column){
     Card* card = getLastCard(column);
+    if(card == NULL){
+        setErrorMessage("Invalid move");
+        return;
+    }
+
     LinkedList* foundation = getFoundation(card);
     if(foundation == NULL){
         setErrorMessage("Invalid Move");
