@@ -196,9 +196,8 @@ void SI(){
     Card* temp = deck->head;
     splitNumber = 10;
 
-    while (i < splitNumber) {
-      temp = temp->next;
-      i++;
+    for (int j = 0; j < splitNumber-1; ++j) {
+        temp = temp->next;
     }
 
     firstPile.head = deck->head;
@@ -208,35 +207,39 @@ void SI(){
     secondPile.tail = deck->tail;
 
 
-    Card* tempFirst = firstPile.head;
-    Card* tempSecond = secondPile.head;
-    Card* tempThird = NULL;
+    Card* currentFirst = firstPile.head;
+    Card* currentSecond = secondPile.head;
+    Card* currentThird = NULL;
 
     for (int j = 0; j < splitNumber; j++) {
+        Card* firstNextCard = currentFirst->next;
+        Card* secondNextCard = currentSecond->next;
+
         if (j == 0){
-            thirdPile.head = tempFirst;
-            thirdPile.head->prev = NULL;
+            thirdPile.head = currentFirst;
+            currentFirst->prev = NULL;
 
-            thirdPile.head->next = tempSecond;
-            tempThird = tempSecond;
-            tempSecond->prev = tempFirst;
+            currentFirst->next = currentSecond;
+            currentSecond->prev = currentFirst;
+
+            currentThird = currentSecond;
         }else{
-            tempThird->next = tempFirst;
-            tempFirst->prev = tempThird;
-            tempThird = tempFirst;
 
-            tempThird->next = tempSecond;
-            tempSecond->prev = tempThird;
-            tempThird = tempSecond;
+            currentThird->next = currentFirst;
+            currentFirst->prev = currentThird;
+            currentThird = currentFirst;
+
+            currentThird->next = currentSecond;
+            currentSecond->prev = currentThird;
+            currentThird = currentSecond;
         }
 
-        tempFirst = tempFirst->next;
-        tempSecond = tempSecond->next;
-
+        currentFirst = firstNextCard;
+        currentSecond = secondNextCard;
     }
 
-    tempThird->next = tempSecond;
-    tempSecond->prev = tempThird;
+    currentThird->next = currentSecond;
+    currentSecond->prev = currentThird;
 
     thirdPile.tail = secondPile.tail;
 

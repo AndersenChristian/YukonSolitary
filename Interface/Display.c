@@ -11,7 +11,7 @@ void printCards();
 void printCommandLines();
 
 void updateDisplay(){
-    system("@cls||clear"); //TODO activate before final creation
+    //system("@cls||clear"); //TODO activate before final creation
     printf("\nC1\tC2\tC3\tC4\tC5\tC6\tC7\n\n"); //always the first line we need printed
     if (!(*dataPTR_DeckLoaded()))
         printEmptyDisplay();
