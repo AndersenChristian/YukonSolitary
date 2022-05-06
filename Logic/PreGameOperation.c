@@ -182,16 +182,69 @@ void deAllocateMalloc(){
  */
 void SI(){
     LinkedList* deck = dataPTR_ToDeck();
+    LinkedList firstPile;
     LinkedList secondPile;
     LinkedList thirdPile;
 
-    int splitNumber;
-    int cardsInList = 1;
-    //int getLastCommandNum = dataPTR_lastCommand()[3] - 0;
-    int i = 0;
 
+    int splitNumber;
+    int i = 0;
+    //Denne virker ikke. Skal laves om.
     int lengthOfNumber = strlen(dataPTR_lastCommand());
 
+    firstPile.head = deck->head;
+    Card* temp = deck->head;
+    splitNumber = 10;
+
+    while (i < splitNumber) {
+      temp = temp->next;
+      i++;
+    }
+
+    firstPile.head = deck->head;
+    firstPile.tail = temp;
+
+    secondPile.head = temp->next;
+    secondPile.tail = deck->tail;
+
+
+    Card* tempFirst = firstPile.head;
+    Card* tempSecond = secondPile.head;
+    Card* tempThird = NULL;
+
+    for (int j = 0; j < splitNumber; j++) {
+        if (j == 0){
+            thirdPile.head = tempFirst;
+            thirdPile.head->prev = NULL;
+
+            thirdPile.head->next = tempSecond;
+            tempThird = tempSecond;
+            tempSecond->prev = tempFirst;
+        }else{
+            tempThird->next = tempFirst;
+            tempFirst->prev = tempThird;
+            tempThird = tempFirst;
+
+            tempThird->next = tempSecond;
+            tempSecond->prev = tempThird;
+            tempThird = tempSecond;
+        }
+
+        tempFirst = tempFirst->next;
+        tempSecond = tempSecond->next;
+
+    }
+
+    tempThird->next = tempSecond;
+    tempSecond->prev = tempThird;
+
+    thirdPile.tail = secondPile.tail;
+
+    deck->head = thirdPile.head;
+    deck->tail = thirdPile.tail;
+
+    /*
+    Dette skal laves om.
     if (lengthOfNumber == 1)
         splitNumber = dataPTR_lastCommand()[3] - 0;
     else if (lengthOfNumber == 2)
@@ -200,6 +253,7 @@ void SI(){
         splitNumber = rand()%52;
 
     Card* temp = deck->head;
+
     if (splitNumber > 0 && splitNumber < 52){
         secondPile.head = deck->head;
         do {
@@ -215,14 +269,17 @@ void SI(){
         secondPile.tail->next = NULL;
         thirdPile.head->prev = NULL;
     }
+
     deck->head = secondPile.head;
     deck->tail = secondPile.head;
+
     if(secondPile.head->next != NULL){
         secondPile.head = secondPile.head->next;
         secondPile.head->prev = NULL;
     }else{
         secondPile.head = NULL;
     }
+
     deck->head->next = NULL;
 
     do{
@@ -230,7 +287,7 @@ void SI(){
             thirdPile.head->prev = deck->tail;
             deck->tail = thirdPile.head;
             thirdPile.head = thirdPile.head->next;
-            thirdPile.head->next = NULL;
+            //thirdPile.head->next = NULL;
             deck->tail->prev->next = deck->tail;
             thirdPile.head->prev = NULL;
         }
@@ -238,9 +295,10 @@ void SI(){
             secondPile.head->prev = deck->tail;
             deck->tail = secondPile.head;
             secondPile.head = secondPile.head->next;
-            secondPile.head->next = NULL;
+            //secondPile.head->next = NULL;
             deck->tail->prev->next = deck->tail;
             secondPile.head->prev = NULL;
         }
     }while (secondPile.tail->next != NULL || thirdPile.tail->next != NULL);
+     */
 }
