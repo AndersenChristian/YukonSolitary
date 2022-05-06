@@ -25,6 +25,7 @@ Card* getLastCard(LinkedList* list);
  */
 void gameMove(char* input){
     if(input[2] == ':' && input[5] == '-' && input[6] == '>'){
+        // Segments the string to substrings
         char columnFrom[3];
         char cardName[3];
         char columnTo[3];
@@ -34,10 +35,12 @@ void gameMove(char* input){
         cardName[2] = '\0';
         columnTo[2] = '\0';
 
+        // Get relevant objects
         LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
         LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
         Card* card = getCardByName(fromList, cardName);
 
+        // Ensure no NULL pointers
         if(card == NULL || fromList == NULL || toList == NULL){
             setErrorMessage("Invalid Move");
             return;
@@ -53,13 +56,16 @@ void gameMove(char* input){
 
     }
     else if(input[2] == '-' && input[3] == '>'){
+        // Segments string to substrings
         char columnFrom[3];
         char columnTo[3];
         memcpy(columnFrom, input, 2);
         memcpy(columnTo, &input[4], 2);
+
+        // Get relevant objects
         LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
         LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
-
+        
         if((input[0] == 'C' && input[4] == 'F') || (input[0] == 'c' && input[4] == 'f')){
             moveCardToFoundation(fromList);
         }
