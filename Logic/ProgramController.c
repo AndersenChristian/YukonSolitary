@@ -27,7 +27,7 @@ extern void playGame() {
 }
 
 /**
- * Author: Frederik G. Petersen (S215834)
+ * Author: Frederik G. Petersen (S215834) & Christian J. L. Andersen (S133288)
  * @param string
  */
 // TODO Make better initial comparison to check nothing follows the initials
@@ -49,7 +49,7 @@ void processPlayerInput(char* string) {
             //do nothing
             setErrorMessage("OK");
         else
-            setErrorMessage("Wrong Input");
+            setErrorMessage("Input not accepted at this point in the program");
     }
 
     else if (StrStrIA(string, "SI\n") != NULL || StrStrIA(string, "SI ") != NULL) {
@@ -60,8 +60,10 @@ void processPlayerInput(char* string) {
     }
 
     else if (StrStrIA(string, "SR\n") != NULL) {
-        if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted())
+        if (*dataPTR_DeckLoaded() && !*dataPTR_GameStarted()) {
             SR();
+            setErrorMessage("OK");
+        }
         else
             setErrorMessage("Input not accepted at this point in the program");
     }
@@ -124,7 +126,7 @@ void Q(){
 /**
  * Author: Christian J. L. Andersen (S133288)
  * todo write docs
- * @return
+ * @return whether the game have been won
  */
 bool gameWon(){
     if (!*dataPTR_GameStarted())
