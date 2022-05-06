@@ -237,7 +237,6 @@ void SI(){
         currentFirst = firstNextCard;
         currentSecond = secondNextCard;
     }
-
     currentThird->next = currentSecond;
     currentSecond->prev = currentThird;
 
