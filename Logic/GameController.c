@@ -38,6 +38,11 @@ void gameMove(char* input){
         LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
         Card* card = getCardByName(fromList, cardName);
 
+        if(card == NULL || fromList == NULL || toList == NULL){
+            setErrorMessage("Invalid Move");
+            return;
+        }
+
         if(moveIsPossible(card, toList)){
             moveCardToColumn(fromList, card, toList);
             flipTopCards(fromList);
@@ -155,6 +160,10 @@ void moveCardToFoundation(LinkedList* column){
  * @return
  */
 bool moveIsPossible(Card* card, LinkedList* columnTo){
+    if (card->faceUp == false){
+        return false;
+    }
+
     Card* cardBehind = getLastCard(columnTo);
     Card* cardOnTop = card;
 
@@ -166,8 +175,10 @@ bool moveIsPossible(Card* card, LinkedList* columnTo){
     } else
 
     // Suits
-    if (getCardSuit(cardBehind) != getCardSuit(cardOnTop) && getCardValue(cardBehind) == getCardValue(cardOnTop) +1)
+    if (getCardSuit(cardBehind) != getCardSuit(cardOnTop)
+        && getCardValue(cardBehind) == getCardValue(cardOnTop) +1)
         return true;
+
     return false;
 }
 
@@ -219,6 +230,7 @@ int getColumnIndex(char* columnStr){
     if (strcasecmp(columnStr, "F2") == 0) {return 8;}
     if (strcasecmp(columnStr, "F3") == 0) {return 9;}
     if (strcasecmp(columnStr, "F4") == 0) {return 10;}
+    return -1;
 }
 
 /**
