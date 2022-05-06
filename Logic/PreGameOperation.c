@@ -178,7 +178,11 @@ void deAllocateMalloc(){
 }
 
 /**
- * todo write docs
+ * Author: Emil Falck Hansen (S215823)
+ *
+ * This method is used to split the deck of cards.
+ *
+ *
  */
 void SI(){
     LinkedList* deck = dataPTR_ToDeck();
@@ -186,17 +190,26 @@ void SI(){
     LinkedList secondPile;
     LinkedList thirdPile;
 
-
     int splitNumber;
     int i = 0;
-    //Denne virker ikke. Skal laves om.
     int lengthOfNumber = strlen(dataPTR_lastCommand());
+
+    if (lengthOfNumber == 5) {
+        splitNumber = atoi(&dataPTR_lastCommand()[3]);
+    }
+    else if (lengthOfNumber == 6) {
+        splitNumber = atoi(&dataPTR_lastCommand()[3]);
+    }
+    else {
+        for (int j = 0; j < 500; j++) {
+            splitNumber = rand() % 52;
+        }
+    }
 
     firstPile.head = deck->head;
     Card* temp = deck->head;
-    splitNumber = 10;
 
-    for (int j = 0; j < splitNumber-1; ++j) {
+    for (int j = 0; j < splitNumber-1; j++) {
         temp = temp->next;
     }
 
@@ -244,63 +257,4 @@ void SI(){
 
     deck->head = thirdPile.head;
     deck->tail = thirdPile.tail;
-
-    /*
-    Dette skal laves om.
-    if (lengthOfNumber == 1)
-        splitNumber = dataPTR_lastCommand()[3] - 0;
-    else if (lengthOfNumber == 2)
-        splitNumber = (dataPTR_lastCommand()[3] - 0) * 10 + (dataPTR_lastCommand()[4] - 0);
-    else
-        splitNumber = rand()%52;
-
-    Card* temp = deck->head;
-
-    if (splitNumber > 0 && splitNumber < 52){
-        secondPile.head = deck->head;
-        do {
-            temp = temp->next;
-            i++;
-        }while(i < splitNumber);
-
-        secondPile.tail = temp;
-
-        thirdPile.head = secondPile.tail->next;
-        thirdPile.tail = deck->tail;
-
-        secondPile.tail->next = NULL;
-        thirdPile.head->prev = NULL;
-    }
-
-    deck->head = secondPile.head;
-    deck->tail = secondPile.head;
-
-    if(secondPile.head->next != NULL){
-        secondPile.head = secondPile.head->next;
-        secondPile.head->prev = NULL;
-    }else{
-        secondPile.head = NULL;
-    }
-
-    deck->head->next = NULL;
-
-    do{
-        if(thirdPile.head != NULL) {
-            thirdPile.head->prev = deck->tail;
-            deck->tail = thirdPile.head;
-            thirdPile.head = thirdPile.head->next;
-            //thirdPile.head->next = NULL;
-            deck->tail->prev->next = deck->tail;
-            thirdPile.head->prev = NULL;
-        }
-        if(secondPile.head != NULL) {
-            secondPile.head->prev = deck->tail;
-            deck->tail = secondPile.head;
-            secondPile.head = secondPile.head->next;
-            //secondPile.head->next = NULL;
-            deck->tail->prev->next = deck->tail;
-            secondPile.head->prev = NULL;
-        }
-    }while (secondPile.tail->next != NULL || thirdPile.tail->next != NULL);
-     */
 }
