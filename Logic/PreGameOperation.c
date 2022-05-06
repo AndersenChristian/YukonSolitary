@@ -180,12 +180,12 @@ void deAllocateMalloc(){
 /**
  * Author: Emil Falck Hansen (S215823)
  *
- * This method is used to split the deck of cards.
- *
+ * This method is used to split the deck of cards into two piles. With a split parameter, you can define the size of
+ * pile one. After this it merges the two piles into a third pile. The third pile becomes the deck of the game.
  *
  */
 void SI(){
-    LinkedList* deck = dataPTR_ToDeck();
+    LinkedList* deck = dataPTR_ToDeck(); //Getting the deck as a linked List pointer.
     LinkedList firstPile;
     LinkedList secondPile;
     LinkedList thirdPile;
@@ -194,6 +194,7 @@ void SI(){
     int i = 0;
     int lengthOfNumber = strlen(dataPTR_lastCommand());
 
+    //Taking split input
     if (lengthOfNumber == 5) {
         splitNumber = atoi(&dataPTR_lastCommand()[3]);
     }
@@ -206,24 +207,26 @@ void SI(){
         }
     }
 
-    firstPile.head = deck->head;
     Card* temp = deck->head;
-
+    //Finding where the first piles tail should be.
     for (int j = 0; j < splitNumber-1; j++) {
         temp = temp->next;
     }
 
+    //Defining the first pile.
     firstPile.head = deck->head;
     firstPile.tail = temp;
 
+    //Defining the second pile.
     secondPile.head = temp->next;
     secondPile.tail = deck->tail;
 
-
+    //Card pointers to merge first pile and second pile.
     Card* currentFirst = firstPile.head;
     Card* currentSecond = secondPile.head;
     Card* currentThird = NULL;
 
+    //Logic to merge first pile and second pile.
     for (int j = 0; j < splitNumber; j++) {
         Card* firstNextCard = currentFirst->next;
         Card* secondNextCard = currentSecond->next;
@@ -237,7 +240,6 @@ void SI(){
 
             currentThird = currentSecond;
         }else{
-
             currentThird->next = currentFirst;
             currentFirst->prev = currentThird;
             currentThird = currentFirst;
@@ -246,7 +248,7 @@ void SI(){
             currentSecond->prev = currentThird;
             currentThird = currentSecond;
         }
-
+        //Updating the next card in the linked list for each interation.
         currentFirst = firstNextCard;
         currentSecond = secondNextCard;
     }
@@ -255,6 +257,7 @@ void SI(){
 
     thirdPile.tail = secondPile.tail;
 
+    //Defining the deck in the game based on the shuffled pile.
     deck->head = thirdPile.head;
     deck->tail = thirdPile.tail;
 }
