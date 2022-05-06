@@ -7,4 +7,5 @@
 # cmake
 cmake-build-debug/
 
-CurrentSeed.txt
+*txt
+!Cards.txt
