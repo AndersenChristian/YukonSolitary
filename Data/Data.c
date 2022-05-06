@@ -81,6 +81,7 @@ void addCard(const char* cardInfo){
  * @return numerical value of the card. Returns 0 when passed NULL
  */
 int getCardValue(Card* card){
+    if (card == NULL) return 0;
     switch (card->name[0]) {
         case 'A': return 1;
         case '2': return 2;
