@@ -182,7 +182,6 @@ void deAllocateMalloc(){
  *
  * This method is used to split the deck of cards into two piles. With a split parameter, you can define the size of
  * pile one. After this it merges the two piles into a third pile. The third pile becomes the deck of the game.
- *
  */
 void SI(){
     LinkedList* deck = dataPTR_ToDeck(); //Getting the deck as a linked List pointer.
@@ -192,6 +191,7 @@ void SI(){
 
     int splitNumber;
     int i = 0;
+    bool calculateNewSplit = false;
     int lengthOfNumber = strlen(dataPTR_lastCommand());
 
     //Taking split input
@@ -213,6 +213,12 @@ void SI(){
         temp = temp->next;
     }
 
+    //If splitNumber is bigger than 26, a new split number needs to be calculated.
+    if (splitNumber > 26){
+        splitNumber = 52 - splitNumber;
+        calculateNewSplit = true;
+    }
+
     //Defining the first pile.
     firstPile.head = deck->head;
     firstPile.tail = temp;
@@ -231,6 +237,7 @@ void SI(){
         Card* firstNextCard = currentFirst->next;
         Card* secondNextCard = currentSecond->next;
 
+        //Putting the first cards from each pile.
         if (j == 0){
             thirdPile.head = currentFirst;
             currentFirst->prev = NULL;
@@ -239,6 +246,7 @@ void SI(){
             currentSecond->prev = currentFirst;
 
             currentThird = currentSecond;
+         //Adding the rest of the cards in each pile, until split number is reached.
         }else{
             currentThird->next = currentFirst;
             currentFirst->prev = currentThird;
@@ -252,11 +260,19 @@ void SI(){
         currentFirst = firstNextCard;
         currentSecond = secondNextCard;
     }
-    currentThird->next = currentSecond;
-    currentSecond->prev = currentThird;
+    // If the splitNumber was bigger than 26.
+    if (calculateNewSplit == true) {
+        currentThird->next = currentFirst;
+        currentFirst->prev = currentThird;
 
-    thirdPile.tail = secondPile.tail;
+        thirdPile.tail = firstPile.tail;
+    }
+    else{
+        currentThird->next = currentSecond;
+        currentSecond->prev = currentThird;
 
+        thirdPile.tail = secondPile.tail;
+    }
     //Defining the deck in the game based on the shuffled pile.
     deck->head = thirdPile.head;
     deck->tail = thirdPile.tail;
