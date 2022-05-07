@@ -264,7 +264,7 @@ void SI(){
             currentSecond->prev = currentThird;
             currentThird = currentSecond;
         }
-        //Updating the next card in the linked list for each interation.
+        //Updating the next card in the linked list for each iteration.
         currentFirst = firstNextCard;
         currentSecond = secondNextCard;
     }
