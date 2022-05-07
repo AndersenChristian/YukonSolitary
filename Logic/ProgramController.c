@@ -18,6 +18,9 @@ void QQ();
 void Q();
 bool gameWon();
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ */
 extern void playGame() {
     updateDisplay();    //just to create a display the first time
     do {
@@ -27,11 +30,14 @@ extern void playGame() {
 }
 
 /**
- * Author: Frederik G. Petersen (S215834) & Christian J. L. Andersen (S133288)
- * @param string
+ * Author: Frederik G. Petersen (S215834) 50% & Christian J. L. Andersen (S133288) 50%
+ *
+ * compares the users input, to figure out what part of the program the users want access to.
+ *
+ * Also contains
+ *
+ * @param string that contains the users last input
  */
-// TODO Make better initial comparison to check nothing follows the initials
-// TODO ensure all errormessage is getting set correct
 void processPlayerInput(char* string) {
 
     if (StrStrIA(string, "QQ\n") != NULL)
