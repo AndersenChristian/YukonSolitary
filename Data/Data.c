@@ -45,11 +45,15 @@ void setErrorMessage(char* message){
 
 /**
  * Author: Frederik G. Petersen (S215834)
- * @param list
- * @param pCard
+ *
+ * Adds a card to a initial LinkedList that holds all cards. The card is created by the string provided.
+ * Ensures that header and tail pointer gets update accordingly.
+ * @param pCard The string of the cards name.
  */
 void addCard(const char* cardInfo){
     LinkedList* list = dataPTR_ToDeck();
+
+    // Create Card
     Card* newCard = malloc(sizeof (Card));
     newCard->name[0] = cardInfo[0];
     newCard->name[1] = cardInfo[1];
@@ -58,6 +62,7 @@ void addCard(const char* cardInfo){
     newCard->prev = list->tail;
     newCard->faceUp = false;
 
+    // Insert
     if (list->head == NULL){ // First entry
         list->head = newCard;
         list->tail = newCard;
