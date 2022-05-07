@@ -173,8 +173,16 @@ void deAllocateMalloc(){
             card = card->next;
         }
     }
+    
+    //reset the deck head and tail for safety
     dataPTR_ToDeck()->head = NULL;
     dataPTR_ToDeck()->tail = NULL;
+    
+    //reset the head and tail of all ingame linkedList
+    for (int i = 0; i < 11; ++i) {
+        dataPTR_ToBoard()[i].head = NULL;
+        dataPTR_ToBoard()[i].tail = NULL;
+    }
 }
 
 /**
