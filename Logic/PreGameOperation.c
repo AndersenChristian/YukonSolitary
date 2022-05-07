@@ -178,39 +178,55 @@ void deAllocateMalloc(){
 }
 
 /**
- * todo write docs
+ * Author: Emil Falck Hansen (S215823)
+ *
+ * This method is used to split the deck of cards into two piles. With a split parameter, you can define the size of
+ * pile one. After this it merges the two piles into a third pile. The third pile becomes the deck of the game.
+ *
  */
 void SI(){
-    LinkedList* deck = dataPTR_ToDeck();
+    LinkedList* deck = dataPTR_ToDeck(); //Getting the deck as a linked List pointer.
     LinkedList firstPile;
     LinkedList secondPile;
     LinkedList thirdPile;
 
-
     int splitNumber;
     int i = 0;
-    //Denne virker ikke. Skal laves om.
     int lengthOfNumber = strlen(dataPTR_lastCommand());
 
-    firstPile.head = deck->head;
-    Card* temp = deck->head;
-    splitNumber = 10;
+    //Taking split input
+    if (lengthOfNumber == 5) {
+        splitNumber = atoi(&dataPTR_lastCommand()[3]);
+    }
+    else if (lengthOfNumber == 6) {
+        splitNumber = atoi(&dataPTR_lastCommand()[3]);
+    }
+    else {
+        for (int j = 0; j < 500; j++) {
+            splitNumber = rand() % 52;
+        }
+    }
 
-    for (int j = 0; j < splitNumber-1; ++j) {
+    Card* temp = deck->head;
+    //Finding where the first piles tail should be.
+    for (int j = 0; j < splitNumber-1; j++) {
         temp = temp->next;
     }
 
+    //Defining the first pile.
     firstPile.head = deck->head;
     firstPile.tail = temp;
 
+    //Defining the second pile.
     secondPile.head = temp->next;
     secondPile.tail = deck->tail;
 
-
+    //Card pointers to merge first pile and second pile.
     Card* currentFirst = firstPile.head;
     Card* currentSecond = secondPile.head;
     Card* currentThird = NULL;
 
+    //Logic to merge first pile and second pile.
     for (int j = 0; j < splitNumber; j++) {
         Card* firstNextCard = currentFirst->next;
         Card* secondNextCard = currentSecond->next;
@@ -224,7 +240,6 @@ void SI(){
 
             currentThird = currentSecond;
         }else{
-
             currentThird->next = currentFirst;
             currentFirst->prev = currentThird;
             currentThird = currentFirst;
@@ -233,7 +248,7 @@ void SI(){
             currentSecond->prev = currentThird;
             currentThird = currentSecond;
         }
-
+        //Updating the next card in the linked list for each interation.
         currentFirst = firstNextCard;
         currentSecond = secondNextCard;
     }
@@ -242,65 +257,7 @@ void SI(){
 
     thirdPile.tail = secondPile.tail;
 
+    //Defining the deck in the game based on the shuffled pile.
     deck->head = thirdPile.head;
     deck->tail = thirdPile.tail;
-
-    /*
-    Dette skal laves om.
-    if (lengthOfNumber == 1)
-        splitNumber = dataPTR_lastCommand()[3] - 0;
-    else if (lengthOfNumber == 2)
-        splitNumber = (dataPTR_lastCommand()[3] - 0) * 10 + (dataPTR_lastCommand()[4] - 0);
-    else
-        splitNumber = rand()%52;
-
-    Card* temp = deck->head;
-
-    if (splitNumber > 0 && splitNumber < 52){
-        secondPile.head = deck->head;
-        do {
-            temp = temp->next;
-            i++;
-        }while(i < splitNumber);
-
-        secondPile.tail = temp;
-
-        thirdPile.head = secondPile.tail->next;
-        thirdPile.tail = deck->tail;
-
-        secondPile.tail->next = NULL;
-        thirdPile.head->prev = NULL;
-    }
-
-    deck->head = secondPile.head;
-    deck->tail = secondPile.head;
-
-    if(secondPile.head->next != NULL){
-        secondPile.head = secondPile.head->next;
-        secondPile.head->prev = NULL;
-    }else{
-        secondPile.head = NULL;
-    }
-
-    deck->head->next = NULL;
-
-    do{
-        if(thirdPile.head != NULL) {
-            thirdPile.head->prev = deck->tail;
-            deck->tail = thirdPile.head;
-            thirdPile.head = thirdPile.head->next;
-            //thirdPile.head->next = NULL;
-            deck->tail->prev->next = deck->tail;
-            thirdPile.head->prev = NULL;
-        }
-        if(secondPile.head != NULL) {
-            secondPile.head->prev = deck->tail;
-            deck->tail = secondPile.head;
-            secondPile.head = secondPile.head->next;
-            //secondPile.head->next = NULL;
-            deck->tail->prev->next = deck->tail;
-            secondPile.head->prev = NULL;
-        }
-    }while (secondPile.tail->next != NULL || thirdPile.tail->next != NULL);
-     */
 }
