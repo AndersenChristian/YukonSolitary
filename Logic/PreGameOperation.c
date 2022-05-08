@@ -10,7 +10,9 @@
 
 /**
  * Author: Christian J. L. Andersen (S133288)
- * TODO write docs
+ *
+ * shuffle the deck, by taking one card at a time from the original deck, and placing them at a random position in a new deck.
+ *
  */
 void SR() {
     LinkedList* deck = dataPTR_ToDeck();    //gets a pointer to the current LinkedList
@@ -25,12 +27,12 @@ void SR() {
     //Create a random generator to decide where to put the card
     srand(time(NULL));
     int randomNumber;
-    Card* cardForNextItteration;
+    Card* cardForNextIteration;
 
     do{
         randomNumber = rand()%(cardInList + 1); //generates a random number between 0 and the number of cards in list
         if(nextCard->next != NULL) {
-            cardForNextItteration = nextCard->next; //pointer to the next card to ensure we don't lose it.
+            cardForNextIteration = nextCard->next; //pointer to the next card to ensure we don't lose it.
         }
         if (randomNumber == 0) {                //If the random number is 0, we have to set a new head of the LinkedList
             deck->head->prev = nextCard;
@@ -55,14 +57,16 @@ void SR() {
                 nextCard->prev = tempCard;
             }
         }
-        nextCard = cardForNextItteration; //Updates the card we are trying to place
+        nextCard = cardForNextIteration; //Updates the card we are trying to place
         cardInList++;
     }while(cardInList != 52);      //ensures that we put all cards into the new LinkedList
 
 }
 /**
  * Author: Christian J. L. Andersen (S133288)
- * todo write docs
+ *
+ * Puts the program into play mode. This is done by moving cards from our original linkedlist into the 7
+ * Linkedlist that represent the columns.
  */
 void P(){
     Card * ptrToCard = dataPTR_ToDeck()->head;
@@ -78,7 +82,7 @@ void P(){
         boardSlots[i].head->prev = NULL;
     }
 
-    int cardsPerPile[] = {0,5,6,7,8,9,10};
+    int cardsPerPile[] = {0,5,6,7,8,9,10}; //the amount of cards that are still needed to be put into each column
     int currentList = 0;
     int amountOfCardsUsed = 7;
     do {
@@ -106,7 +110,7 @@ void P(){
 /**
  * Author: Christian J. L. Andersen (S133288)
  *
- * Gets a String containing the name of the .txt file
+ * Gets a String containing the name of the .txt file, and constuct the full path to the root of the project to safe it there.
  *
  * @param filename gets the name of the file, including the type. limited to only accept .txt files
  */
@@ -131,6 +135,7 @@ void SD(char* filename){
         }
     }
     fclose(fp);
+    setErrorMessage("OK");
 }
 
 

@@ -1,7 +1,10 @@
+//Libraries
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h> //TODO don't delete! needed for system command
+#include <stdlib.h>
+#include <shlwapi.h>
 
+//Header
 #include "../Data/Data_Header.h"
 
 //local methods declaration
@@ -10,8 +13,13 @@ void printEmptyDisplay();
 void printCards();
 void printCommandLines();
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * this determinate what state the program is in, and print the display that is proper.
+ */
 void updateDisplay(){
-    system("@cls||clear"); //TODO activate before final creation
+    system("@cls||clear");
     printf("\nC1\tC2\tC3\tC4\tC5\tC6\tC7\n\n"); //always the first line we need printed
     if (!(*dataPTR_DeckLoaded()))
         printEmptyDisplay();
@@ -23,6 +31,11 @@ void updateDisplay(){
     printCommandLines();
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * This methods is used to print an empty display if a deck has not yet been loaded.
+ */
 void printEmptyDisplay(){
     int count = 1;
     for (int i = 0; i < 7; ++i) {
@@ -38,13 +51,18 @@ void printEmptyDisplay(){
     }
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * prints all the cards from the deck before the game starts.
+ */
 void printCards(){
     int cardPrinted = 0;
     int foundationsPrinted = 0;
     int lineOn = 1;
     Card* currentCard = dataPTR_ToDeck()->head;
     do{
-        if (currentCard->faceUp || strcmp(dataPTR_lastCommand(), "SW\n") == 0 )
+        if (currentCard->faceUp || StrStrIA(dataPTR_lastCommand(), "SW\n") != NULL )
             printf("%s\t",currentCard->name);
         else
             printf("[]\t");
@@ -63,6 +81,11 @@ void printCards(){
     printf("\n");
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * prints the display when the program is in play mode
+ */
 void printGame(){
     Card* currentCard;
     int cardsPrinted = 0;
@@ -120,6 +143,11 @@ void printGame(){
     printf("\n");
 }
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * prints the bottom information to the display
+ */
 void printCommandLines() {
     printf("\nLAST Command: %s", dataPTR_lastCommand());
     if (strcmp(dataPTR_ErrorMessage(), "") == 0) //if errormessage points to null or is empty.

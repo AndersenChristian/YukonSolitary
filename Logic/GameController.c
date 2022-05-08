@@ -1,4 +1,4 @@
-//Libaries
+//Libraries
 #include <string.h>
 #include <stdbool.h>
 
