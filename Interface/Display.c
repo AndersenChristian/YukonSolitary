@@ -118,7 +118,6 @@ void printGame(){
             printf("\t");
         if (currentLine == 6) {
             if (line == 0 || line == 2 || line == 4 || line == 6) {
-                // Frederik's implementation
                 char* foundation = "[]\0";
                 LinkedList F = dataPTR_ToBoard()[finishesPrinted + 7];
                 Card* fCard = F.tail;
