@@ -4,6 +4,11 @@
 #include <string.h>
 #include <malloc.h>
 
+/**
+ * Author: Christian J. L. Andersen (S133288)
+ *
+ * this is where we save and handle all the data of the program
+ */
 LinkedList deck;
 LinkedList boardSlots[11]; //0-6 Cards, 7-11 Foundations
 

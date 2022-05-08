@@ -1,4 +1,4 @@
-//Libaries
+//Libraries
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -108,7 +108,8 @@ void processPlayerInput(char* string) {
 
 /**
  * Author: Christian J. L. Andersen (S133288)
- * todo write docs
+ *
+ * this is used for closing the program and ensuring that we free up any memory we might have reserved
  */
 void QQ(){
     remove("..\\CurrentSeed.txt");
@@ -120,18 +121,24 @@ void QQ(){
 
 /**
  * Author: Christian J. L. Andersen (S133288)
- * todo write docs
+ *
+ * takes the program back from the play mode into pre game mode.
+ *
+ * this is done by de allocating the memory of the cards in play, and reloading the original setup of cards
+ * that were saved when the game was initially started
  */
 void Q(){
     setErrorMessage("OK");
-    deAllocateMalloc();                                 //removes the current card, and free the memory.
-    loadDeckFromFile("LD ../currentSeed.txt");                //Setup 1 LinkedList containing the cards from CurrentSeed.txt
+    deAllocateMalloc();                                     //removes the current card, and free the memory.
+    loadDeckFromFile("LD ../currentSeed.txt");              //Setup 1 LinkedList containing the cards from CurrentSeed.txt
     *dataPTR_GameStarted() = false;
 }
 
 /**
  * Author: Christian J. L. Andersen (S133288)
- * todo write docs
+ *
+ * checks if all foundation have a king on them since that will mean the game has been beaten
+ *
  * @return whether the game have been won
  */
 bool gameWon(){
