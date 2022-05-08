@@ -66,10 +66,10 @@ void gameMove(char* input){
         LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
         LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
         
-        if((input[0] == 'C' && input[4] == 'F') || (input[0] == 'c' && input[4] == 'f')){
+        if((input[0] == 'C' && input[0] == 'c') && (input[0] == 'F' || input[4] == 'f')){
             moveCardToFoundation(fromList);
         }
-        else if((input[0] == 'F' && input[4] == 'C') || (input[0] == 'f' && input[4] == 'c')){
+        else if((input[0] == 'F' || input[0] == 'f') && (input[4] == 'C' && input[4] == 'c')){
             moveCardFromFoundation(fromList, toList);
         } else {
             setErrorMessage("Invalid Move");
