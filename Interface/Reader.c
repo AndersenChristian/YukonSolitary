@@ -30,7 +30,7 @@ char* token; //token is used to do some string manipulation, and remove unwanted
  */
 void loadDeckFromFile(char* command){
     if (command[2] != 32) //checks if the 3 char in the string is an empty space.
-        cardFile = fopen("..\\Cards.txt","r");
+        cardFile = fopen("Cards.txt","r");
     else {
         token = command + 3; //gets the string that start after the empty space.
         if(!(strcspn(token,"\n") == strlen(token))) //checks if there is a /n in the end of the string and removes it.

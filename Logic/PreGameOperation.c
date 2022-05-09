@@ -120,7 +120,7 @@ void SD(char* filename){
         setErrorMessage("Wrong file type");
         return;
     }
-    char filePath[100] = "../";
+    char filePath[100] = "";
     strcat(filePath,filename);
     filePath[strcspn(filePath,"\n")]=0;
     fp = fopen (filePath, "w");
