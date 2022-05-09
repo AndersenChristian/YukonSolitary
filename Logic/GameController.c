@@ -38,6 +38,10 @@ void gameMove(char* input){
         // Get relevant objects
         LinkedList* fromList = &dataPTR_ToBoard()[getColumnIndex(columnFrom)];
         LinkedList* toList = &dataPTR_ToBoard()[getColumnIndex(columnTo)];
+        if (fromList == toList){
+            setErrorMessage("Invalid Move");
+            return;
+        }
         Card* card = getCardByName(fromList, cardName);
 
         // Ensure no NULL pointers

@@ -112,7 +112,7 @@ void processPlayerInput(char* string) {
  * this is used for closing the program and ensuring that we free up any memory we might have reserved
  */
 void QQ(){
-    remove("..\\CurrentSeed.txt");
+    remove("CurrentSeed.txt");
     if (*dataPTR_DeckLoaded())
         deAllocateMalloc();
     printf("\n---Exiting Game---\n");
@@ -130,7 +130,7 @@ void QQ(){
 void Q(){
     setErrorMessage("OK");
     deAllocateMalloc();                                     //removes the current card, and free the memory.
-    loadDeckFromFile("LD ../currentSeed.txt");              //Setup 1 LinkedList containing the cards from CurrentSeed.txt
+    loadDeckFromFile("LD currentSeed.txt");              //Setup 1 LinkedList containing the cards from CurrentSeed.txt
     *dataPTR_GameStarted() = false;
 }
 
